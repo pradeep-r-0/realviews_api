@@ -1,0 +1,41 @@
+<div align='center'>
+<%= link_to "Add a Dish Review", new_dish_path, class: "btn btn-primary" %>
+  <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off" } do %>
+    <div>
+      <%= label_tag :city_id, "Filter by City" %>
+      <%= select_tag :city_id,
+                    options_from_collection_for_select(@cities, :id, :name, params[:city_id]),
+                    include_blank: "All Cities" %>
+    </div>
+
+    <div>
+      <%= label_tag :dish_name, "Filter by Dish Name:" %>
+      <%= text_field_tag :dish_name, params[:dish_name] %>
+    </div>
+
+    <%= submit_tag "Apply Filters" %>
+  <% end %>
+
+  <table border=true>
+      <th>Restaurant</th>
+      <th> Dish</th>
+      <th>
+        <%= link_to 'Rating', dishes_path(
+              sort: 'rating',
+              direction: params[:direction] == 'asc' ? 'desc' : 'asc',
+              dish_name: params[:dish_name],
+              city_id: params[:city_id]
+          ) %>
+      </th>
+      <th> Comments</th>
+      <% @dishes.each do |dish| %>
+          <tr>
+              <td><%= dish.restaurant&.name%></td>
+              <td><%= dish.name %></td>
+              <td><%= dish.rating %></td>
+              <td><%= dish.comments %></td>
+          </tr>
+      <% end %>
+  </table>
+</div>
+  

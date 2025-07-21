@@ -1,0 +1,10 @@
+<div align='center'>
+    <h2>Dish Details</h2>
+
+    <p><strong>Restaurant:</strong> <%= @dish.restaurant.name %></p>
+    <p><strong>Dish Name:</strong> <%= @dish.name %></p>
+    <p><strong>Rating:</strong> <%= @dish.rating %></p>
+    <p><strong>Comments:</strong> <%= @dish.comments %></p>
+
+    <%= link_to "Back to List", dishes_path%>
+</div>
