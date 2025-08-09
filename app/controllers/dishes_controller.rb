@@ -14,7 +14,11 @@ class DishesController < ApplicationController
 
     if params[:dish_name].present?
         @dishes = @dishes.where("dishes.name ILIKE ?", "%#{params[:dish_name]}%")
-      end
+    end
+
+    if params[:restaurant_name].present?
+        @dishes = @dishes.includes(:restaurant).where("restaurants.name ILIKE ?", "%#{params[:restaurant_name]}%")
+    end
       
     if params[:sort] == "rating"
       direction = params[:direction] == "asc" ? "asc" : "desc"

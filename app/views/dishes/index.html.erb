@@ -1,6 +1,5 @@
 <div align='center'>
-<%= link_to "Add a Dish Review", new_dish_path, class: "btn btn-primary" %>
-  <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off" } do %>
+  <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off", style: "display: flex; gap: 20px; justify-content: center; align-items: flex-end; flex-wrap: wrap;" } do %>
     <div>
       <%= label_tag :city_id, "Filter by City" %>
       <%= select_tag :city_id,
@@ -13,6 +12,11 @@
       <%= text_field_tag :dish_name, params[:dish_name] %>
     </div>
 
+    <div>
+      <%= label_tag :restaurant_name, "Filter by Restaurant Name:" %>
+      <%= text_field_tag :restaurant_name, params[:restaurant_name] %>
+    </div>
+
     <%= submit_tag "Apply Filters" %>
   <% end %>
 
@@ -20,11 +24,12 @@
       <th>Restaurant</th>
       <th> Dish</th>
       <th>
-        <%= link_to 'Rating', dishes_path(
+        <%= link_to "Rating #{params[:direction] == 'asc' ? '⬆️' : '⬇️'}".html_safe, dishes_path(
               sort: 'rating',
               direction: params[:direction] == 'asc' ? 'desc' : 'asc',
               dish_name: params[:dish_name],
-              city_id: params[:city_id]
+              city_id: params[:city_id],
+              restaurant_name: params[:restaurant_name]
           ) %>
       </th>
       <th> Comments</th>
@@ -37,5 +42,7 @@
           </tr>
       <% end %>
   </table>
+  <ul><%= link_to "Review a Dish", new_dish_path, class: "btn btn-primary" %></ul>
+  <ul><%= link_to "Back to List", dishes_path%></ul>
 </div>
   

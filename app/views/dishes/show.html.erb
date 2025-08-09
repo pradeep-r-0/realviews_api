@@ -1,4 +1,4 @@
-<div align='center'>
+<div align='center' style="border: 2px solid black;">
     <h2>Dish Details</h2>
 
     <p><strong>Restaurant:</strong> <%= @dish.restaurant.name %></p>
@@ -6,5 +6,6 @@
     <p><strong>Rating:</strong> <%= @dish.rating %></p>
     <p><strong>Comments:</strong> <%= @dish.comments %></p>
 
-    <%= link_to "Back to List", dishes_path%>
+    <ul><%= link_to "Review another Dish", new_dish_path%></ul>
+    <ul><%= link_to "Back to List", dishes_path%></ul>
 </div>

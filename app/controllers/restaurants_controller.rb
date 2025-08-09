@@ -3,7 +3,7 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants
   def index
-      @restaurants = Restaurant.includes(:city)
+    @restaurants = Restaurant.includes(:city)
 
     render json: @restaurants
   end
