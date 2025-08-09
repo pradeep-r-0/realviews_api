@@ -7,7 +7,7 @@ class InsertDishes < ActiveRecord::Migration[8.0]
       total_columns = sheet.row(1).size
       puts "total columns: #{total_columns}"
       (1...total_columns).each do |i|
-        #debugger
+        # debugger
         restaurant_items = sheet.column(i).compact
         next if restaurant_items.first == "Rating"
         name = restaurant_items.first
@@ -15,10 +15,10 @@ class InsertDishes < ActiveRecord::Migration[8.0]
         puts "name: #{name}"
         food_ratings = sheet.column(i+1).compact
         puts "food ratings: #{food_ratings}"
-        food_ratings.each_with_index do |review,j|
+        food_ratings.each_with_index do |review, j|
           next if j < 1
           puts "j: #{j}"
-          #puts "food rating: #{review.to_s.split('(')}, index: #{i}"
+          # puts "food rating: #{review.to_s.split('(')}, index: #{i}"
           split_review = review.to_s.split('(')
           puts "split review: #{split_review}"
           rating = split_review.first.to_i
@@ -36,7 +36,7 @@ class InsertDishes < ActiveRecord::Migration[8.0]
           puts "rating: #{rating}"
           puts "comments: #{comment}" if comment.present?
           next if restaurant.dishes.find_by_name(dish.titlecase)
-          puts restaurant.dishes.new(name: dish.titlecase, rating: rating,comments: comment.capitalize).save!
+          puts restaurant.dishes.new(name: dish.titlecase, rating: rating, comments: comment.capitalize).save!
           puts
         end
 

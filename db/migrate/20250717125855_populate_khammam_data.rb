@@ -8,7 +8,7 @@ class PopulateKhammamData < ActiveRecord::Migration[8.0]
       puts "total rows: #{total_rows}"
       rest_name = sheet.row(2).first
       (2..total_rows).each do |i|
-        #debugger
+        # debugger
         puts "existing name: #{rest_name}"
         restaurant_items = sheet.row(i)
         puts "restaurant items: #{restaurant_items.inspect}"
@@ -25,12 +25,12 @@ class PopulateKhammamData < ActiveRecord::Migration[8.0]
           restaurant.save!
           puts "Created restaurant: #{restaurant.inspect}"
         end
-        
+
         puts "dish: #{dish}"
         puts "rating: #{rating}"
         puts "comments: #{comment}" if comment.present?
         next if restaurant.dishes.find_by_name(dish.titlecase)
-        puts restaurant.dishes.new(name: dish.titlecase, rating: rating,comments: comment.capitalize).save!
+        puts restaurant.dishes.new(name: dish.titlecase, rating: rating, comments: comment.capitalize).save!
         puts
       end
 

@@ -4,7 +4,7 @@ class DishesController < ApplicationController
   # GET /dishes
   def index
     @cities = City.all
-   
+
     if params[:city_id].present?
       @selected_city = City.find(params[:city_id])
       @dishes = Dish.joins(:restaurant).where(restaurants: { city_id: @selected_city.id })
@@ -19,17 +19,16 @@ class DishesController < ApplicationController
     if params[:restaurant_name].present?
         @dishes = @dishes.includes(:restaurant).where("restaurants.name ILIKE ?", "%#{params[:restaurant_name]}%")
     end
-      
+
     if params[:sort] == "rating"
       direction = params[:direction] == "asc" ? "asc" : "desc"
       @dishes = @dishes.order(rating: direction)
     end
-    
+
     respond_to do |format|
       format.html # renders views/dishes/index.html.erb
       format.json { render json: @dishes }
     end
-
   end
 
   # GET /dishes/1
@@ -79,7 +78,7 @@ class DishesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def dish_params
-      params.require(:dish).permit(:name, :rating, :comments )
+      params.require(:dish).permit(:name, :rating, :comments)
     end
 
     def assign_restaurant
