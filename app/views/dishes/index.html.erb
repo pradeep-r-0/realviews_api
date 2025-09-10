@@ -32,13 +32,15 @@
               restaurant_name: params[:restaurant_name]
           ) %>
       </th>
-      <th> Comments</th>
+      <th> Comments </th>
+      <th> City </th>
       <% @dishes.each do |dish| %>
           <tr>
               <td><%= dish.restaurant&.name%></td>
               <td><%= dish.name %></td>
               <td><%= dish.rating %></td>
               <td><%= dish.comments %></td>
+              <td><%= dish.restaurant.city.name %></td>
           </tr>
       <% end %>
   </table>
