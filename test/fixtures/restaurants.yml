@@ -2,6 +2,8 @@
 
 one:
   name: MyString
+  city: one
 
 two:
   name: MyString
+  city: two

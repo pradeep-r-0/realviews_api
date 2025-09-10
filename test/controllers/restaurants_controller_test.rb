@@ -12,7 +12,7 @@ class RestaurantsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create restaurant" do
     assert_difference("Restaurant.count") do
-      post restaurants_url, params: { restaurant: { name: @restaurant.name } }, as: :json
+      post restaurants_url, params: { restaurant: { name: @restaurant.name, city_id: @restaurant.city.id } }, as: :json
     end
 
     assert_response :created

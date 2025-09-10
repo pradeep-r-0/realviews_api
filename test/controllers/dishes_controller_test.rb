@@ -3,6 +3,7 @@ require "test_helper"
 class DishesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @dish = dishes(:one)
+    @city = cities(:one)
   end
 
   test "should get index" do
@@ -12,10 +13,10 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create dish" do
     assert_difference("Dish.count") do
-      post dishes_url, params: { dish: { comments: @dish.comments, name: @dish.name, rating: @dish.rating, restaurant_id: @dish.restaurant_id } }, as: :json
+      post dishes_url, params: { dish: { comments: @dish.comments, name: @dish.name, rating: @dish.rating, restaurant_id: @dish.restaurant_id, city_name: "Hyderabad" } }, as: :json
     end
 
-    assert_response :created
+    assert_redirected_to dish_url(Dish.last)
   end
 
   test "should show dish" do
