@@ -2,7 +2,7 @@ class InsertDishes < ActiveRecord::Migration[8.0]
   require 'roo'
   def change
     begin
-      file = Roo::Excelx.new("/home/ubuntu/realviews_api/tmp/Hyderabad.xlsx")
+      file = Roo::Excelx.new("tmp/Hyderabad.xlsx")
       sheet = file.sheet(0)
       total_columns = sheet.row(1).size
       puts "total columns: #{total_columns}"

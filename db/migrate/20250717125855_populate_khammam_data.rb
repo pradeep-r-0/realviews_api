@@ -2,7 +2,7 @@ class PopulateKhammamData < ActiveRecord::Migration[8.0]
   def change
     require 'roo'
     begin
-      file = Roo::Excelx.new("/home/ubuntu/realviews_api/tmp/Khammam.xlsx")
+      file = Roo::Excelx.new("tmp/Khammam.xlsx")
       sheet = file.sheet(3)
       total_rows = sheet.column(1).size
       puts "total rows: #{total_rows}"
