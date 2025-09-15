@@ -7,9 +7,9 @@ class DishesController < ApplicationController
 
     if params[:city_id].present?
       @selected_city = City.find(params[:city_id])
-      @dishes = Dish.joins(:restaurant).where(restaurants: { city_id: @selected_city.id }).order(:name)
+      @dishes = Dish.joins(:restaurant).where(restaurants: { city_id: @selected_city.id })
     else
-      @dishes = Dish.includes(restaurant: :city).order(:name)
+      @dishes = Dish.includes(restaurant: :city)
     end
 
     if params[:dish_name].present?
@@ -23,6 +23,8 @@ class DishesController < ApplicationController
     if params[:sort] == "rating"
       direction = params[:direction] == "asc" ? "asc" : "desc"
       @dishes = @dishes.order(rating: direction)
+    else
+      @dishes.order(:name)
     end
 
     @dishes = @dishes.page(params[:page]).per(16)
