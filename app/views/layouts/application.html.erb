@@ -1,22 +1,42 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>RealviewsApp</title>
+    <title>REalVIEWS</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application", media: "all" %>
   </head>
 
   <body>
-    <% if notice %>
-      <div class="flash notice"><%= notice %></div>
-    <% end %>
+    <!-- ✅ Shared Header -->
+    <div class="header">
+      <h1 class="site-title">REalVIEWs</h1>
+      <div class="login-box">
+        <% if session[:user_id] %>
+          <%= link_to "Logout", logout_path, method: :delete, class: "btn btn-danger" %>
+        <% else %>
+          <%= link_to "Login", login_otp_path, class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
 
-    <% if alert %>
-      <div class="flash alert"><%= alert %></div>
-    <% end %>
+    <!-- ✅ Page Content -->
+    <div class="page-content">
+      <% if notice %>
+        <div class="flash notice"><%= notice %></div>
+      <% end %>
 
-    <%= yield %>
+      <% if alert %>
+        <div class="flash alert"><%= alert %></div>
+      <% end %>
+      <%= yield %>
+    </div>
+
+    <!-- ✅ Shared Footer -->
+    <div class="footer">
+      <p>© <%= Time.current.year %> Contact pradeepr95@gmail.com for any concerns.</p>
+    </div>
   </body>
-
+  
 </html>

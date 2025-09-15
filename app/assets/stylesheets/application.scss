@@ -77,3 +77,50 @@ table td.rating a:hover {
   color: white !important;
 }
 
+.login-box {
+  display: flex;
+  justify-content: flex-end; /* move to right */
+  align-items: flex-start;   /* move to top */
+  height: 20px; /* just for demo */
+  border: 1px solid #ccc;
+}
+
+.login-box ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  justify-content: center; /* push title left, login right */
+  align-items: center;            /* vertical alignment */
+  padding: 10px 20px;
+  border-bottom: 1px solid #ccc;  /* optional separator */
+}
+
+.site-title {
+  margin: 0;
+  text-align: center;
+}
+
+.login-box {
+  position: absolute;
+  right: 60px;   /* stick to right side */
+  top: 50%;
+  transform: translateY(-50%); /* vertically center */
+}
+
+.page-content {
+  padding: 20px;
+}
+
+.footer {
+  text-align: center;
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-top: 1px solid #ccc;
+  font-size: 14px;
+  color: #666;
+}

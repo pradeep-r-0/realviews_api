@@ -1,4 +1,6 @@
 source "https://rubygems.org"
+
+gem "dotenv-rails"
 #for pagination
 gem "kaminari"
 
