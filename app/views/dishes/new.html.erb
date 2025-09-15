@@ -45,4 +45,22 @@
         <ul><%= link_to "Back to List", dishes_path%></ul>
     </div>
 <% end %>
+<% if @pending_cities.size >0 %>
+<div align='center'>
+    <h2> Pending Cities for Approval </h2>
+    <ul>
+      <% @pending_cities.each do |city| %>
+        <li><%= city.name %></li>
+      <% end %>
+    </ul>
+</div>
+<%end%>
 
+<!-- ✅ Add request new city form -->
+<div align='center'>
+  <h2>Request a New City</h2>
+  <%= form_with url: request_new_cities_path, method: :post, local: true, html: { autocomplete: "off" } do |f| %>
+    <%= f.text_field :name, placeholder: "Request new City", required: true %>
+    <%= f.submit "Add" %>
+  <% end %>
+</div>

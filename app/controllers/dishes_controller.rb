@@ -7,9 +7,9 @@ class DishesController < ApplicationController
 
     if params[:city_id].present?
       @selected_city = City.find(params[:city_id])
-      @dishes = Dish.joins(:restaurant).where(restaurants: { city_id: @selected_city.id })
+      @dishes = Dish.joins(:restaurant).where(restaurants: { city_id: @selected_city.id }).order(:name)
     else
-      @dishes = Dish.includes(restaurant: :city)
+      @dishes = Dish.includes(restaurant: :city).order(:name)
     end
 
     if params[:dish_name].present?
@@ -24,6 +24,8 @@ class DishesController < ApplicationController
       direction = params[:direction] == "asc" ? "asc" : "desc"
       @dishes = @dishes.order(rating: direction)
     end
+
+    @dishes = @dishes.page(params[:page]).per(16)
 
     respond_to do |format|
       format.html # renders views/dishes/index.html.erb
@@ -43,7 +45,8 @@ class DishesController < ApplicationController
   def new
     @dish = Dish.new
     @restaurant_names = Restaurant.distinct.pluck(:name).compact
-    @city_names = City.distinct.pluck(:name).compact
+    @city_names = City.approved.distinct.pluck(:name).compact
+    @pending_cities = City.pending
   end
   # POST /dishes
   def create
@@ -83,7 +86,7 @@ class DishesController < ApplicationController
 
     def assign_restaurant
       restaurant_name=params[:dish].delete(:restaurant_name)
-      city = City.find_by_name(params[:dish].delete(:city_name))
+      city = City.find_or_initialize_by(name: params[:dish].delete(:city_name))
       @restaurant = Restaurant.find_or_initialize_by(name: restaurant_name, city_id: city.id)
       @restaurant.save if @restaurant.new_record?
     end

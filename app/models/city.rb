@@ -1,3 +1,8 @@
 class City < ApplicationRecord
-    has_many :restaurants# , dependent: :destroy
+  enum :status, {
+    pending: "pending",
+    approved: "approved",
+    rejected: "rejected"
+  }, default: "pending"
+  has_many :restaurants , dependent: :destroy
 end

@@ -1,3 +1,4 @@
+&nbsp
 <div align='center'>
   <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off", style: "display: flex; gap: 20px; justify-content: center; align-items: flex-end; flex-wrap: wrap;" } do %>
     <div>
@@ -44,7 +45,12 @@
           </tr>
       <% end %>
   </table>
-  <ul><%= link_to "Review a Dish", new_dish_path, class: "btn btn-primary" %></ul>
-  <ul><%= link_to "Back to List", dishes_path%></ul>
+  <ul>
+    <li><%= link_to "Review a Dish", new_dish_path, class: "btn btn-primary" %></li>
+    <li><%= link_to "Back to List", dishes_path%></li>
+  </ul>
 </div>
-  
+
+<div class="pagination" align="center">
+  <%= paginate @dishes %>
+</div>

@@ -1,4 +1,6 @@
 source "https://rubygems.org"
+#for pagination
+gem "kaminari"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.2"
@@ -19,6 +21,8 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
+gem "sprockets-rails"
+gem "sassc-rails"
 gem "roo"
 
 # Reduces boot times through caching; required in config/boot.rb
