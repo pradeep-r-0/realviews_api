@@ -17,7 +17,7 @@ class DishesController < ApplicationController
     end
 
     if params[:restaurant_name].present?
-        @dishes = @dishes.includes(:restaurant).where("restaurants.name ILIKE ?", "%#{params[:restaurant_name]}%")
+        @dishes = @dishes.joins(:restaurant).where("restaurants.name ILIKE ?", "%#{params[:restaurant_name]}%")
     end
 
     if params[:sort] == "rating"
