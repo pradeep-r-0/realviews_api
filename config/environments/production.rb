@@ -75,9 +75,9 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: "smtp.mailgun.org",
     port: 587,
-    domain: "yourdomain.com",
-    user_name: ENV["SMTP_USERNAME"], # e.g. "apikey" for SendGrid
-    password: ENV["SMTP_PASSWORD"],
+    domain: ENV["MAILGUN_DOMAIN"],
+    user_name: ENV["MAILGUN_USERNAME"], # e.g. "apikey" for SendGrid
+    password: ENV["MAILGUN_PASSWORD"],
     authentication: :plain,
     enable_starttls_auto: true
   }

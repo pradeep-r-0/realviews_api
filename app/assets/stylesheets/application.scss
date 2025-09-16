@@ -91,25 +91,77 @@ table td.rating a:hover {
   list-style: none;
 }
 
-.header {
+.header-container {
   position: relative;
   display: flex;
-  justify-content: center; /* push title left, login right */
+  justify-content: space-between; /* push title left, login right */
   align-items: center;            /* vertical alignment */
   padding: 10px 20px;
   border-bottom: 1px solid #ccc;  /* optional separator */
 }
 
-.site-title {
-  margin: 0;
-  text-align: center;
+/* Placeholder to balance layout */
+.header-left {
+  width: 100px; /* approximate width of login-box */
 }
 
-.login-box {
+/* Centered title */
+.site-title {
   position: absolute;
-  right: 60px;   /* stick to right side */
-  top: 50%;
-  transform: translateY(-50%); /* vertically center */
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, #ff8c00, #ff0080); /* gradient example */
+  border-radius: 8px; /* optional rounded corners */
+  font-size: 4px;
+  z-index: 1;
+}
+
+
+.site-title-link {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+/* Right container: flash + login */
+.right-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  z-index: 0;
+}
+
+/* Flash messages between title and login */
+.flash-messages {
+  margin-left: auto;
+  margin-right: -60px; /* push away from login box */
+  text-align: center;
+  flex: 1;
+}
+
+.flash-messages .alert {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.flash-messages .alert.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.flash-messages .alert {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Right-aligned login box */
+.login-box {
+  width: 100px;
+  text-align: right;
 }
 
 .page-content {

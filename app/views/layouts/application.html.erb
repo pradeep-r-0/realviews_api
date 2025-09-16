@@ -1,35 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>REalVIEWS</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", media: "all" %>
+    <%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
   </head>
 
   <body>
     <!-- ✅ Shared Header -->
-    <div class="header">
-      <h1 class="site-title">REalVIEWs</h1>
-      <div class="login-box">
-        <% if session[:user_id] %>
-          <%= link_to "Logout", logout_path, method: :delete, class: "btn btn-danger" %>
-        <% else %>
-          <%= link_to "Login", login_otp_path, class: "btn btn-primary" %>
-        <% end %>
+    <div class="header-container">
+      <div class="header-left"></div>
+      <div class="site-title">
+        <h1><%=link_to "REalVIEWS", root_path, class: "site-title-link" %></h1>
+      </div>
+
+      <div class="right-container">
+        <div class="flash-messages">
+          <% flash.each do |type, message| %>
+            <div class="alert <%= type %>"><%= message %></div>
+          <% end %>
+        </div>
+
+        <div class="login-box">
+          <% if user_logged_in? %>
+            <%= link_to "Logout", logout_path, method: :delete, class: "btn btn-danger" %>
+          <% else %>
+            <%= link_to "Login", login_otp_path, class: "btn btn-primary" %>
+          <% end %>
+        </div>
       </div>
     </div>
 
     <!-- ✅ Page Content -->
     <div class="page-content">
-      <% if notice %>
-        <div class="flash notice"><%= notice %></div>
-      <% end %>
-
-      <% if alert %>
-        <div class="flash alert"><%= alert %></div>
-      <% end %>
       <%= yield %>
     </div>
 
