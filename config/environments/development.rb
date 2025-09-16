@@ -74,7 +74,9 @@ Rails.application.configure do
     user_name: ENV["GMAIL_USERNAME"], # e.g. "apikey" for SendGrid
     password: ENV["GMAIL_APP_PASSWORD"],
     authentication: :plain,
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
+    open_timeout: 5,
+    read_timeout: 5
   }
   # Ensure emails are actually sent
   config.action_mailer.perform_deliveries = true
