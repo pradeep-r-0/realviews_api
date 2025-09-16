@@ -1,5 +1,6 @@
 # app/models/user.rb
 class User < ApplicationRecord
+  has_many :dishes
   # Validations
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 

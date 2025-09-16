@@ -56,6 +56,7 @@ class DishesController < ApplicationController
     assign_restaurant
     @dish = @restaurant.dishes.new(dish_params)
     # TODO assign user to dish
+    @dish.user = current_user
     if @dish.save
       redirect_to @dish, notice: "Dish created successfully."
     else
