@@ -1,6 +1,6 @@
 class DishesController < ApplicationController
   before_action :set_dish, only: %i[ show update destroy ]
-  #before_action :require_login, only: %i[new create]
+  before_action :require_login, only: %i[new create]
 
   # GET /dishes
   def index
