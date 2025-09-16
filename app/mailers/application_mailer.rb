@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: ENV["GMAIL_USERNAME"] # must match the Gmail you’re authenticating with
   layout "mailer"
 end

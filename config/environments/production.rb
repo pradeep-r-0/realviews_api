@@ -61,7 +61,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "https://realviews.up.railway.app/" }
+  config.action_mailer.default_url_options = { from: ENV["GMAIL_USERNAME"] }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   # config.action_mailer.smtp_settings = {
@@ -80,8 +80,8 @@ Rails.application.configure do
     password: ENV["GMAIL_APP_PASSWORD"],
     authentication: :plain,
     enable_starttls_auto: true,
-    open_timeout: 5,
-    read_timeout: 5
+    open_timeout: 10,
+    read_timeout: 10
   }
   # Ensure emails are actually sent
   config.action_mailer.perform_deliveries = true
