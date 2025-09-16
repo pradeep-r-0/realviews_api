@@ -73,15 +73,12 @@ Rails.application.configure do
   # }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: ENV["GMAIL_SMTP_PORT"],
-    domain: "gmail.com",
-    user_name: ENV["GMAIL_USERNAME"], # e.g. "apikey" for SendGrid
-    password: ENV["GMAIL_APP_PASSWORD"],
-    authentication: :plain,
-    enable_starttls_auto: true,
-    open_timeout: 10,
-    read_timeout: 10
+    address: "smtp-relay.brevo.com",
+    port: ENV["SMTP_PORT"],
+    user_name: ENV["BREVO_USERNAME"], # e.g. "apikey" for SendGrid
+    password: ENV["BREVO_PASSWORD"],
+    authentication: :login,
+    enable_starttls_auto: true
   }
   # Ensure emails are actually sent
   config.action_mailer.perform_deliveries = true
