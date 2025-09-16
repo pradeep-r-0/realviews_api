@@ -7,18 +7,15 @@ class SessionsController < ApplicationController
   end
 
   def send_otp
-    #debugger
-    user = User.find_or_initialize_by(email: params[:email].to_s.downcase.strip)
+    user = User.find_by(email: params[:email].to_s.downcase.strip)
     if user
       session[:email] = user.email
       # throttle per user or per IP (see security section)
       otp = user.generate_otp!
       # use deliver_later if ActiveJob configured
-      #debugger
       UserMailer.send_otp(user).deliver_now
-      #debugger
       flash[:notice] = "OTP sent to #{user.email} (check spam too)."
-      redirect_to login_otp_verify_path
+      redirect_to verify_otp_path
     else
       flash.now[:alert] = "No account found with that email."
       render :new, status: :unprocessable_entity
@@ -26,11 +23,10 @@ class SessionsController < ApplicationController
   end
 
   def verify
-    # form where user enters otp
+    @user = User.find_by(email: params[:email])
   end
 
   def confirm
-    #debugger
     email = session[:email]
     user = User.find_by(email: email)
     if user && user.verify_otp?(params[:otp_code].to_s.strip)
@@ -38,10 +34,10 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       session[:last_seen_at] = Time.current
       user.clear_otp!
-      flash[:success] = "Signed in successfully."
+      flash[:success] = "Logged in successfully."
       redirect_to root_path
     else
-      flash.now[:alert] = "Invalid or expired code."
+      flash.now[:alert] = "Invalid or expired OTP."
       render :verify, status: :unprocessable_entity
     end
   end

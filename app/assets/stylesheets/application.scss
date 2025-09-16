@@ -106,6 +106,7 @@ table td.rating a:hover {
 
 /* Centered title */
 .site-title {
+  flex: 1;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -132,19 +133,17 @@ table td.rating a:hover {
   z-index: 0;
 }
 
-/* Flash messages between title and login */
 .flash-messages {
-  margin-left: auto;
-  margin-right: -60px; /* push away from login box */
   text-align: center;
-  flex: 1;
+  margin: 10px 0;
 }
 
 .flash-messages .alert {
   display: inline-block;
+  background: #ffeeba;
+  color: #db2929;
   padding: 6px 12px;
   border-radius: 6px;
-  font-size: 14px;
 }
 
 .flash-messages .alert.success {
@@ -152,15 +151,11 @@ table td.rating a:hover {
   color: #155724;
 }
 
-.flash-messages .alert {
-  background-color: #f8d7da;
-  color: #721c24;
-}
 
-/* Right-aligned login box */
+/* Login/Signup aligned right */
 .login-box {
-  width: 100px;
-  text-align: right;
+  display: flex;
+  gap: 10px;
 }
 
 .page-content {
@@ -170,8 +165,20 @@ table td.rating a:hover {
 .footer {
   text-align: center;
   padding: 15px 20px;
-  background: #f8f9fa;
   border-top: 1px solid #ccc;
   font-size: 14px;
   color: #666;
+}
+
+.footer p {
+  display: inline-block;    /* Shrinks background to text width */
+  background: #f2f2f2;      /* Background only behind text */
+  padding: 6px 12px;
+  border-radius: 6px;       /* Optional rounded edges */
+  color: #333;
+}
+
+.auth-links {
+  display: flex;
+  gap: 12px; /* space between Login and Signup */
 }

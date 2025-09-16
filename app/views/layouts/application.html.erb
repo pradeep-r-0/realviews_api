@@ -17,21 +17,22 @@
         <h1><%=link_to "REalVIEWS", root_path, class: "site-title-link" %></h1>
       </div>
 
-      <div class="right-container">
-        <div class="flash-messages">
-          <% flash.each do |type, message| %>
-            <div class="alert <%= type %>"><%= message %></div>
-          <% end %>
-        </div>
-
-        <div class="login-box">
-          <% if user_logged_in? %>
-            <%= link_to "Logout", logout_path, method: :delete, class: "btn btn-danger" %>
-          <% else %>
+      <div class="login-box">
+        <% if user_logged_in? %>
+          <%= link_to "Logout", logout_path, method: :delete, class: "btn btn-danger" %>
+        <% else %>
+          <div class="auth-links">
             <%= link_to "Login", login_otp_path, class: "btn btn-primary" %>
-          <% end %>
-        </div>
+            <%= link_to "Signup", signup_path, class: "btn btn-primary" %>
+          </div>
+        <% end %>
       </div>
+    </div>
+
+    <div class="flash-messages">
+      <% flash.each do |type, message| %>
+        <div class="alert <%= type %>"><%= message %></div>
+      <% end %>
     </div>
 
     <!-- ✅ Page Content -->
