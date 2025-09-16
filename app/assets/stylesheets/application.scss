@@ -91,12 +91,14 @@ table td.rating a:hover {
 }
 
 .header-container {
+  height: auto;
   position: relative;
   display: flex;
   justify-content: space-between; /* push title left, login right */
   align-items: center;            /* vertical alignment */
   padding: 10px 20px;
   border-bottom: 1px solid #ccc;  /* optional separator */
+  overflow: visible;
 }
 
 /* Placeholder to balance layout */
@@ -104,21 +106,27 @@ table td.rating a:hover {
   width: 100px; /* approximate width of login-box */
 }
 
-/* Centered title */
-.site-title {
-  flex: 1;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(90deg, #ff8c00, #ff0080); /* gradient example */
-  border-radius: 8px; /* optional rounded corners */
-  font-size: 4px;
-  z-index: 1;
+
+.site-title h1 {
+  font-family: 'Times New Roman', sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 0;
+  background: linear-gradient(90deg, #ff8c00, #ff0080);
+  font-size: 3rem;      /* your desired size */
+  line-height: 1;        /* prevents extra spacing */
+  white-space: nowrap;   /* keeps it in one line */
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .site-title h1 {
+    font-size: 3rem;  /* smaller for mobile */
+  }
 }
 
 
 .site-title-link {
-  font-size: 2rem;
   font-weight: bold;
   color: white;
   text-decoration: none;
@@ -181,4 +189,9 @@ table td.rating a:hover {
 .auth-links {
   display: flex;
   gap: 12px; /* space between Login and Signup */
+}
+
+.logo {
+  text-decoration: none;
+  color: #222; /* default text color */
 }
