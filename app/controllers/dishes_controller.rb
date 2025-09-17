@@ -26,7 +26,7 @@ class DishesController < ApplicationController
       direction = params[:direction] == "asc" ? "asc" : "desc"
       @dishes = @dishes.order(rating: direction)
     else
-      @dishes = @dishes.order(:name)
+      @dishes = @dishes.order(created_at: :desc)
     end
 
     @dishes = @dishes.page(params[:page]).per(13)
