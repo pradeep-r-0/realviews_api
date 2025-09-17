@@ -1,6 +1,7 @@
 class DishesController < ApplicationController
   before_action :set_dish, only: %i[ show update destroy ]
   # before_action :require_login, only: %i[new create]
+    before_action :set_city_and_restaurants, only: :new
 
   # GET /dishes
   def index
@@ -47,15 +48,11 @@ class DishesController < ApplicationController
 
   def new
     @dish = Dish.new
-    @restaurant_names = Restaurant.distinct.pluck(:name).compact
-    @city_names = City.approved.distinct.pluck(:name).compact
-    @pending_cities = City.pending
   end
   # POST /dishes
   def create
     assign_restaurant
     @dish = @restaurant.dishes.new(dish_params)
-    # TODO assign user to dish
     @dish.user = current_user
     if @dish.save
       redirect_to @dish, notice: "Dish created successfully."
@@ -100,5 +97,11 @@ class DishesController < ApplicationController
     unless user_logged_in?
       redirect_to login_otp_path, alert: "Please log in first"
     end
-end
+  end
+
+  def set_city_and_restaurants
+    @city_names = City.approved.pluck(:name).compact
+    @restaurant_names = Restaurant.distinct.pluck(:name).compact
+    @pending_cities = City.pending
+  end
 end
