@@ -1,4 +1,4 @@
 class Restaurant < ApplicationRecord
     belongs_to :city
-    has_many :dishes
+    has_many :dishes, dependent: :destroy
 end
