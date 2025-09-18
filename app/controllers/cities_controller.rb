@@ -7,6 +7,8 @@ class CitiesController < ApplicationController
     if city.new_record?
       city.save!
       text = "New city requested: #{requested_name}"
+    elsif city.status == "pending"
+      text = "City: #{city.name} is already in queue"
     else
       text = "City: #{city.name} already exists"
     end
