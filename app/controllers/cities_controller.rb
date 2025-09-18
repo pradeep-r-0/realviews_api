@@ -1,6 +1,5 @@
 class CitiesController < ApplicationController
   def request_new
-    debugger
     requested_name = ActionController::Base.helpers.sanitize(params[:name])
     city = City.find_or_initialize_by(name: requested_name.titleize)
     # You might save to a table or notify admins
