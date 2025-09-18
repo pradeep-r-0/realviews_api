@@ -6,12 +6,14 @@ class DishesController < ApplicationController
   # GET /dishes
   def index
     @cities = City.all
+  
+    direction = params[:direction] == "asc" ? "asc" : "desc"
+    sort_column = params[:sort] == "rating" ? "rating" : "created_at"
+    @dishes = Dish.includes(restaurant: :city)
 
     if params[:city_id].present?
       @selected_city = @cities.find(params[:city_id])
-      @dishes = Dish.includes(:restaurant).where(restaurants: { city_id: @selected_city.id }).order(created_at: :desc)
-    else
-      @dishes = Dish.includes(restaurant: :city).order(created_at: :desc)
+      @dishes = @dishes.where(restaurants: { city_id: @selected_city.id })
     end
 
     if params[:dish_name].present?
@@ -22,10 +24,7 @@ class DishesController < ApplicationController
         @dishes = @dishes.joins(:restaurant).where("restaurants.name ILIKE ?", "%#{params[:restaurant_name]}%")
     end
 
-    if params[:sort] == "rating"
-      direction = params[:direction] == "asc" ? "asc" : "desc"
-      @dishes = @dishes.order(rating: direction)
-    end
+    @dishes = @dishes.order(sort_column => direction)
 
     @dishes = @dishes.page(params[:page]).per(13)
 
