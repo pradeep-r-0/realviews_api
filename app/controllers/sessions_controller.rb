@@ -24,13 +24,11 @@ class SessionsController < ApplicationController
 
   def verify
     @user = User.find_by(email: params[:email])
+    @user_email = @user&.email
   end
 
   def confirm
-    Rails.logger.info "params: #{params.inspect}"
-    email = params[:email]
-    user = User.find_by(email: email)
-    Rails.logger.info "user otp: #{user.otp_code}"
+    user = User.find_by(email: session[:email])
     if user && user.verify_otp?(params[:otp_code].to_s.strip)
       # log the user in — adapt to your auth system:
       session[:user_id] = user.id
