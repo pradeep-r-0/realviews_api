@@ -1,6 +1,7 @@
 <div align="center">
   <h1>Enter OTP</h1>
   <%= form_with url: validate_otp_path, local: true do |f| %>
+    <%= f.hidden_field :email, value: @user_email %>
     <%= f.label :otp_code, "6-digit code" %>
     <%= f.text_field :otp_code, required: true, maxlength: 6, autocomplete: "one-time-code" %>
     <%= f.submit "Verify and Sign In" %>
