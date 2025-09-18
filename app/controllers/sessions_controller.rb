@@ -27,8 +27,10 @@ class SessionsController < ApplicationController
   end
 
   def confirm
+    Rails.logger.info "params: #{params.inspect}"
     email = params[:email]
     user = User.find_by(email: email)
+    Rails.logger.info "user otp: #{user.otp_code}"
     if user && user.verify_otp?(params[:otp_code].to_s.strip)
       # log the user in — adapt to your auth system:
       session[:user_id] = user.id
@@ -38,7 +40,7 @@ class SessionsController < ApplicationController
       redirect_to root_path
     else
       flash.now[:alert] = "Invalid or expired OTP."
-      render :verify, status: :unprocessable_entity
+      render :verify, status: :unprocessable_content
     end
   end
 
