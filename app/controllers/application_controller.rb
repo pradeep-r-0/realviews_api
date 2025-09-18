@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user, :user_logged_in?
-  # before_action :check_session_timeout
+  before_action :check_session_timeout
 
   SESSION_TIMEOUT = 30.minutes
 
