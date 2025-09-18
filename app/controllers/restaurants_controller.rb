@@ -1,5 +1,5 @@
 class RestaurantsController < ApplicationController
-  before_action :set_restaurant, only: %i[ show update destroy ]
+  before_action :set_restaurant, only: %i[ show update destroy dishes ]
 
   # GET /restaurants
   def index
@@ -36,6 +36,12 @@ class RestaurantsController < ApplicationController
   # DELETE /restaurants/1
   def destroy
     @restaurant.destroy!
+  end
+
+  def dishes
+    @dishes = @restaurant.dishes.page(params[:page]).per(10)
+    @cities = City.all
+    render 'dishes/index'
   end
 
   private

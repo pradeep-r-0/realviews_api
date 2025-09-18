@@ -36,7 +36,7 @@
       <th> City </th>
       <% @dishes.each do |dish| %>
           <tr>
-              <td><%= dish.restaurant&.name%></td>
+              <td><%=link_to dish.restaurant&.name, dishes_restaurant_path(dish.restaurant)%></td>
               <td><%= dish.name %></td>
               <td><%= dish.rating %></td>
               <td><%= dish.comments %></td>
