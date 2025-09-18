@@ -16,12 +16,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "dishes#index"
 
-    # OTP login
-  get  'login/otp',          to: 'sessions#new'      # form to enter email
-  post 'login/otp/send',     to: 'sessions#send_otp' # triggers email
-  get  'login/otp/verify',   to: 'sessions#verify', as: :verify_otp   # form to enter otp
-  post 'login/otp/confirm',  to: 'sessions#confirm',  as: :validate_otp# checks otp and signs in
-  delete 'logout',           to: 'sessions#destroy'
+  # OTP login
+  get  "login/otp",          to: "sessions#new"      # form to enter email
+  post "login/otp/send",     to: "sessions#send_otp" # triggers email
+  get  "login/otp/verify",   to: "sessions#verify", as: :verify_otp   # form to enter otp
+  post "login/otp/confirm",  to: "sessions#confirm",  as: :validate_otp# checks otp and signs in
+  delete "logout",           to: "sessions#destroy"
 
   get  "/signup",  to: "registrations#new", as: :signup
   post "/signup",  to: "registrations#create"

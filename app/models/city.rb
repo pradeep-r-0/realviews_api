@@ -4,5 +4,5 @@ class City < ApplicationRecord
     approved: "approved",
     rejected: "rejected"
   }, default: "pending"
-  has_many :restaurants , dependent: :destroy
+  has_many :restaurants, dependent: :destroy
 end

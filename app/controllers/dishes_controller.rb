@@ -1,12 +1,12 @@
 class DishesController < ApplicationController
   before_action :set_dish, only: %i[ show update destroy ]
-  # before_action :require_login, only: %i[new create]
+    # before_action :require_login, only: %i[new create]
     before_action :set_city_and_restaurants, only: :new
 
   # GET /dishes
   def index
     @cities = City.all
-  
+
     direction = params[:direction] == "asc" ? "asc" : "desc"
     sort_column = params[:sort] == "rating" ? "rating" : "created_at"
     @dishes = Dish.includes(restaurant: :city)

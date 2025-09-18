@@ -16,6 +16,6 @@ class CitiesController < ApplicationController
     flash[:notice] = text
     redirect_to :root
 
-    #render json: { message: "Request received for #{requested_name}" }, status: :ok
+    # render json: { message: "Request received for #{requested_name}" }, status: :ok
   end
 end
