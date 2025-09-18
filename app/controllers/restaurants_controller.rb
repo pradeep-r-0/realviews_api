@@ -39,7 +39,7 @@ class RestaurantsController < ApplicationController
   end
 
   def dishes
-    @dishes = @restaurant.dishes.page(params[:page]).per(10)
+    @dishes = load_dishes(@restaurant.dishes)
     @cities = City.all
     render 'dishes/index'
   end

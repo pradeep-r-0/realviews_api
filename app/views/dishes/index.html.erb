@@ -1,36 +1,46 @@
 <div align='center'>
-  <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off", style: "display: flex; gap: 20px; justify-content: center; align-items: flex-end; flex-wrap: wrap;" } do %>
-    <div>
-      <%= label_tag :city_id, "Filter by City" %>
-      <%= select_tag :city_id,
-                    options_from_collection_for_select(@cities, :id, :name, params[:city_id]),
-                    include_blank: "All Cities" %>
-    </div>
+  <% unless action_name == "my_reviews" %>
+    <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off", style: "display: flex; gap: 20px; justify-content: center; align-items: flex-end; flex-wrap: wrap;" } do %>
+      <div>
+        <%= label_tag :city_id, "Filter by City" %>
+        <%= select_tag :city_id,
+                      options_from_collection_for_select(@cities, :id, :name, params[:city_id]),
+                      include_blank: "All Cities" %>
+      </div>
 
-    <div>
-      <%= label_tag :dish_name, "Filter by Dish Name:" %>
-      <%= text_field_tag :dish_name, params[:dish_name] %>
-    </div>
+      <div>
+        <%= label_tag :dish_name, "Filter by Dish Name:" %>
+        <%= text_field_tag :dish_name, params[:dish_name] %>
+      </div>
 
-    <div>
-      <%= label_tag :restaurant_name, "Filter by Restaurant Name:" %>
-      <%= text_field_tag :restaurant_name, params[:restaurant_name] %>
-    </div>
+      <div>
+        <%= label_tag :restaurant_name, "Filter by Restaurant Name:" %>
+        <%= text_field_tag :restaurant_name, params[:restaurant_name] %>
+      </div>
 
-    <%= submit_tag "Apply Filters" %>
+      <%= submit_tag "Apply Filters" %>
+    <% end %>
   <% end %>
 
   <table border=true>
       <th>Restaurant</th>
       <th> Dish</th>
       <th>
-        <%= link_to "Rating #{params[:direction] == 'asc' ? '⬆️' : '⬇️'}".html_safe, dishes_path(
-              sort: 'rating',
-              direction: params[:direction] == 'asc' ? 'desc' : 'asc',
-              dish_name: params[:dish_name],
-              city_id: params[:city_id],
-              restaurant_name: params[:restaurant_name]
-          ) %>
+        <%= link_to url_for(
+              request.path + "?" + params.permit(:sort_column, :sort_direction, :page).merge(
+                sort_column: "rating",
+                sort_direction: (params[:sort_column] == "rating" && params[:sort_direction] == "asc") ? "desc" : "asc"
+              ).to_query
+            ), style: "color: inherit; text-decoration: none;" do %>
+          Rating
+          <% if params[:sort_column] == "rating" %>
+            <span style="color: blue;">
+              <%= params[:sort_direction] == "asc" ? '⬆️' : '⬇️' %>
+            </span>
+          <% else %>
+            <span style="color: blue;">⇅</span>
+          <% end %>
+        <% end %>
       </th>
       <th> Comments </th>
       <th> City </th>

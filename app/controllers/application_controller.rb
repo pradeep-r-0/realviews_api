@@ -16,6 +16,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def load_dishes(scope)
+    sort_column = params[:sort_column] || "rating"
+    sort_direction = params[:sort_direction] == "desc" ? "desc" : "asc"
+
+    @dishes = scope.order("#{sort_column} #{sort_direction}")
+                  .page(params[:page])
+                  .per(13)
+  end
+
 
   def current_user
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]

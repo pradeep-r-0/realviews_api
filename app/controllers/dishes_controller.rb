@@ -1,15 +1,12 @@
 class DishesController < ApplicationController
   before_action :set_dish, only: %i[ show update destroy ]
-    before_action :require_login, only: %i[new create]
-    before_action :set_city_and_restaurants, only: :new
+  before_action :require_login, only: %i[new create]
+  before_action :set_city_and_restaurants, only: :new
 
   # GET /dishes
   def index
+    load_dishes(Dish.all)
     @cities = City.all
-
-    direction = params[:direction] == "asc" ? "asc" : "desc"
-    sort_column = params[:sort] == "rating" ? "rating" : "created_at"
-    @dishes = Dish.includes(restaurant: :city)
 
     if params[:city_id].present?
       @selected_city = @cities.find(params[:city_id])
@@ -24,9 +21,6 @@ class DishesController < ApplicationController
         @dishes = @dishes.joins(:restaurant).where("restaurants.name ILIKE ?", "%#{params[:restaurant_name]}%")
     end
 
-    @dishes = @dishes.order(sort_column => direction)
-
-    @dishes = @dishes.page(params[:page]).per(13)
 
     respond_to do |format|
       format.html # renders views/dishes/index.html.erb
@@ -70,6 +64,12 @@ class DishesController < ApplicationController
   # DELETE /dishes/1
   def destroy
     @dish.destroy!
+  end
+
+  def my_reviews
+    load_dishes(current_user.dishes)
+    @cities = City.all
+    render 'index'
   end
 
   private
