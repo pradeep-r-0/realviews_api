@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
   end
 
   def confirm
-    email = session[:email]
+    email = params[:email]
     user = User.find_by(email: email)
     if user && user.verify_otp?(params[:otp_code].to_s.strip)
       # log the user in — adapt to your auth system:

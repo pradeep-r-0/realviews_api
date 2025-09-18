@@ -1,7 +1,11 @@
 source "https://rubygems.org"
 
 gem "dotenv-rails"
-#for pagination
+
+
+gem "sib-api-v3-sdk"
+
+# for pagination
 gem "kaminari"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
