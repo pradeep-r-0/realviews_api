@@ -117,6 +117,7 @@ table td.rating a:hover {
   line-height: 1;        /* prevents extra spacing */
   white-space: nowrap;   /* keeps it in one line */
   border-radius: 8px;
+  text-align: center
 }
 
 @media (max-width: 768px) {
@@ -194,4 +195,8 @@ table td.rating a:hover {
 .logo {
   text-decoration: none;
   color: #222; /* default text color */
+}
+
+.form-group {
+  margin-bottom: 10px;
 }
