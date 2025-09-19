@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
       flash[:notice] = "OTP sent to #{user.email} (check spam too)."
       redirect_to verify_otp_path
     else
-      flash.now[:alert] = "No account found with that email."
+      flash.now[:alert] = "No account found with that email. Signin first!"
       render :new, status: :unprocessable_entity
     end
   end
