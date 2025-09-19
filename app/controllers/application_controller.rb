@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
       sort_column = "rating"
       sort_direction = params[:sort_direction] == "asc" ? "asc" : "desc"
     else
-      sort_column = "created_at"
+      sort_column = "dishes.created_at"
       sort_direction = "desc"
     end
 
