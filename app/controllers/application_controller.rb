@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
     sort_column = params[:sort_column] || "rating"
     sort_direction = params[:sort_direction] == "desc" ? "desc" : "asc"
 
-    @dishes = scope.order("#{sort_column} #{sort_direction}")
+    @dishes = scope.includes(restaurant: :city).order("#{sort_column} #{sort_direction}")
                   .page(params[:page])
                   .per(13)
   end
