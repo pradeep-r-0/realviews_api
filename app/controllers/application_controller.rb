@@ -17,8 +17,13 @@ class ApplicationController < ActionController::Base
   end
 
   def load_dishes(scope)
-    sort_column = params[:sort_column] || "rating"
-    sort_direction = params[:sort_direction] == "desc" ? "desc" : "asc"
+    if params[:sort_column] == "rating"
+      sort_column = "rating"
+      sort_direction = params[:sort_direction] == "asc" ? "asc" : "desc"
+    else
+      sort_column = "created_at"
+      sort_direction = "desc"
+    end
 
     @dishes = scope.includes(restaurant: :city).order("#{sort_column} #{sort_direction}")
                   .page(params[:page])

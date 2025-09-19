@@ -26,19 +26,14 @@
       <th>Restaurant</th>
       <th> Dish</th>
       <th>
-        <%= link_to url_for(
-              request.path + "?" + params.permit(:sort_column, :sort_direction, :page).merge(
-                sort_column: "rating",
-                sort_direction: (params[:sort_column] == "rating" && params[:sort_direction] == "asc") ? "desc" : "asc"
-              ).to_query
-            ), style: "color: inherit; text-decoration: none;" do %>
-          Rating
-          <% if params[:sort_column] == "rating" %>
-            <span style="color: blue;">
-              <%= params[:sort_direction] == "asc" ? '⬆️' : '⬇️' %>
-            </span>
-          <% else %>
-            <span style="color: blue;">⇅</span>
+        <% if params[:sort_column] == "rating" && params[:sort_direction] == "asc" %>
+          <%= link_to dishes_path(sort_column: "rating", sort_direction: "desc"), class: "sort-link active" do %>
+            Rating <span class="arrow">↑</span>
+          <% end %>
+        <% else %>
+          <%= link_to dishes_path(sort_column: "rating", sort_direction: "asc"), 
+                      class: "sort-link #{'active' if params[:sort_column] == 'rating'}" do %>
+            Rating <span class="arrow"><%= params[:sort_column] == "rating" ? "↓" : "⇅" %></span>
           <% end %>
         <% end %>
       </th>
