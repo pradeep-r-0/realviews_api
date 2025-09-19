@@ -104,6 +104,7 @@ table td.rating a:hover {
 /* Placeholder to balance layout */
 .header-left {
   width: 100px; /* approximate width of login-box */
+  flex: 0.25;
 }
 
 
@@ -117,7 +118,7 @@ table td.rating a:hover {
   line-height: 1;        /* prevents extra spacing */
   white-space: nowrap;   /* keeps it in one line */
   border-radius: 8px;
-  text-align: center
+  text-align: center;
 }
 
 @media (max-width: 768px) {
