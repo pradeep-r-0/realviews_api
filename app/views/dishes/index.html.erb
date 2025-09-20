@@ -2,10 +2,11 @@
   <% unless action_name == "my_reviews" %>
     <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off", style: "display: flex; gap: 20px; justify-content: center; align-items: flex-end; flex-wrap: wrap;" } do %>
       <div>
-        <%= label_tag :city_id, "Filter by City" %>
+        <% selected_city_id = params[:city_id].presence || @restaurant&.city_id %>
+
         <%= select_tag :city_id,
-                      options_from_collection_for_select(@cities, :id, :name, params[:city_id]),
-                      include_blank: "All Cities" %>
+              options_from_collection_for_select(@cities, :id, :name, selected_city_id),
+              include_blank: "All Cities" %>
       </div>
 
       <div>
@@ -26,16 +27,20 @@
       <th>Restaurant</th>
       <th> Dish</th>
       <th>
-        <% if params[:sort_column] == "rating" && params[:sort_direction] == "asc" %>
-          <%= link_to dishes_path(sort_column: "rating", sort_direction: "desc"), class: "sort-link active" do %>
-            Rating <span class="arrow">↑</span>
+      <% new_direction =
+          params[:sort_column] == "rating" && params[:sort_direction] == "asc" ? "desc" : "asc" %>
+
+      <%= link_to url_for(params.permit!.to_h.merge(sort_column: "rating", sort_direction: new_direction)),
+                  class: "sort-link #{'active' if params[:sort_column] == 'rating'}" do %>
+        Rating
+        <span class="arrow">
+          <% if params[:sort_column] == "rating" %>
+            <%= params[:sort_direction] == "asc" ? "↑" : "↓" %>
+          <% else %>
+            ⇅
           <% end %>
-        <% else %>
-          <%= link_to dishes_path(sort_column: "rating", sort_direction: "asc"), 
-                      class: "sort-link #{'active' if params[:sort_column] == 'rating'}" do %>
-            Rating <span class="arrow"><%= params[:sort_column] == "rating" ? "↓" : "⇅" %></span>
-          <% end %>
-        <% end %>
+        </span>
+      <% end %>
       </th>
       <th> Comments </th>
       <th> City </th>
