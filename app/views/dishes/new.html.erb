@@ -59,15 +59,6 @@
 </div>
 <%end%>
 
-<!-- ✅ Add request new city form -->
-<div align='center'>
-  <h3>Request a New City</h3>
-  <%= form_with url: request_new_cities_path, method: :post, local: true, html: { autocomplete: "off" } do |f| %>
-    <%= f.text_field :name, placeholder: "Request new City", required: true %>
-    <%= f.submit "Add" %>
-  <% end %>
-</div>
-
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("#dish-form"); // pick correct form

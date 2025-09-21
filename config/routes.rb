@@ -1,7 +1,18 @@
 Rails.application.routes.draw do
   get "home/index"
-  resources :dishes
-  resources :restaurants
+
+  resources :restaurants do
+    member do
+      get :dishes   # /restaurants/:id/dishes
+    end
+  end
+
+  resources :dishes do
+    collection do
+      get :my_reviews   # /dishes/my_reviews
+    end
+  end
+
   resources :cities do
     collection do
       post :request_new
@@ -25,4 +36,6 @@ Rails.application.routes.draw do
 
   get  "/signup",  to: "registrations#new", as: :signup
   post "/signup",  to: "registrations#create"
+
+  get "cities/new",  to: "cities#new"
 end

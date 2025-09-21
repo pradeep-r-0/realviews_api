@@ -5,8 +5,13 @@
         <% selected_city_id = params[:city_id].presence || @restaurant&.city_id %>
 
         <%= select_tag :city_id,
-              options_from_collection_for_select(@cities, :id, :name, selected_city_id),
-              include_blank: "All Cities" %>
+              options_for_select(
+                @cities.map { |c| [c.name, c.id] } + [["➕ Add City", "add_city"]],
+                selected_city_id
+              ),
+              include_blank: "All Cities",
+              onchange: "if (this.value === 'add_city') { window.location='#{new_city_path}'; }" %>
+
       </div>
 
       <div>

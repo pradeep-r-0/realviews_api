@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
 
     @dishes = scope.includes(restaurant: :city).order("#{sort_column} #{sort_direction}")
                   .page(params[:page])
-                  .per(13)
+                  .per(40)
   end
 
 
@@ -37,5 +37,11 @@ class ApplicationController < ActionController::Base
 
   def user_logged_in?
     current_user.present?
+  end
+
+  def require_login
+    unless user_logged_in?
+      redirect_to login_otp_path, alert: "Please log in first"
+    end
   end
 end

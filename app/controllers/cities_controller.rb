@@ -1,5 +1,12 @@
 class CitiesController < ApplicationController
-  def request_new
+  before_action :require_login, only: %i[new create]
+
+  def new
+    @city = City.new
+  end
+
+
+  def create
     requested_name = ActionController::Base.helpers.sanitize(params[:name])
     city = City.find_or_initialize_by(name: requested_name.titleize)
     # You might save to a table or notify admins

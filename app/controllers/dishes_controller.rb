@@ -87,13 +87,10 @@ class DishesController < ApplicationController
     restaurant_name=params[:dish].delete(:restaurant_name)
     city = City.find_or_initialize_by(name: params[:dish].delete(:city_name))
     @restaurant = Restaurant.find_or_initialize_by(name: restaurant_name, city_id: city.id)
-    @restaurant.save if @restaurant.new_record?
-  end
-
-  def require_login
-    unless user_logged_in?
-      redirect_to login_otp_path, alert: "Please log in first"
-    end
+    return @restaurant unless @restaurant.new_record?
+    @restaurant.save
+    #TO_DO
+    # CityMailer.send_otp(@restaurant).deliver_now
   end
 
   def set_city_and_restaurants
