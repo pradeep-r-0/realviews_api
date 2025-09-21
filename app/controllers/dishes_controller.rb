@@ -6,7 +6,7 @@ class DishesController < ApplicationController
   # GET /dishes
   def index
     load_dishes(Dish.all)
-    @cities = City.all
+    @cities = City.approved
 
     if params[:city_id].present?
       @selected_city = @cities.find(params[:city_id])
@@ -96,6 +96,5 @@ class DishesController < ApplicationController
   def set_city_and_restaurants
     @city_names = City.approved.pluck(:name).compact
     @restaurant_names = Restaurant.distinct.pluck(:name).compact
-    @pending_cities = City.pending
   end
 end

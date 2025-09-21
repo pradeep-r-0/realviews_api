@@ -48,16 +48,6 @@
         </div>
     </div>
 <% end %>
-<% if @pending_cities.size >0 %>
-<div align='center'>
-    <h2> Pending Cities for Approval </h2>
-    <ul>
-      <% @pending_cities.each do |city| %>
-        <li><%= city.name %></li>
-      <% end %>
-    </ul>
-</div>
-<%end%>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
