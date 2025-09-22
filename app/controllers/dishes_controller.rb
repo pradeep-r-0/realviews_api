@@ -68,7 +68,7 @@ class DishesController < ApplicationController
 
   def my_reviews
     load_dishes(current_user.dishes)
-    @cities = City.all
+    @cities = City.approved
     render 'index'
   end
 

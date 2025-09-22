@@ -1,6 +1,6 @@
 <% if @pending_cities.size >0 %>
 <div align='center'>
-    <h2> Pending Cities for Approval </h2>
+    <h3> Pending Cities for Approval </h3>
     <ul>
       <% @pending_cities.each do |city| %>
         <li><%= city.name %></li>
@@ -11,7 +11,7 @@
 
 <!-- ✅ Add request new city form -->
 <div align='center'>
-  <h3>Request a New City</h3>
+  <h2>Request a New City</h2>
   <%= form_with model: @city, local: true, id: "city-form", html: { autocomplete: "off" } do |f| %>
     <%= f.text_field :name, placeholder: "Request new City", required: true %>
     <%= f.submit "Add" %>
