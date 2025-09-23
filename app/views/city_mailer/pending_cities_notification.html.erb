@@ -1,0 +1,30 @@
+<div align="center">
+  <p>Hello <%= @user&.name || @user&.email %>,</p>
+
+  <p>The following cities need approval:</p>
+
+  <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th>City</th>
+        <th>Created At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @cities.present? %>
+        <% @cities.each do |city| %>
+          <tr>
+            <td><%= city.name %></td>
+            <td><%= city.created_at.in_time_zone("Asia/Kolkata").strftime("%d %b %Y %H:%M") %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="2">No pending cities</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <p>— REalVIEWS</p>
+</div>

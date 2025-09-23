@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :user_logged_in?
   before_action :check_session_timeout
 
-  SESSION_TIMEOUT = 6.hours
+  SESSION_TIMEOUT = 24.hours
 
   private
 
