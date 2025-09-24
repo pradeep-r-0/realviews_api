@@ -48,7 +48,7 @@ Rails.application.configure do
   # config.solid_cache.connects_to = { database: { writing: :primary } }
 
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], namespace: 'cache' }
-  config.session_store :cache_store, key: "_realviews_api_session"
+  config.session_store :cookie_store, key: "_realviews_api_session", same_site: :lax, secure: true
 
   # # Active Job queue
   # config.active_job.queue_adapter = :solid_queue
