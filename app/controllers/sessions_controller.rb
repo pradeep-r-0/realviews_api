@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
       redirect_to verify_otp_path
     else
       flash.now[:alert] = "No account found with that email. Please Signup first!"
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

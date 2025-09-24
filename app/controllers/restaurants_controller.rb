@@ -20,7 +20,7 @@ class RestaurantsController < ApplicationController
     if @restaurant.save
       render json: @restaurant, status: :created, location: @restaurant
     else
-      render json: @restaurant.errors, status: :unprocessable_entity
+      render json: @restaurant.errors, status: :unprocessable_content
     end
   end
 
@@ -29,7 +29,7 @@ class RestaurantsController < ApplicationController
     if @restaurant.update(restaurant_params)
       render json: @restaurant
     else
-      render json: @restaurant.errors, status: :unprocessable_entity
+      render json: @restaurant.errors, status: :unprocessable_content
     end
   end
 

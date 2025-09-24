@@ -57,7 +57,7 @@ class DishesController < ApplicationController
     if @dish.update(dish_params)
       render json: @dish
     else
-      render json: @dish.errors, status: :unprocessable_entity
+      render json: @dish.errors, status: :unprocessable_content
     end
   end
 

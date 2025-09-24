@@ -11,7 +11,7 @@ class RegistrationsController < ApplicationController
       redirect_to verify_otp_path(email: @user.email), notice: "OTP sent to your email."
     else
       flash.now[:alert] = @user.errors.full_messages.to_sentence
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
