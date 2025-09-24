@@ -1,4 +1,10 @@
+require "sidekiq/web"
+require "sidekiq/cron/web"
+
 Rails.application.routes.draw do
+   # Mount Sidekiq dashboard at /sidekiq
+  mount Sidekiq::Web => "/sidekiq"
+  
   get "home/index"
 
   resources :restaurants do

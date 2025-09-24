@@ -22,5 +22,6 @@ module RealviewsApi
   class Application < Rails::Application
     config.api_only = false
     config.load_defaults 8.0
+    config.time_zone = "Asia/Kolkata"
   end
 end

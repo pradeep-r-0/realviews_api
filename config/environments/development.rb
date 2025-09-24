@@ -78,4 +78,7 @@ Rails.application.configure do
   # Ensure emails are actually sent
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
+
+  config.hosts << "localhost"
+  config.hosts << "0.0.0.0"
 end
