@@ -2,10 +2,11 @@
 concurrency: 5
 queues:
   - default
+  - mailers
 
 schedule:
   pending_cities_notifier:
-    cron: "0 1,7,13,19 * * *"   # 4 times a day at 00:00, 06:00, 12:00, 19:30
+    cron: "0 1,7,13,19 * * *"   # 4 times a day at 01:00, 07:00, 13:00, 19:00
     class: "PendingCitiesNotifierWorker"
 redis:
   url: <%= ENV.fetch("REDIS_URL") { "redis://127.0.0.1:6379/0" } %>
