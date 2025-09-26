@@ -1,5 +1,10 @@
 <div align='center'>
   <% unless action_name == "my_reviews" %>
+      <div class="welcome-block">
+        <strong>🍽️ 
+          Use the filters below to quickly find favourite dishes, restaurants in your city.
+        </strong>
+      </div>
     <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off", style: "display: flex; gap: 20px; justify-content: center; align-items: flex-end; flex-wrap: wrap;" } do %>
       <div>
         <% selected_city_id = params[:city_id].presence || @restaurant&.city_id %>
