@@ -94,7 +94,7 @@ class DishesController < ApplicationController
   end
 
   def set_city_and_restaurants
-    @city_names = City.approved.pluck(:name).compact
-    @restaurant_names = Restaurant.distinct.pluck(:name).compact
+    @city_names = City.approved.order(:name).pluck(:name).compact
+    @restaurant_names = Restaurant.distinct.order(:name).pluck(:name).compact
   end
 end
