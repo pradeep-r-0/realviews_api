@@ -203,3 +203,19 @@ table td.rating a:hover {
 .form-group {
   margin-bottom: 10px;
 }
+
+.disclaimer{
+  color:#e22908;
+  font-style: italic;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.filter-text {
+  width: 80%;               /* block width smaller than page for centering */
+  margin: 10px 0;           /* centers the block horizontally */
+  padding: 20px 0px;
+  background: rgba(41, 180, 87, 50%);
+  text-align: center;       /* centers heading and other elements */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}

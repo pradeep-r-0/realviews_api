@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => "/sidekiq"
   
   get "home/index"
+  
+  get '/.well-known/appspecific/com.chrome.devtools.json', to: proc { [204, {}, ['']] }
+  get '/favicon.ico', to: proc { [204, {}, []] }
 
   resources :restaurants do
     member do
