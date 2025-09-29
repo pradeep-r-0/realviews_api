@@ -12,8 +12,8 @@
 .welcome-block {
   width: 80%;               /* block width smaller than page for centering */
   margin: 0 auto;           /* centers the block horizontally */
-  padding: 50px 20px;
-  background: rgba(41, 180, 87, 50%);
+  padding: 10px 20px;
+  background: rgba(35, 95, 60, 0.65);
   text-align: center;       /* centers heading and other elements */
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
@@ -36,7 +36,7 @@
 }
 
 .welcome-title {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: bold;
   margin-bottom: 15px;
   color: #222;
@@ -54,19 +54,19 @@
 
 .my-time{
   inherits: thinking-text;
-  color: #0b50d1;
+  color: #06307e;
 }
 
 .thinking-text,
 .innovation,
 .my-time {
-  font-size: 1.1em;
+  font-size: 2.0em;
   margin-bottom: 15px;
   padding: 0;
 }
 
 .explore {
-  font-size: 1.2em;
+  font-size: 2em;
   color: #e3e622;
   font-weight: bold;
   margin: 10px 0;
@@ -75,7 +75,8 @@
 .motto {
   font-style: italic;
   color: #0a0a0a;
-  margin-top: 20px;
+  margin-top: 80px;
+  text-align: center;
 }
 
 .welcome-block ul.welcome-list {
@@ -88,4 +89,9 @@
 .welcome-block ul.welcome-list li {
   margin-bottom: 15px;     /* spacing between items */
   line-height: 1.5;        /* keeps multi-line items aligned properly */
+}
+
+.click{
+  color:#114b2b;
+  font-weight:bold;
 }
