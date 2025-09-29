@@ -1,0 +1,5 @@
+#!/bin/bash
+echo "Precompiling assets..."
+bundle exec rails assets:precompile
+echo "Starting Rails server..."
+bundle exec rails server

@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  root "dishes#index"
+  root "home#index"
 
   # OTP login
   get  "login/otp",          to: "sessions#new"      # form to enter email

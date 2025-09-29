@@ -1,0 +1,57 @@
+/* app/assets/stylesheets/home.scss */
+/* line 3, app/assets/stylesheets/home.scss */
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  /* horizontal centering */
+  align-items: center;
+  /* vertical centering */
+  flex-direction: column;
+  /* stack children vertically */
+  min-height: 80vh;
+  /* optional: center vertically on most of viewport */
+  text-align: center;
+  /* center text inside each block */
+}
+
+/* line 12, app/assets/stylesheets/home.scss */
+.welcome-block {
+  width: 100%;
+  /* span entire page width */
+  padding: 30px 20px;
+  /* some padding inside */
+  background: rgba(99, 194, 35, 0.9);
+  text-align: center;
+  /* center the text */
+  box-shadow: 0 2px 10px rgba(117, 218, 22, 0.05);
+}
+
+/* line 20, app/assets/stylesheets/home.scss */
+.welcome-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #222;
+}
+
+/* line 27, app/assets/stylesheets/home.scss */
+.thinking-text {
+  font-size: 1.1em;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+/* line 33, app/assets/stylesheets/home.scss */
+.explore {
+  font-size: 1.2em;
+  color: #e67e22;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+/* line 40, app/assets/stylesheets/home.scss */
+.motto {
+  font-style: italic;
+  color: #333;
+  margin-top: 20px;
+}

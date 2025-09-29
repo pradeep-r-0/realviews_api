@@ -1,3 +1,5 @@
+@import "home";
+
 .flash {
   text-align: center;          /* centers text */
   margin: 20px auto;           /* adds spacing above/below */
@@ -200,9 +202,4 @@ table td.rating a:hover {
 
 .form-group {
   margin-bottom: 10px;
-}
-.welcome-block{
-  margin-bottom: 15px;
-  font-size: 1.1em;
-  color: #f1740d;
 }
