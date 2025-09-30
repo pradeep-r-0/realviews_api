@@ -1,5 +1,7 @@
 class CarsController < ApplicationController
 
+  before_action :require_login, only: %i[new create]
+
   def new
     @car = Car.new
   end
