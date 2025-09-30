@@ -1,0 +1,45 @@
+<div align='center'>
+  <h1>New Car</h1>
+
+  <%= form_with(model: @car, local: true) do |form| %>
+    <% if @car.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@car.errors.count, "error") %> prohibited this car from being saved:</h2>
+        <ul>
+          <% @car.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :make, "Make" %><br>
+      <%= form.text_field :make %>
+    </div>
+
+    <div class="field">
+      <%= form.label :model, "Model" %><br>
+      <%= form.text_field :model %>
+    </div>
+
+    <div class="field">
+      <%= form.label :variant, "Variant" %><br>
+      <%= form.text_field :variant %>
+    </div>
+
+    <div class="field">
+      <%= form.label :fuel_type, "Fuel Type" %><br>
+      <%= form.select :fuel_type, options_for_select([["Petrol", "Petrol"], ["Diesel", "Diesel"], ["CNG", "CNG"]]) %>
+    </div>
+
+    <div class="field">
+      <%= form.label :date_of_purchase, "Date of Purchase" %><br>
+      <%= form.date_select :date_of_purchase %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Create Car" %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,29 @@
+<div align="center">
+  <h1>Add Fuel Topup for <%= @car.make %> <%= @car.model %></h1>
+
+  <%= form_with(model: [@car, @fuel_topup], local: true) do |form| %>
+    <div class="field">
+      <%= form.label :brand %><br>
+      <%= form.select :brand, options_for_select([["Indian Oil","Indian Oil"], ["Bharat Petrol","Bharat Petrol"], ["HP","HP"], ["Shell","Shell"],["Nayara","Nayara"]]) %>
+    </div>
+
+    <div class="field">
+      <%= form.label :quantity, "Quantity (Litres)" %><br>
+      <%= form.number_field :quantity, step: 0.1 %>
+    </div>
+
+    <div class="field">
+      <%= form.label :price, "Price (₹)" %><br>
+      <%= form.number_field :price, step: 0.01 %>
+    </div>
+
+    <div class="field">
+      <%= form.label :topup_date, "Date of Topup" %><br>
+      <%= form.date_select :topup_date, start_year: Date.today.year - 5, end_year: Date.today.year %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Add Fuel Topup" %>
+    </div>
+  <% end %>
+</div>

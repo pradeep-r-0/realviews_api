@@ -1,0 +1,5 @@
+<div align='center'>
+  <h1><%= @car.make %> <%= @car.model %></h1>
+  <p>Date of Purchase: <%= @car.date_of_purchase %></p>
+  <%= link_to "Fuel Topup", new_car_fuel_topup_path(@car), class: "btn btn-primary" %>
+</div>

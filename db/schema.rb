@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_22_095837) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_30_185021) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "cars", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "make"
+    t.string "model"
+    t.date "date_of_purchase"
+    t.string "variant"
+    t.string "fuel_type", default: "Petrol", null: false
+  end
 
   create_table "cities", force: :cascade do |t|
     t.string "name"
@@ -32,6 +42,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_22_095837) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_dishes_on_user_id"
+  end
+
+  create_table "fuel_topups", force: :cascade do |t|
+    t.bigint "car_id", null: false
+    t.string "brand"
+    t.decimal "quantity"
+    t.decimal "price"
+    t.date "top_up_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_fuel_topups_on_car_id"
+  end
+
+  create_table "ownerships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "car_id", null: false
+    t.string "ownership_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_ownerships_on_car_id"
+    t.index ["user_id"], name: "index_ownerships_on_user_id"
   end
 
   create_table "restaurants", force: :cascade do |t|
@@ -55,5 +86,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_22_095837) do
   end
 
   add_foreign_key "dishes", "users"
+  add_foreign_key "fuel_topups", "cars"
+  add_foreign_key "ownerships", "cars"
+  add_foreign_key "ownerships", "users"
   add_foreign_key "restaurants", "cities"
 end
