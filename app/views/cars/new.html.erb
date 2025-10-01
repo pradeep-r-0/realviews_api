@@ -13,33 +13,49 @@
       </div>
     <% end %>
 
-    <div class="field">
-      <%= form.label :make, "Make" %><br>
-      <%= form.text_field :make %>
-    </div>
+    <table>
+        <div class="centered-columns">
+          <div class="column">
+            <%= form.label :make, "Make" %>
+          </div>
+          <div class="column">
+            <%= form.text_field :make %>
+          </div>
+        </div>
 
-    <div class="field">
-      <%= form.label :model, "Model" %><br>
-      <%= form.text_field :model %>
-    </div>
+        <div class="centered-columns">
+          <div class="column">
+            <%= form.label :model, "Model" %>
+          </div>
+          <div class="column">
+            <%= form.text_field :model %>
+          </div>
+        </div>
+        
+        <div class="centered-columns">
+          <div class="column">
+            <%= form.label :variant, "Variant" %>
+            <%= form.text_field :variant %>
+          </div>
+        </div>
+        
+        <div class="centered-columns">
+          <div class="column">
+            <%= form.label :fuel_type, "Fuel Type" %>
+            <%= form.select :fuel_type, options_for_select([["Petrol", "Petrol"], ["Diesel", "Diesel"], ["CNG", "CNG"]]) %>
+          </div>
+        </div>
+        
+        <div class="centered-columns">
+          <div class="column">
+            <%= form.label :date_of_purchase, "Date of Purchase" %>
+            <%= form.date_select :date_of_purchase %>
+          </div>
+        </div>
+    </table>
 
-    <div class="field">
-      <%= form.label :variant, "Variant" %><br>
-      <%= form.text_field :variant %>
-    </div>
-
-    <div class="field">
-      <%= form.label :fuel_type, "Fuel Type" %><br>
-      <%= form.select :fuel_type, options_for_select([["Petrol", "Petrol"], ["Diesel", "Diesel"], ["CNG", "CNG"]]) %>
-    </div>
-
-    <div class="field">
-      <%= form.label :date_of_purchase, "Date of Purchase" %><br>
-      <%= form.date_select :date_of_purchase %>
-    </div>
-
-    <div class="actions">
-      <%= form.submit "Create Car" %>
+    <div class="actions" style="margin-top: 15px;">
+      <%= form.submit "Create Car", class: "btn btn-primary" %>
     </div>
   <% end %>
 </div>

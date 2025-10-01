@@ -1,29 +1,26 @@
-<div align="center">
-  <h1>Add Fuel Topup for <%= @car.make %> <%= @car.model %></h1>
+<div style="display: flex; justify-content: center;">
+  <div class="fuel-form">
+    <h1>Add Fuel Topup for <%= @car.make %> <%= @car.model %></h1>
 
-  <%= form_with(model: [@car, @fuel_topup], local: true) do |form| %>
-    <div class="field">
-      <%= form.label :brand %><br>
-      <%= form.select :brand, options_for_select([["Indian Oil","Indian Oil"], ["Bharat Petrol","Bharat Petrol"], ["HP","HP"], ["Shell","Shell"],["Nayara","Nayara"]]) %>
-    </div>
+    <%= form_with(model: [@car, @fuel_topup], local: true) do |form| %>
+      <% fields = [
+        [:brand, "Brand", form.select(:brand, options_for_select([["Indian Oil","Indian Oil"], ["Bharat Petrol","Bharat Petrol"], ["HP","HP"], ["Shell","Shell"],["Nayara","Nayara"]] ))],
+        [:rate_per_litre, "Rate per Litre (₹)", form.number_field(:quantity, step: 0.1)],
+        [:price, "Total Price (₹)", form.number_field(:price, step: 0.01)],
+        [:odometer_reading, "Odometer Reading (km)", form.number_field(:odometer_reading, step: 0.1)],
+        [:topup_date, "Date of Topup", form.date_select(:topup_date, start_year: Date.today.year-5, end_year: Date.today.year)]
+      ] %>
 
-    <div class="field">
-      <%= form.label :quantity, "Quantity (Litres)" %><br>
-      <%= form.number_field :quantity, step: 0.1 %>
-    </div>
+      <% fields.each_with_index do |(field, label, input), index| %>
+        <div class="fuel-row <%= 'even' if index.even? %>">
+          <div class="fuel-label"><%= form.label field, label %></div>
+          <div class="fuel-input"><%= input %></div>
+        </div>
+      <% end %>
 
-    <div class="field">
-      <%= form.label :price, "Price (₹)" %><br>
-      <%= form.number_field :price, step: 0.01 %>
-    </div>
-
-    <div class="field">
-      <%= form.label :topup_date, "Date of Topup" %><br>
-      <%= form.date_select :topup_date, start_year: Date.today.year - 5, end_year: Date.today.year %>
-    </div>
-
-    <div class="actions">
-      <%= form.submit "Add Fuel Topup" %>
-    </div>
-  <% end %>
+      <div style="text-align: center; margin-top: 15px;">
+        <%= form.submit "Add Fuel Topup", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
 </div>

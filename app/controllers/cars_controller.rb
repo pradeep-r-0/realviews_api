@@ -16,10 +16,18 @@ class CarsController < ApplicationController
   end
 
   def show
-    @car = Car.find(params[:id])
+    @fuel_topups = car.fuel_topups.order(:topup_date).last(5)
+  end
+
+  def index
+    @cars = Car.includes(:fuel_topups).where.not(fuel_topups: {rate_per_litre: nil}).where.not(fuel_topups: { odometer_reading: nil }).distinct.order(fuel_topups: { topup_date: :asc })
   end
 
   private
+
+  def car
+    @car ||= Car.find(params[:id])
+  end
 
   def car_params
     params.require(:car).permit(:make, :model, :variant, :fuel_type, :date_of_purchase)

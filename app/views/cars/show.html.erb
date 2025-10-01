@@ -1,5 +1,28 @@
 <div align='center'>
-  <h1><%= @car.make %> <%= @car.model %></h1>
+  <h1>
+    <%= @car.make %> <%= @car.model %> <span style="font-size: 0.8em;"><%= @car.variant %></span> <span style="font-size: 0.8em;">(<%= @car.fuel_type.eql?("CNG") ? @car.fuel_type : @car.fuel_type.chars.first %>)</span>
+  </h1>
   <p>Date of Purchase: <%= @car.date_of_purchase %></p>
-  <%= link_to "Fuel Topup", new_car_fuel_topup_path(@car), class: "btn btn-primary" %>
+  <h3 style="color: green"> 
+    Mileage : <%= calculate_avg_mileage(@fuel_topups) %> kmpl (avg of last 5 topups)
+  </h3>
+  <h2> Refill History <span style="font-size: 0.8em;"><%= link_to "view all", car_fuel_topups_path(@car), class: "btn btn-primary" %></span></h2>
+  <table border=1>
+    <tr>
+      <th>Date</th>
+      <th>Fuel Brand</th>
+      <th>Price</th>
+      <th>Odometer Reading</th>
+    </tr>
+    <% @fuel_topups.each do |top_up|%>
+    <tr>
+      <td><%= top_up.topup_date %></td>
+      <td><%= top_up.brand %></td>
+      <td><%= top_up.price%></td>
+      <td><%= top_up.odometer_reading %></td>
+    </tr>
+    <% end %>
+  </table>
+  <i style='font-size:28px' class='fas'>&#xf52f;</i>
+  <%= link_to "Topup Fuel", new_car_fuel_topup_path(@car), class: "btn btn-primary" %>
 </div>

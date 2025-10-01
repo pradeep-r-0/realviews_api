@@ -1,0 +1,45 @@
+.fuel-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* center the form */
+}
+
+.fuel-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+
+.fuel-row.even {
+  background-color: #f8f9fa;  /* alternate row shading */
+}
+
+.fuel-label {
+  width: 160px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.fuel-input {
+  width: 220px;
+}
+
+.field{
+  margin-bottom: 5px;
+}
+
+.centered-columns {
+  display: flex;
+  justify-content: center; /* Center the columns horizontally */
+  align-items: center;     /* Align items vertically if needed */
+  gap: 20px;               /* Space between the columns */
+  margin-top: 28px;        /* Optional: spacing from top of page */
+}
+
+.column {
+  padding: 10px;
+  text-align: center;
+  /* Optional: border, background, or fixed width */
+}

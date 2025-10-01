@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   end
 
   resources :cars, only: [:index, :show, :create, :new] do
-    resources :fuel_topups, only: [:new, :create]
+    resources :fuel_topups, only: [:new, :create, :index]
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

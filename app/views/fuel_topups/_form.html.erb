@@ -1,0 +1,32 @@
+<%= form_with(model: fuel_top_up, local: true) do |form| %>
+  <% if fuel_top_up.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(fuel_top_up.errors.count, "error") %> prohibited this fuel top-up from being saved:</h2>
+      <ul>
+        <% fuel_top_up.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :amount, "Fuel Amount (L)" %>
+    <%= form.number_field :amount, step: 0.1, class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :price, "Total Price (₹)" %>
+    <%= form.number_field :price, step: 0.01, class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :odometer_reading, "Odometer Reading (km)" %>
+    <%= form.number_field :odometer_reading, step: 1, class: "form-control" %>
+  </div>
+
+  <div class="actions mt-3">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to 'Cancel', fuel_top_ups_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>

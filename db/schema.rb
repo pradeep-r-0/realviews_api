@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_30_185021) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_01_174255) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -47,11 +47,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_30_185021) do
   create_table "fuel_topups", force: :cascade do |t|
     t.bigint "car_id", null: false
     t.string "brand"
-    t.decimal "quantity"
+    t.decimal "rate_per_litre"
     t.decimal "price"
-    t.date "top_up_date"
+    t.date "topup_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "odometer_reading"
     t.index ["car_id"], name: "index_fuel_topups_on_car_id"
   end
 
