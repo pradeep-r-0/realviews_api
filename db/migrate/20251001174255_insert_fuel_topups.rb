@@ -21,7 +21,7 @@ class InsertFuelTopups < ActiveRecord::Migration[8.0]
         Rails.logger.info "Successfully added fuel topup: #{ft.inspect}"
       end
     rescue => e
-      Rails.logger.info "Exception occurred: #{e.inspect} : ft errors: #{ft.errors}"
+      Rails.logger.info "Exception occurred: #{e.inspect}"
     end
   end
 end
