@@ -4,12 +4,13 @@ class CarsController < ApplicationController
 
   def new
     @car = Car.new
+    @car.fuel_type = nil
   end
 
   def create
     @car = Car.new(car_params)
     if @car.save
-      redirect_to @car, notice: "Car was successfully created."
+      redirect_to @car, notice: "Car successfully created."
     else
       render :new
     end

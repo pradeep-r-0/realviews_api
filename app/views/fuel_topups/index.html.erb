@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Fuel Top-ups</h1>
-  <h2> <%= @car.make %> <%= @car.model %> <%= @car.variant %></h2>
+  <h2> <%= @car.make %> <%= @car.model %> <%= @car.variant %> - <%= @car.date_of_purchase.strftime("%B %Y") %></h2>
 
   <table class="table table-striped">
     <thead>

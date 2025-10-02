@@ -2,7 +2,7 @@
   <h1>
     <%= @car.make %> <%= @car.model %> <span style="font-size: 0.8em;"><%= @car.variant %></span> <span style="font-size: 0.8em;">(<%= @car.fuel_type.eql?("CNG") ? @car.fuel_type : @car.fuel_type.chars.first %>)</span>
   </h1>
-  <p>Date of Purchase: <%= @car.date_of_purchase %></p>
+  <h3>Model: <%= @car.date_of_purchase.strftime("%B %Y") %></h3>
   <% mileage = calculate_avg_mileage(@fuel_topups)
     mileage = mileage < 0 ? '-' : mileage.to_s + 'kmpl (avg of last 5 topups)'
   %>

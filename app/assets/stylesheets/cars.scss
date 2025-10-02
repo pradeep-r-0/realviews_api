@@ -43,3 +43,28 @@
   text-align: center;
   /* Optional: border, background, or fixed width */
 }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 150px 1fr; /* label fixed width, input expands */
+  gap: 10px 20px; /* row gap, column gap */
+  justify-content: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-row {
+  display: contents; /* let label and input fall into grid columns */
+}
+
+.form-row label {
+  text-align: right;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+.inline-month-select select {
+  display: inline-block;
+  margin-right: 5px;
+  width: 158px;
+}

@@ -1,7 +1,7 @@
 <div align='center'>
-  <h1>New Car</h1>
+  <h1>Add Car</h1>
 
-  <%= form_with(model: @car, local: true) do |form| %>
+  <%= form_with(model: @car, local: true, html: { autocomplete: "off" }) do |form| %>
     <% if @car.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@car.errors.count, "error") %> prohibited this car from being saved:</h2>
@@ -13,49 +13,42 @@
       </div>
     <% end %>
 
-    <table>
-        <div class="centered-columns">
-          <div class="column">
-            <%= form.label :make, "Make" %>
-          </div>
-          <div class="column">
-            <%= form.text_field :make %>
-          </div>
-        </div>
+    <div class="form-grid">
+      <div class="form-row">
+        <%= form.label :make, "Make" %>
+        <%= form.text_field :make, required: true %>
+      </div>
 
-        <div class="centered-columns">
-          <div class="column">
-            <%= form.label :model, "Model" %>
-          </div>
-          <div class="column">
-            <%= form.text_field :model %>
-          </div>
+      <div class="form-row">
+        <%= form.label :model, "Model" %>
+        <%= form.text_field :model, required: true %>
+      </div>
+
+      <div class="form-row">
+        <%= form.label :variant, "Variant" %>
+        <%= form.text_field :variant, required: true %>
+      </div>
+
+      <div class="form-row">
+        <%= form.label :fuel_type, "Fuel Type" %>
+        <%= form.select :fuel_type, ["Petrol", "Diesel", "CNG"], { prompt: "Select Fuel Type" }, { required: true } %>
+      </div>
+
+      <div class="form-row">
+        <%= form.label :date_of_purchase, "Purchase Month" %>
+        <div class="inline-month-select">
+          <%= form.date_select :date_of_purchase,
+            discard_day: true,
+            start_year: 2000,
+            end_year: Date.today.year,
+            order: [:month, :year] %>
+
         </div>
-        
-        <div class="centered-columns">
-          <div class="column">
-            <%= form.label :variant, "Variant" %>
-            <%= form.text_field :variant %>
-          </div>
-        </div>
-        
-        <div class="centered-columns">
-          <div class="column">
-            <%= form.label :fuel_type, "Fuel Type" %>
-            <%= form.select :fuel_type, options_for_select([["Petrol", "Petrol"], ["Diesel", "Diesel"], ["CNG", "CNG"]]) %>
-          </div>
-        </div>
-        
-        <div class="centered-columns">
-          <div class="column">
-            <%= form.label :date_of_purchase, "Date of Purchase" %>
-            <%= form.date_select :date_of_purchase %>
-          </div>
-        </div>
-    </table>
+      </div>
+    </div>
 
     <div class="actions" style="margin-top: 15px;">
-      <%= form.submit "Create Car", class: "btn btn-primary" %>
+      <%= form.submit "Create", data: { disable_with: "Creating..." }, class: "btn btn-primary" %>
     </div>
   <% end %>
 </div>
