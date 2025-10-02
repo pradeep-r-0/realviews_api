@@ -21,9 +21,9 @@
 }
 
 body {
-  background: url("/assets/banana_leaves.jpg") no-repeat center center fixed;
   background-size: cover;
-  position: relative;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 body::before {
@@ -121,7 +121,12 @@ table td.rating a:hover {
   line-height: 1;        /* prevents extra spacing */
   white-space: nowrap;   /* keeps it in one line */
   border-radius: 8px;
+  display: inline-block;
   text-align: center;
+}
+
+.site-title {
+  text-align: center; /* centers inline or inline-block children */
 }
 
 @media (max-width: 768px) {
@@ -219,4 +224,8 @@ table td.rating a:hover {
   background: rgba(41, 180, 87, 50%);
   text-align: center;       /* centers heading and other elements */
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+body.page-dishes {
+  background-image: image-url("banana_leaves.jpg");
 }

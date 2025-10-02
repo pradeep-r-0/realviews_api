@@ -1,5 +1,5 @@
 <div align='center'>
-  <h1>Add Car</h1>
+  <h2>Add Car</h2>
 
   <%= form_with(model: @car, local: true, html: { autocomplete: "off" }) do |form| %>
     <% if @car.errors.any? %>
@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <div class="actions" style="margin-top: 15px;">
+    <div class="actions" >
       <%= form.submit "Create", data: { disable_with: "Creating..." }, class: "btn btn-primary" %>
     </div>
   <% end %>

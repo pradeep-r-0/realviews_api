@@ -1,6 +1,6 @@
 <div style="display: flex; justify-content: center;">
   <div class="fuel-form">
-    <h1>Add Fuel Topup for <%= @car.make %> <%= @car.model %></h1>
+    <h1>Add Fuel Topup for <%= @car.car_make.name %> <%= @car.model %></h1>
 
     <%= form_with(model: [@car, @fuel_topup], local: true) do |form| %>
       <% fields = [

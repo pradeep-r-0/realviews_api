@@ -1,0 +1,96 @@
+/* line 1, app/assets/stylesheets/cars.scss */
+.fuel-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* center the form */
+}
+
+/* line 7, app/assets/stylesheets/cars.scss */
+.fuel-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+
+/* line 15, app/assets/stylesheets/cars.scss */
+.fuel-row.even {
+  background-color: #f8f9fa;
+  /* alternate row shading */
+}
+
+/* line 19, app/assets/stylesheets/cars.scss */
+.fuel-label {
+  width: 160px;
+  text-align: right;
+  font-weight: bold;
+}
+
+/* line 25, app/assets/stylesheets/cars.scss */
+.fuel-input {
+  width: 220px;
+}
+
+/* line 29, app/assets/stylesheets/cars.scss */
+.field {
+  margin-bottom: 5px;
+}
+
+/* line 33, app/assets/stylesheets/cars.scss */
+.centered-columns {
+  display: flex;
+  justify-content: center;
+  /* Center the columns horizontally */
+  align-items: center;
+  /* Align items vertically if needed */
+  gap: 20px;
+  /* Space between the columns */
+  margin-top: 28px;
+  /* Optional: spacing from top of page */
+}
+
+/* line 41, app/assets/stylesheets/cars.scss */
+.column {
+  padding: 10px;
+  text-align: center;
+  /* Optional: border, background, or fixed width */
+}
+
+/* line 47, app/assets/stylesheets/cars.scss */
+.form-grid {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  /* label fixed width, input expands */
+  gap: 10px 20px;
+  /* row gap, column gap */
+  justify-content: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* line 56, app/assets/stylesheets/cars.scss */
+.form-row {
+  display: contents;
+  /* let label and input fall into grid columns */
+}
+
+/* line 60, app/assets/stylesheets/cars.scss */
+.form-row label {
+  text-align: right;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+/* line 66, app/assets/stylesheets/cars.scss */
+.inline-month-select select {
+  display: inline-block;
+  margin-right: 5px;
+  width: 158px;
+}
+
+/* line 72, app/assets/stylesheets/cars.scss */
+body.page-cars {
+  background-image: url(/assets/car-bg.jpg);
+}
