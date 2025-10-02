@@ -10,9 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_01_174255) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_02_081620) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "car_makes", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "cars", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -22,6 +28,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_01_174255) do
     t.date "date_of_purchase"
     t.string "variant"
     t.string "fuel_type", default: "Petrol", null: false
+    t.bigint "car_make_id"
+    t.index ["car_make_id"], name: "index_cars_on_car_make_id"
   end
 
   create_table "cities", force: :cascade do |t|
@@ -86,6 +94,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_01_174255) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "cars", "car_makes"
   add_foreign_key "dishes", "users"
   add_foreign_key "fuel_topups", "cars"
   add_foreign_key "ownerships", "cars"

@@ -15,8 +15,8 @@
 
     <div class="form-grid">
       <div class="form-row">
-        <%= form.label :make, "Make" %>
-        <%= form.text_field :make, required: true %>
+        <%= form.label :car_make_id, "Make" %>
+        <%= form.collection_select :car_make_id, CarMake.all.order(:name), :id, :name, { prompt: "Select Make" }, { required: true } %>
       </div>
 
       <div class="form-row">

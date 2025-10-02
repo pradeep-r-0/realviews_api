@@ -1,6 +1,6 @@
 <div align='center'>
   <h1>
-    <%= @car.make %> <%= @car.model %> <span style="font-size: 0.8em;"><%= @car.variant %></span> <span style="font-size: 0.8em;">(<%= @car.fuel_type.eql?("CNG") ? @car.fuel_type : @car.fuel_type.chars.first %>)</span>
+    <%= @car.car_make.name %> <%= @car.model %> <span style="font-size: 0.8em;"><%= @car.variant %></span> <span style="font-size: 0.8em;">(<%= @car.fuel_type.eql?("CNG") ? @car.fuel_type : @car.fuel_type.chars.first %>)</span>
   </h1>
   <h3>Model: <%= @car.date_of_purchase.strftime("%B %Y") %></h3>
   <% mileage = calculate_avg_mileage(@fuel_topups)

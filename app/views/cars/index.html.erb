@@ -4,7 +4,7 @@
     <tr>
       <td>
         <h2>
-          <%= link_to "#{car.make} #{car.model} #{car.variant} #{car.fuel_type.eql?("CNG") ? car.fuel_type : (car.fuel_type.chars.first)}".html_safe, car_path(car), style: "color: inherit;" %> 
+          <%= link_to "#{car.car_make.name} #{car.model} #{car.variant} #{car.fuel_type.eql?("CNG") ? car.fuel_type : (car.fuel_type.chars.first)}".html_safe, car_path(car), style: "color: inherit;" %> 
         </h2>
       </td>
       <% unless car.fuel_topups.present? %>
