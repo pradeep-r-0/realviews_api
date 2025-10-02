@@ -9,6 +9,7 @@ class CarsController < ApplicationController
 
   def create
     @car = Car.new(car_params)
+    @car.users << current_user unless @car.users.include?(current_user)
     if @car.save
       redirect_to @car, notice: "Car successfully created."
     else

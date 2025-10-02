@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless user_logged_in?
-      redirect_to login_otp_path, alert: "Please log in first"
+      redirect_to login_otp_path, alert: "Please login first"
     end
   end
 end
