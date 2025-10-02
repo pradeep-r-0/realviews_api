@@ -3,8 +3,11 @@
     <%= @car.make %> <%= @car.model %> <span style="font-size: 0.8em;"><%= @car.variant %></span> <span style="font-size: 0.8em;">(<%= @car.fuel_type.eql?("CNG") ? @car.fuel_type : @car.fuel_type.chars.first %>)</span>
   </h1>
   <p>Date of Purchase: <%= @car.date_of_purchase %></p>
-  <h3 style="color: green"> 
-    Mileage : <%= calculate_avg_mileage(@fuel_topups) %> kmpl (avg of last 5 topups)
+  <% mileage = calculate_avg_mileage(@fuel_topups)
+    mileage = mileage < 0 ? '-' : mileage.to_s + 'kmpl (avg of last 5 topups)'
+  %>
+  <h3 style="color: green">
+    Mileage : <%= mileage %>
   </h3>
   <h2> Refill History <span style="font-size: 0.8em;"><%= link_to "view all", car_fuel_topups_path(@car), class: "btn btn-primary" %></span></h2>
   <table border=1>
