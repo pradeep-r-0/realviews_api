@@ -107,3 +107,23 @@ body.page-cars {
   font-weight: bold;
 }
 
+.cars-table {
+  max-width: 600px;     /* optional: limit total width */
+  margin: 0 auto;       /* center table */
+  border-collapse: collapse;
+}
+
+.cars-table td {
+  padding: 10px 15px;   /* reduce spacing */
+  max-width: 250px;      /* limit each cell width */
+  word-wrap: break-word; /* wrap long content */
+}
+
+.cars-table h2 {
+  font-size: 1.2em;     /* optional: reduce text size */
+  margin: 0;
+}
+
+.mileage{
+  color: green;
+}

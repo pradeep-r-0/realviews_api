@@ -1,26 +1,27 @@
-<div align='center'>
-  <table>
-  <% @cars.each do |car| %>
-    <tr>
-      <td>
-        <h2>
-          <%= link_to "#{car.car_make.name} #{car.model} #{car.variant} #{car.fuel_type.eql?("CNG") ? car.fuel_type : (car.fuel_type.chars.first)}".html_safe, car_path(car), style: "color: inherit;" %> 
-        </h2>
-      </td>
-      <% unless car.fuel_topups.present? %>
-      <td>
-        <h2> Topup unavailable </h2>
-      </td>
-      <% else %>
+<div align="center">
+  <table class="cars-table">
+    <% @cars.each do |car| %>
+      <tr>
         <td>
-          <% fuel_topups = car.fuel_topups %>
-          <h2 style="color: green"> 
-            Mileage: <%= calculate_avg_mileage(fuel_topups) %>
+          <h2>
+            <%= link_to "#{car.car_make.name} #{car.model} #{car.variant} #{car.fuel_type.eql?("CNG") ? car.fuel_type : (car.fuel_type.chars.first)}".html_safe, car_path(car), style: "color: inherit;" %> 
           </h2>
         </td>
-      <% end %>
-    </tr>
-  <% end %>
+        <% filtered_topups = car.fuel_topups.where.not(fuel_topups: { odometer_reading: nil, rate_per_litre: nil })
+            unless filtered_topups.size > 1
+        %>
+        <td>
+          <h4> Topup unavailable </h4>
+        </td>
+        <% else %>
+          <td>
+            <h2 class="mileage"> 
+              Mileage: <%= calculate_avg_mileage(filtered_topups) %>
+            </h2>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
   </table>
   <%= link_to "Add your Car", new_car_path, class: "btn btn-primary" %>
 </div>

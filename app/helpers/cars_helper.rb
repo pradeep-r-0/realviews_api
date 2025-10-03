@@ -1,7 +1,7 @@
 module CarsHelper
   def calculate_avg_mileage(fuel_topups)
     return -1 unless fuel_topups.present?
-
+    
     now = fuel_topups.last
     previous = fuel_topups.first
     return -1 unless now.odometer_reading || previous.odometer_reading || !previous.price || !previous.rate_per_litre
