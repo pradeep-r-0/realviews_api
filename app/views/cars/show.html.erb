@@ -1,31 +1,52 @@
-<div align='center'>
+<div align="center">
   <h2>
-    <%= @car.car_make.name %> <%= @car.model %> <span style="font-size: 0.8em;"><%= @car.variant %></span> <span style="font-size: 0.8em;">(<%= @car.fuel_type.eql?("CNG") ? @car.fuel_type : @car.fuel_type.chars.first %>)</span>
+    <%= @car.car_make.name %> <%= @car.model %> 
+    <span style="font-size: 0.8em;"><%= @car.variant %></span> 
+    <span style="font-size: 0.8em;">
+      (<%= @car.fuel_type.eql?("CNG") ? @car.fuel_type : @car.fuel_type.chars.first %>)
+    </span>
   </h2>
+
   <h3>Model: <%= @car.date_of_purchase.strftime("%B %Y") %></h3>
+
   <% mileage = calculate_avg_mileage(@fuel_topups)
-    mileage = mileage < 0 ? '-' : mileage.to_s + 'kmpl (avg of last 5 topups)'
-  %>
-  <h3 style="color: green">
-    Mileage : <%= mileage %>
+     mileage = mileage < 0 ? '-' : mileage.to_s + 'kmpl (avg of last 5 topups)' %>
+
+  <h3 style="color: green">Mileage : <%= mileage %></h3>
+
+  <h3>
+    Refill History 
+    <span><%= link_to "view all", car_fuel_topups_path(@car), class: "btn btn-primary" %></span>
   </h3>
-  <h3> Refill History <span><%= link_to "view all", car_fuel_topups_path(@car), class: "btn btn-primary" %></span></h3>
-  <table border=1>
+
+  <table border="1">
     <tr>
       <th>Date</th>
       <th>Fuel Brand</th>
       <th>Price</th>
       <th>Odometer Reading</th>
     </tr>
-    <% @fuel_topups.each do |top_up|%>
-    <tr>
-      <td><%= top_up.topup_date %></td>
-      <td><%= top_up.brand %></td>
-      <td><%= top_up.price%></td>
-      <td><%= top_up.odometer_reading %></td>
-    </tr>
+    <% @fuel_topups.each do |top_up| %>
+      <tr>
+        <td><%= top_up.topup_date %></td>
+        <td><%= top_up.brand %></td>
+        <td><%= top_up.price %></td>
+        <td><%= top_up.odometer_reading %></td>
+      </tr>
     <% end %>
   </table>
-  <i style='font-size:28px' class='fas'>&#xf52f;</i>
+
+  <h4 style="color: green;">Add at least 2 fuel topup records to view mileage.</h4>
+
+  <div class="qna-box">
+    <ul>
+      <li class="question">🤔 How does it work?</li>
+      <li class="answer">We count based on kms between your consecutive full tank topups</li>
+    </ul>
+  </div>
+
+  <br>
+
+  <i style="font-size:28px" class="fas">&#xf52f;</i>
   <%= link_to "Topup Fuel", new_car_fuel_topup_path(@car), class: "btn btn-primary" %>
 </div>

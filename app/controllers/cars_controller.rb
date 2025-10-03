@@ -22,7 +22,7 @@ class CarsController < ApplicationController
   end
 
   def index
-    @cars = Car.includes(:fuel_topups).where.not(fuel_topups: {rate_per_litre: nil}).where.not(fuel_topups: { odometer_reading: nil }).distinct.order(fuel_topups: { topup_date: :asc })
+    @cars = Car.joins(:car_make).all.order("car_makes.name")
   end
 
   private
