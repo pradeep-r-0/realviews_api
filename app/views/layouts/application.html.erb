@@ -16,6 +16,12 @@
       <div class="site-title">
         <h1><%=link_to "REalVIEWS", root_path, class: "site-title-link" %></h1>
       </div>
+      <div class="cars-link">
+        <%=link_to "Cars", cars_path, class: "cars-link" %>
+      </div>
+      <div class="food-link">
+        <%=link_to "Food", dishes_path, class: "food-link" %>
+      </div>
 
       <div class="login-box">
         <% if user_logged_in? %>
