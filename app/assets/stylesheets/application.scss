@@ -233,3 +233,18 @@ body.page-dishes {
 .food-link {
   left: 124px;                     /* bottom-left corner */
 }
+
+.food-link,
+.cars-link {
+  position: absolute;
+  bottom: 0;                    /* place them at the bottom */
+  font-weight: bold;
+}
+
+.food-link-text,
+.cars-link-text {
+  text-decoration: none;
+  color: #007bff;               /* adjust as needed */
+  font-size: 1rem;
+}
+
