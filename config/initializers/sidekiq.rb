@@ -2,7 +2,7 @@ require "sidekiq"
 require "sidekiq-cron"
 
 Sidekiq.configure_server do |config|
-  config.redis = { url: ENV.fetch("REDIS_URL", "redis://127.0.0.1:6379/0") }
+  config.redis = { url: ENV.fetch("REDIS_URL") }
 
   schedule_file = Rails.root.join("config/sidekiq.yml")
 
@@ -24,6 +24,16 @@ Sidekiq.configure_server do |config|
   end
 end
 
-Sidekiq.configure_client do |config|
-  config.redis = { url: ENV.fetch("REDIS_URL", "redis://127.0.0.1:6379/0") }
+# config/initializers/sidekiq.rb
+
+# Skip Redis connection during asset precompile or predeploy
+if defined?(Sidekiq) && !(File.basename($PROGRAM_NAME) == "rake" && ARGV.include?("assets:precompile"))
+  Sidekiq.configure_server do |config|
+    config.redis = { url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0") }
+  end
+
+  Sidekiq.configure_client do |config|
+    config.redis = { url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0") }
+  end
 end
+
