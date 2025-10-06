@@ -28,7 +28,7 @@
     </tr>
     <% @fuel_topups.each do |top_up| %>
       <tr>
-        <td><%= top_up.topup_date %></td>
+        <td><%= top_up.topup_date.strftime("%d-%m-%Y") %></td>
         <td><%= top_up.brand %></td>
         <td><%= top_up.price %></td>
         <td><%= top_up.odometer_reading %></td>
