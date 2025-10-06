@@ -32,6 +32,10 @@ Rails.application.routes.draw do
     resources :fuel_topups, only: [:new, :create, :index]
   end
 
+  resources :fuel_prices do
+    get :get_todays_price, on: :collection
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

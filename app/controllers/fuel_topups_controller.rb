@@ -19,6 +19,7 @@ class FuelTopupsController < ApplicationController
     @fuel_topups = @car.fuel_topups.order(:topup_date)
   end
 
+
   private
 
   def set_car
@@ -26,6 +27,7 @@ class FuelTopupsController < ApplicationController
   end
 
   def fuel_topup_params
-    params.require(:fuel_topup).permit(:brand, :rate_per_litre, :price, :odometer_reading, :topup_date)
+    params.require(:fuel_topup).permit(:brand, :rate_per_litre, :price, :odometer_reading,
+                                       :topup_date, :state, :fuel_type)
   end
 end

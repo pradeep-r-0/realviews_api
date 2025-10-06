@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_02_084836) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_06_131543) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -51,6 +51,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_084836) do
     t.index ["user_id"], name: "index_dishes_on_user_id"
   end
 
+  create_table "fuel_prices", force: :cascade do |t|
+    t.string "state"
+    t.string "fuel_type"
+    t.decimal "price"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["state", "fuel_type", "date"], name: "index_fuel_prices_on_state_and_fuel_type_and_date", unique: true
+  end
+
   create_table "fuel_topups", force: :cascade do |t|
     t.bigint "car_id", null: false
     t.string "brand"
@@ -60,6 +70,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_084836) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "odometer_reading"
+    t.string "state"
     t.index ["car_id"], name: "index_fuel_topups_on_car_id"
   end
 
