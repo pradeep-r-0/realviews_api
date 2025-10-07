@@ -92,6 +92,8 @@ Rails.application.configure do
 
   Rails.application.configure do
     config.hosts << /.*\.up\.railway\.app/
+    config.hosts << "www.realviews.in"
+    config.hosts << "realviews.in"
   end
 
   # Enable DNS rebinding protection and other `Host` header attacks.
