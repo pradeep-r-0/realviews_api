@@ -149,6 +149,12 @@ table td.rating a:hover {
   text-decoration: none;
 }
 
+header, .site-title {
+  position: relative; /* only if you’re using absolute positioning */
+  z-index: 10;        /* make sure it stays on top */
+  margin-bottom: 80px; /* adjust spacing from content */
+}
+
 
 @media (max-width: 768px) {
   .site-title h1 {
@@ -264,8 +270,7 @@ body.page-dishes {
 
 .food-link,
 .cars-link {
-  position: absolute;
-  bottom: 0;                    /* place them at the bottom */
+  position: absolute;                  /* place them at the bottom */
   font-weight: bold;
 }
 
@@ -306,6 +311,12 @@ body.page-dishes {
   padding: 20px;
   background: linear-gradient(135deg, #ffe6cc, #ff99cc);
   font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+
+/* Adjust actions so they don’t overlap */
+.welcome-actions {
+  margin-top: 40px;   /* more space from cards above */
 }
 
 .welcome-block {
@@ -371,7 +382,7 @@ body.page-dishes {
 .btn-link {
   background-color: #28a745;
   color: white;
-  padding: 10px 20px;
+  padding: 0 20px;
   margin: 5px;
   border-radius: 6px;
   text-decoration: none;
