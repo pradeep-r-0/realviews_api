@@ -1,0 +1,621 @@
+/* app/assets/stylesheets/home.scss */
+/* line 3, app/assets/stylesheets/home.scss */
+.welcome-container {
+  align-items: center;
+  /* horizontal centering */
+  flex-direction: column;
+  /* stack children vertically */
+  min-height: 80vh;
+  /* optional: center vertically on most of viewport */
+  text-align: center;
+  /* center text inside each block */
+}
+
+/* line 12, app/assets/stylesheets/home.scss */
+.welcome-block {
+  width: 80%;
+  /* block width smaller than page for centering */
+  margin: 0 auto;
+  /* centers the block horizontally */
+  padding: 10px 20px;
+  background: rgba(35, 95, 60, 0.65);
+  text-align: center;
+  /* centers heading and other elements */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* line 21, app/assets/stylesheets/home.scss */
+.welcome-block ul.welcome-list {
+  list-style-type: disc;
+  padding-left: 40px;
+  /* bullet + text indentation */
+  text-align: left;
+  /* left-align text inside the list */
+  margin: 20px auto;
+  /* center the whole ul horizontally */
+  display: inline-block;
+  /* allows margin auto to center block */
+}
+
+/* line 29, app/assets/stylesheets/home.scss */
+.welcome-block ul.welcome-list li {
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+/* line 34, app/assets/stylesheets/home.scss */
+.welcome-block li {
+  margin-bottom: 15px;
+  /* space between items */
+}
+
+/* line 38, app/assets/stylesheets/home.scss */
+.welcome-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #222;
+}
+
+/* line 45, app/assets/stylesheets/home.scss */
+.thinking-text {
+  color: #992410;
+}
+
+/* line 49, app/assets/stylesheets/home.scss */
+.innovation {
+  inherits: thinking-text;
+  color: #02461b;
+}
+
+/* line 55, app/assets/stylesheets/home.scss */
+.my-time {
+  inherits: thinking-text;
+  color: #06307e;
+}
+
+/* line 60, app/assets/stylesheets/home.scss */
+.thinking-text,
+.innovation,
+.my-time {
+  font-size: 2.0em;
+  margin-bottom: 15px;
+  padding: 0;
+}
+
+/* line 68, app/assets/stylesheets/home.scss */
+.explore {
+  font-size: 2em;
+  color: #e3e622;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+/* line 75, app/assets/stylesheets/home.scss */
+.cars {
+  font-size: 2em;
+  color: #b42467;
+  font-weight: bold;
+}
+
+/* line 81, app/assets/stylesheets/home.scss */
+.motto {
+  font-style: italic;
+  color: #0a0a0a;
+  margin-top: 80px;
+  text-align: center;
+}
+
+/* line 88, app/assets/stylesheets/home.scss */
+.welcome-block ul.welcome-list {
+  list-style-type: disc;
+  /* default bullets */
+  padding-left: 40px;
+  /* control bullet + text indentation */
+  margin: 20px 0;
+  text-align: left;
+  /* aligns text with bullets */
+}
+
+/* line 95, app/assets/stylesheets/home.scss */
+.welcome-block ul.welcome-list li {
+  margin-bottom: 15px;
+  /* spacing between items */
+  line-height: 1.5;
+  /* keeps multi-line items aligned properly */
+}
+
+/* line 100, app/assets/stylesheets/home.scss */
+.click {
+  color: #114b2b;
+  font-weight: bold;
+}
+
+/* line 1, app/assets/stylesheets/cars.scss */
+.fuel-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* center the form */
+}
+
+/* line 7, app/assets/stylesheets/cars.scss */
+.fuel-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+
+/* line 15, app/assets/stylesheets/cars.scss */
+.fuel-row.even {
+  background-color: #f8f9fa;
+  /* alternate row shading */
+}
+
+/* line 19, app/assets/stylesheets/cars.scss */
+.fuel-label {
+  width: 160px;
+  text-align: right;
+  font-weight: bold;
+}
+
+/* line 25, app/assets/stylesheets/cars.scss */
+.fuel-input {
+  width: 220px;
+}
+
+/* line 29, app/assets/stylesheets/cars.scss */
+.field {
+  margin-bottom: 5px;
+}
+
+/* line 33, app/assets/stylesheets/cars.scss */
+.centered-columns {
+  display: flex;
+  justify-content: center;
+  /* Center the columns horizontally */
+  align-items: center;
+  /* Align items vertically if needed */
+  gap: 20px;
+  /* Space between the columns */
+  margin-top: 28px;
+  /* Optional: spacing from top of page */
+}
+
+/* line 41, app/assets/stylesheets/cars.scss */
+.column {
+  padding: 10px;
+  text-align: center;
+  /* Optional: border, background, or fixed width */
+}
+
+/* line 47, app/assets/stylesheets/cars.scss */
+.form-grid {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  /* label fixed width, input expands */
+  gap: 10px 20px;
+  /* row gap, column gap */
+  justify-content: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* line 56, app/assets/stylesheets/cars.scss */
+.form-row {
+  display: contents;
+  /* let label and input fall into grid columns */
+}
+
+/* line 60, app/assets/stylesheets/cars.scss */
+.form-row label {
+  text-align: right;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+/* line 66, app/assets/stylesheets/cars.scss */
+.inline-month-select select {
+  display: inline-block;
+  margin-right: 5px;
+  width: 158px;
+}
+
+/* line 72, app/assets/stylesheets/cars.scss */
+body.page-cars {
+  background-image: url(/assets/car-bg.jpg);
+}
+
+/* line 76, app/assets/stylesheets/cars.scss */
+.btn.btn-primary {
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+/* line 81, app/assets/stylesheets/cars.scss */
+.qna-box {
+  display: inline-block;
+  /* so it fits content width, but you can use 100% if needed */
+  text-align: left;
+  padding: 15px 20px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #f0e68c;
+  /* subtle border */
+}
+
+/* line 90, app/assets/stylesheets/cars.scss */
+.qna-box ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 96, app/assets/stylesheets/cars.scss */
+.qna-box li.question {
+  background-color: #ffcdd2;
+  /* pink */
+  padding: 8px 10px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+/* line 103, app/assets/stylesheets/cars.scss */
+.qna-box li.answer {
+  background-color: #c8e6c9;
+  /* light green */
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* line 110, app/assets/stylesheets/cars.scss */
+.cars-table {
+  max-width: 650px;
+  /* optional: limit total width */
+  margin: 0 auto;
+  /* center table */
+  border-collapse: collapse;
+}
+
+/* line 116, app/assets/stylesheets/cars.scss */
+.cars-table td {
+  padding: 10px 15px;
+  /* reduce spacing */
+  max-width: 250px;
+  /* limit each cell width */
+  word-wrap: break-word;
+  /* wrap long content */
+}
+
+/* line 122, app/assets/stylesheets/cars.scss */
+.cars-table h2 {
+  font-size: 1.2em;
+  /* optional: reduce text size */
+  margin: 0;
+}
+
+/* line 127, app/assets/stylesheets/cars.scss */
+.mileage {
+  color: green;
+}
+
+/* line 131, app/assets/stylesheets/cars.scss */
+.cars-link {
+  right: 124px;
+  /* bottom-right corner */
+}
+
+/* line 4, app/assets/stylesheets/application.scss */
+.flash {
+  text-align: center;
+  /* centers text */
+  margin: 20px auto;
+  /* adds spacing above/below */
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  width: fit-content;
+}
+
+/* line 13, app/assets/stylesheets/application.scss */
+.flash.notice {
+  background-color: #0d751b;
+  color: #e5f2f7;
+}
+
+/* line 18, app/assets/stylesheets/application.scss */
+.flash.alert {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* line 23, app/assets/stylesheets/application.scss */
+body {
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* line 29, app/assets/stylesheets/application.scss */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  /* White with 40% opacity */
+  z-index: -1;
+}
+
+/* line 40, app/assets/stylesheets/application.scss */
+table {
+  border-collapse: collapse;
+  width: 90%;
+  margin: 20px auto;
+}
+
+/* line 46, app/assets/stylesheets/application.scss */
+table th {
+  color: white;
+  /* makes text white */
+  padding: 5px;
+  text-align: center;
+}
+
+/* Body cells in bold orange */
+/* line 53, app/assets/stylesheets/application.scss */
+table td {
+  color: #160344;
+  font-weight: bold;
+  padding: 5px;
+  text-align: center;
+}
+
+/* line 60, app/assets/stylesheets/application.scss */
+table th {
+  background-color: rgba(0, 0, 0, 0.7);
+  /* optional dark background for headers */
+}
+
+/* line 64, app/assets/stylesheets/application.scss */
+table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.1);
+  /* subtle striping */
+}
+
+/* line 68, app/assets/stylesheets/application.scss */
+table tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Target only links inside table headers */
+/* line 74, app/assets/stylesheets/application.scss */
+table th a {
+  color: white !important;
+  /* override default blue */
+  text-decoration: none;
+  /* optional: remove underline */
+}
+
+/* line 79, app/assets/stylesheets/application.scss */
+table td.rating a:hover {
+  color: white !important;
+}
+
+/* line 83, app/assets/stylesheets/application.scss */
+.login-box {
+  display: flex;
+  justify-content: flex-end;
+  /* move to right */
+  align-items: flex-start;
+  /* move to top */
+  height: 20px;
+  /* just for demo */
+}
+
+/* line 90, app/assets/stylesheets/application.scss */
+.login-box ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* line 96, app/assets/stylesheets/application.scss */
+.header-container {
+  height: auto;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  /* push title left, login right */
+  align-items: center;
+  /* vertical alignment */
+  padding: 10px 20px;
+  border-bottom: 1px solid #ccc;
+  /* optional separator */
+  overflow: visible;
+}
+
+/* Placeholder to balance layout */
+/* line 108, app/assets/stylesheets/application.scss */
+.header-left {
+  width: 100px;
+  /* approximate width of login-box */
+  flex: 0.25;
+}
+
+/* line 114, app/assets/stylesheets/application.scss */
+.site-title h1 {
+  font-family: 'Times New Roman', sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 0;
+  background: linear-gradient(90deg, #ff8c00, #ff0080);
+  font-size: 3rem;
+  /* your desired size */
+  line-height: 1;
+  /* prevents extra spacing */
+  white-space: nowrap;
+  /* keeps it in one line */
+  border-radius: 8px;
+  display: inline-block;
+  text-align: center;
+}
+
+/* line 128, app/assets/stylesheets/application.scss */
+.site-title {
+  text-align: center;
+  /* centers inline or inline-block children */
+}
+
+@media (max-width: 768px) {
+  /* line 133, app/assets/stylesheets/application.scss */
+  .site-title h1 {
+    font-size: 3rem;
+    /* smaller for mobile */
+  }
+}
+
+/* line 139, app/assets/stylesheets/application.scss */
+.site-title-link {
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+/* Right container: flash + login */
+/* line 146, app/assets/stylesheets/application.scss */
+.right-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  z-index: 0;
+}
+
+/* line 154, app/assets/stylesheets/application.scss */
+.flash-messages {
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* line 159, app/assets/stylesheets/application.scss */
+.flash-messages .alert {
+  display: inline-block;
+  background: #ffeeba;
+  color: #db2929;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+/* line 167, app/assets/stylesheets/application.scss */
+.flash-messages .alert.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+/* Login/Signup aligned right */
+/* line 174, app/assets/stylesheets/application.scss */
+.login-box {
+  display: flex;
+  gap: 10px;
+}
+
+/* line 179, app/assets/stylesheets/application.scss */
+.page-content {
+  padding: 20px;
+}
+
+/* line 183, app/assets/stylesheets/application.scss */
+.footer {
+  text-align: center;
+  padding: 15px 20px;
+  border-top: 1px solid #ccc;
+  font-size: 14px;
+  color: #666;
+}
+
+/* line 191, app/assets/stylesheets/application.scss */
+.footer p {
+  display: inline-block;
+  /* Shrinks background to text width */
+  background: #f2f2f2;
+  /* Background only behind text */
+  padding: 6px 12px;
+  border-radius: 6px;
+  /* Optional rounded edges */
+  color: #333;
+}
+
+/* line 199, app/assets/stylesheets/application.scss */
+.auth-links {
+  display: flex;
+  gap: 12px;
+  /* space between Login and Signup */
+}
+
+/* line 204, app/assets/stylesheets/application.scss */
+.logo {
+  text-decoration: none;
+  color: #222;
+  /* default text color */
+}
+
+/* line 209, app/assets/stylesheets/application.scss */
+.form-group {
+  margin-bottom: 10px;
+}
+
+/* line 213, app/assets/stylesheets/application.scss */
+.disclaimer {
+  color: #e22908;
+  font-style: italic;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* line 220, app/assets/stylesheets/application.scss */
+.filter-text {
+  width: 80%;
+  /* block width smaller than page for centering */
+  margin: 10px 0;
+  /* centers the block horizontally */
+  padding: 20px 0px;
+  background: #29b457;
+  text-align: center;
+  /* centers heading and other elements */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* line 229, app/assets/stylesheets/application.scss */
+body.page-dishes {
+  background-image: url(/assets/banana_leaves.jpg);
+}
+
+/* line 233, app/assets/stylesheets/application.scss */
+.food-link {
+  left: 124px;
+  /* bottom-left corner */
+}
+
+/* line 237, app/assets/stylesheets/application.scss */
+.food-link,
+.cars-link {
+  position: absolute;
+  bottom: 0;
+  /* place them at the bottom */
+  font-weight: bold;
+}
+
+/* line 244, app/assets/stylesheets/application.scss */
+.food-link-text,
+.cars-link-text {
+  text-decoration: none;
+  color: #007bff;
+  /* adjust as needed */
+  font-size: 1rem;
+}
