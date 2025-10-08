@@ -126,7 +126,6 @@ table td.rating a:hover {
   flex: 0.25;
 }
 
-
 .site-title h1 {
   font-family: 'Times New Roman', sans-serif;
   font-weight: bold;
@@ -145,18 +144,31 @@ table td.rating a:hover {
   text-align: center; /* centers inline or inline-block children */
 }
 
-@media (max-width: 768px) {
-  .site-title h1 {
-    font-size: 3rem;  /* smaller for mobile */
-  }
-}
-
-
-.site-title-link {
-  font-weight: bold;
+.site-title-link{
   color: white;
   text-decoration: none;
 }
+
+
+@media (max-width: 768px) {
+  .site-title h1 {
+    font-size: 3rem;
+  }
+
+  .welcome-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .welcome-card {
+    width: 90%;
+  }
+
+  .welcome-title {
+    font-size: 2rem;
+  }
+}
+
 
 /* Right container: flash + login */
 .right-container {
@@ -285,5 +297,103 @@ body.page-dishes {
   border: 1px solid #ccc;
   min-width: 180px;
 }
+
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #ffe6cc, #ff99cc);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.welcome-block {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  max-width: 900px;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.welcome-title {
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  background: linear-gradient(90deg, #ff8c00, #ff0080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.welcome-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.welcome-card {
+  background: #f0f9f5;
+  border-radius: 12px;
+  padding: 20px;
+  width: 260px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.welcome-card.highlight {
+  background: #ffe6f0;
+  border: 2px solid #ff66aa;
+}
+
+.welcome-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.welcome-actions {
+  margin: 20px 0;
+}
+
+.btn-link {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-link:hover {
+  background-color: #218838;
+}
+
+.motto {
+  margin-top: 20px;
+  font-style: italic;
+  color: #333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 
 
