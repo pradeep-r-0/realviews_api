@@ -1,37 +1,36 @@
 <div align='center'>
-  <% unless action_name == "my_reviews" %>
+  <div class="filter-card">
+    <% unless action_name == "my_reviews" %>
       <div class="filter-text">
-        <strong>🍽️ 
-          Use the filters below to quickly find favourite dishes, restaurants in your city.
-        </strong>
-      </div>
-    <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off", style: "display: flex; gap: 20px; justify-content: center; align-items: flex-end; flex-wrap: wrap;" } do %>
-      <div>
-        <% selected_city_id = params[:city_id].presence || @restaurant&.city_id %>
-
-        <%= select_tag :city_id,
-              options_for_select(
-                @cities.map { |c| [c.name, c.id] } + [["➕ Add City", "add_city"]],
-                selected_city_id
-              ),
-              include_blank: "All Cities",
-              onchange: "if (this.value === 'add_city') { window.location='#{new_city_path}'; }" %>
-
+        <strong>🍽️ Use the filters below to quickly find favourite dishes, restaurants in your city.</strong>
       </div>
 
-      <div>
-        <%= label_tag :dish_name, "Filter by Dish Name:" %>
-        <%= text_field_tag :dish_name, params[:dish_name] %>
-      </div>
+      <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off" } do %>
+        <div class="filter-group">
+          <% selected_city_id = params[:city_id].presence || @restaurant&.city_id %>
+          <%= select_tag :city_id,
+                options_for_select(
+                  @cities.map { |c| [c.name, c.id] } + [["➕ Add City", "add_city"]],
+                  selected_city_id
+                ),
+                include_blank: "All Cities",
+                class: "filter-input",
+                onchange: "if (this.value === 'add_city') { window.location='#{new_city_path}'; }" %>
+        </div>
 
-      <div>
-        <%= label_tag :restaurant_name, "Filter by Restaurant Name:" %>
-        <%= text_field_tag :restaurant_name, params[:restaurant_name] %>
-      </div>
+        <div class="filter-group">
+          <%= text_field_tag :dish_name, params[:dish_name], placeholder: "Dish Name", class: "filter-input" %>
+        </div>
 
-      <%= submit_tag "Apply Filters" %>
+        <div class="filter-group">
+          <%= text_field_tag :restaurant_name, params[:restaurant_name], placeholder: "Restaurant Name", class: "filter-input" %>
+        </div>
+
+        <%= submit_tag "Apply Filters", class: "btn-primary" %>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
+
 
   <table border=true>
       <th>Restaurant</th>
