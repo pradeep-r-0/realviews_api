@@ -1,30 +1,41 @@
-<div class= "welcome-container">
-  <div class = "welcome-block">
-    <h2 class="welcome-title">
-      🍽️ Welcome & thanks to your curiosity!
-    </h2>
-    
-   <ul class="welcome-list">
-    <li class="thinking-text">
-        🤔 Tired of reviews that only talk about restaurants? <br>
-    </li>
-    <li class="innovation">
-        😍 Here, you can <em>compare dishes across restaurants</em> 
-        and discover where your favorite meal truly shines.
-    </li>
-    <li class="my-time">
-        😎 You can also contribute by adding your own reviews
-    </li>
-    
-    <p class="explore">
-      Start exploring dishes by 👉<%= link_to "clicking here", dishes_path, class: "click" %>&#x1F448;
-    </p>
-    
-    <p class="cars">
-      Interested to track your car performance? <%= link_to "Click here", cars_path, class: "click" %>&#x1F697;
-    </p>
-    <p class="motto">
-      ✨ Our Motto: Helping you organize your thoughts to make wise decisions.
-    </p>
+<div class="welcome-container">
+  <div class="welcome-block">
+    <h2 class="welcome-title">🍽️ Welcome & Thanks for Your Curiosity!</h2>
+
+    <div class="welcome-cards">
+
+      <div class="welcome-card">
+        <div class="card-icon">🤔</div>
+        <p class="card-text">
+          Tired of reviews that only talk about restaurants?
+        </p>
+      </div>
+
+      <div class="welcome-card highlight">
+        <div class="card-icon">😍</div>
+        <p class="card-text">
+          Here, you can <em>compare dishes across restaurants</em> and discover where your favorite meal truly shines.
+        </p>
+      </div>
+
+      <div class="welcome-card">
+        <div class="card-icon">😎</div>
+        <p class="card-text">
+          You can also contribute by adding your own reviews.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="welcome-actions">
+      <p class="explore">
+        Start exploring dishes <%= link_to "Click here", dishes_path, class: "btn-link" %>&#x1F448;
+      </p>
+      <p class="cars">
+        Interested in tracking your car performance? <%= link_to "Click here", cars_path, class: "btn-link" %>&#x1F697;
+      </p>
+    </div>
+
+    <p class="motto">✨ Our Motto: Helping you organize your thoughts to make wise decisions.</p>
   </div>
 </div>
