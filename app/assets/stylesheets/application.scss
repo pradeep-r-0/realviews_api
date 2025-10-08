@@ -97,29 +97,66 @@ table td.rating a:hover {
 }
 
 .login-box {
-  display: flex;
-  justify-content: flex-end; /* move to right */
-  align-items: flex-start;   /* move to top */
-  height: 20px; /* just for demo */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;       /* align items horizontally */
+  gap: 10px;           /* space between Login and Signup */
+  align-items: center; /* vertical alignment */
 }
 
-.login-box ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+/* Buttons inside login-box */
+.login-box .btn {
+  margin: 0;           /* remove extra margins */
+  padding: 5px 12px;
+  font-size: 14px;
 }
 
 .header-container {
-  height: auto;
-  position: relative;
   display: flex;
-  justify-content: space-between; /* push title left, login right */
-  align-items: center;            /* vertical alignment */
-  padding: 10px 20px;
-  border-bottom: 1px solid #ccc;  /* optional separator */
-  overflow: visible;
+  flex-direction: column; /* stack children vertically */
+  align-items: center;    /* horizontally center all children */
+  position: relative;
 }
 
+/* Site title styling */
+.site-title h1 {
+  margin: 0;
+  text-align: center;
+}
+
+/* Scrolling message */
+.scrolling-message {
+  width: 50%;
+  overflow: hidden;
+  background-color: transparent; /* make background transparent */
+  padding: 3px 0;
+  margin: 5px 0;
+}
+
+.scrolling-message p {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: scroll 25s linear infinite;
+  font-weight: bold;
+  color: #0bb187;
+}
+
+.scrolling-message a {
+  color: #08499e;
+  text-decoration: underline;
+}
+
+.scrolling-message:hover p {
+  animation-play-state: paused;
+}
+
+/* Scroll animation */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
 /* Placeholder to balance layout */
 .header-left {
   width: 100px; /* approximate width of login-box */
@@ -152,7 +189,6 @@ table td.rating a:hover {
 header, .site-title {
   position: relative; /* only if you’re using absolute positioning */
   z-index: 10;        /* make sure it stays on top */
-  margin-bottom: 80px; /* adjust spacing from content */
 }
 
 
@@ -172,6 +208,7 @@ header, .site-title {
 
   .welcome-title {
     font-size: 2rem;
+    text-align: center;
   }
 }
 
@@ -252,9 +289,7 @@ header, .site-title {
 }
 
 .filter-text {
-  width: 80%;               /* block width smaller than page for centering */
-  margin: 10px 0;           /* centers the block horizontally */
-  padding: 20px 0px;
+  padding: 10px 0px;
   background: rgba(41, 180, 87, 50%);
   text-align: center;       /* centers heading and other elements */
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -265,8 +300,9 @@ body.page-dishes {
 }
 
 .food-link {
-  left: 124px;                     /* bottom-left corner */
+  left: 222px;                     /* bottom-left corner */
 }
+
 
 .food-link,
 .cars-link {
@@ -325,7 +361,6 @@ body.page-dishes {
   border-radius: 16px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.15);
   max-width: 900px;
-  text-align: center;
   animation: fadeIn 1s ease-in-out;
 }
 
@@ -336,6 +371,7 @@ body.page-dishes {
   background: linear-gradient(90deg, #ff8c00, #ff0080);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+   text-align: center;
 }
 
 .welcome-cards {
@@ -407,4 +443,19 @@ body.page-dishes {
 }
 
 
+/* Links layout */
+.links-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
 
+.cars-link, .food-link {
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+.cars-link i, .food-link i {
+  margin-left: 5px;
+}
