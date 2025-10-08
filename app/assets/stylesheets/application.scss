@@ -26,6 +26,15 @@ body {
   background-attachment: fixed;
 }
 
+.main-content {
+  background-color: rgba(255, 255, 255, 0.92); /* translucent white */
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin: 40px auto;
+  max-width: 1100px;
+}
+
 body::before {
   content: "";
   position: fixed;
@@ -38,36 +47,43 @@ body::before {
 }
 
 table {
+  width: 100%;
   border-collapse: collapse;
-  width: 90%;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  border-radius: 12px;
+  overflow: hidden;
   margin: 20px auto;
 }
 
-table th {
-  color: white;              /* makes text white */
-  padding: 5px;
-  text-align: center;
+th {
+  background-color: #004d40;
+  color: white;
+  text-align: left;
+  padding: 10px 12px;
+  font-weight: 600;
 }
 
-/* Body cells in bold orange */
-table td {
+td {
+  border-bottom: 1px solid #ddd;
   color: rgb(22, 3, 68);
   font-weight: bold;
-  padding: 5px;
+  padding: 7px;
   text-align: center;
-}
-
-table th {
-  background-color: rgba(0, 0, 0, 0.7); /* optional dark background for headers */
 }
 
 table tr:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.1); /* subtle striping */
+  background-color: #e8f5e9; /* subtle striping */
 }
 
 table tr:nth-child(odd) {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: #ffffff;
 }
+
+tr:hover {
+  background-color: #e0f2f1;
+  transition: 0.2s ease;
+}
+
 
 
 /* Target only links inside table headers */
