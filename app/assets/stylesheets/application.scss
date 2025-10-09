@@ -144,7 +144,6 @@ table td.rating a:hover {
 }
 
 .scrolling-message a {
-  color: #08499e;
   text-decoration: underline;
 }
 
@@ -179,6 +178,10 @@ table td.rating a:hover {
 
 .site-title {
   text-align: center; /* centers inline or inline-block children */
+}
+
+.site-title a:hover {
+  text-decoration: none; /* Removes underline on hover */
 }
 
 .site-title-link{
@@ -224,7 +227,6 @@ header, .site-title {
 
 .flash-messages {
   text-align: center;
-  margin: 10px 0;
 }
 
 .flash-messages .alert {
@@ -458,4 +460,19 @@ body.page-dishes {
 
 .cars-link i, .food-link i {
   margin-left: 5px;
+}
+
+.old-site {
+  color: gray;
+  text-decoration: none;
+}
+
+.new-site {
+  color: green;
+  text-decoration: none;
+}
+
+.old-site:hover,
+.new-site:hover {
+  text-decoration: underline;
 }
