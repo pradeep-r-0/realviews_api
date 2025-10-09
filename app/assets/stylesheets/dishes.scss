@@ -37,7 +37,7 @@
   width: 150px; /* fixed width for all labels, aligned left */
   text-align: left; /* ✅ labels aligned left */
   margin-right: 10px;
-  font-weight: 500;
+  font-weight: 600;
   color: #333;
 }
 
@@ -82,8 +82,8 @@
 
 /* Back link */
 a {
-  color: orange;
-  text-decoration: none;
+  color: rgb(17, 3, 70);
+  text-decoration: underline #01272c;
 }
 
 a:hover {
