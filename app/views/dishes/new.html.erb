@@ -1,73 +1,86 @@
-
-
 <%= form_with model: @dish, local: true, id: "dish-form", html: { autocomplete: "off" } do |form| %>
-    <div align='center'>
-        <h2 style="margin-top: 1px;">Add Review for a Dish</h2>
-        <div id="flash-message" style="color: red; font-weight: bold; margin-bottom: 10px; display: none;"></div>
-        <div class="form-group">
-            <%= form.label :city_name, "City"%><br>
-            <%= form.text_field :city_name, list: "city_names", required: true %>
-            
-            <datalist id="city_names">
-            <% @city_names.each do |name| %>
-                <option value="<%= name %>">
-            <% end %>
-            </datalist>
-        </div>
-        <div class="form-group">
-            <%= form.label :restaurant_name, "Restaurant Name" %><br>
-            <%= form.text_field :restaurant_name, list: "restaurant_names", required: true %>
+  <div align='center'>
+    <h2>Add Review for a Dish</h2>
+    <div id="flash-message"></div>
 
-            <datalist id="restaurant_names">
-            <% @restaurant_names.each do |name| %>
-                <option value="<%= name %>">
-            <% end %>
-            </datalist>
-        </div>
-
-        <div class="form-group">
-            <%= form.label :name, "Dish Name" %><br>
-            <%= form.text_field :name, required: true %>
-        </div>
-
-        <div class="form-group">
-            <%= form.label :rating, "Rating (1 to 5)" %><br>
-            <%= form.number_field :rating, in: 1..5, required: true %>
-        </div>
-
-        <div class="form-group">
-            <%= form.label :comments %><br>
-            <%= form.text_area :comments %>
-        </div>
-
-        <div class="form-group">
-          <%= form.submit "Create Dish" %>
-        </div>
-        <div>
-          <%= link_to "Back to List", dishes_path%>
-        </div>
+    <!-- City (Awesomplete) -->
+    <div class="form-group">
+      <%= form.label :city_name, "City" %><br>
+      <%= form.text_field :city_name, id: "city-input", class: "awesomplete", required: true %>
     </div>
+
+    <!-- Restaurant -->
+    <div class="form-group">
+      <%= form.label :restaurant_name, "Restaurant Name" %><br>
+      <%= form.text_field :restaurant_name, id: "restaurant-input", required: true %>
+    </div>
+
+    <!-- Dish Name -->
+    <div class="form-group">
+      <%= form.label :name, "Dish Name" %><br>
+      <%= form.text_field :name, required: true %>
+    </div>
+
+    <!-- Rating -->
+    <div class="form-group">
+      <%= form.label :rating, "Rating (1 to 5)" %><br>
+      <%= form.number_field :rating, in: 1..5, required: true %>
+    </div>
+
+    <!-- Comments -->
+    <div class="form-group">
+      <%= form.label :comments %><br>
+      <%= form.text_area :comments %>
+    </div>
+
+    <!-- Submit -->
+    <div class="form-group">
+      <%= form.submit "Add Review" %>
+    </div>
+
+    <div>
+      <%= link_to "Back to List", dishes_path %>
+    </div>
+  </div>
 <% end %>
 
+<!-- ✅ Awesomplete JS -->
+<link rel="stylesheet" href="https://leaverou.github.io/awesomplete/awesomplete.css">
+<script src="https://leaverou.github.io/awesomplete/awesomplete.min.js"></script>
+
+<!-- ✅ Initialize Awesomplete -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("#dish-form"); // pick correct form
-    const cityInput = document.querySelector("#dish_city_name"); // Rails auto-id
+    const form = document.querySelector("#dish-form");
+    const cityInput = document.querySelector("#city-input");
+    const restaurantInput = document.querySelector("#restaurant-input");
     const flashDiv = document.querySelector("#flash-message");
 
-    if (!form) return; // safety
+    const cities = <%= raw @city_names.to_json %>;
+    const restaurants = <%= raw @restaurant_names.to_json %>;
+
+    new Awesomplete(cityInput, {
+      list: cities,
+      minChars: 1,
+      maxItems: 10,
+      autoFirst: true
+    });
+
+    new Awesomplete(restaurantInput, {
+      list: restaurants,
+      minChars: 1,
+      maxItems: 10,
+      autoFirst: true
+    });
 
     form.addEventListener("submit", (e) => {
-      const validCities = Array.from(document.querySelectorAll("#city_names option"))
-                              .map(opt => opt.value);
-
-      if (!validCities.includes(cityInput.value)) {
-        e.preventDefault(); // stop form submission
-        flashDiv.textContent = "Please select a valid city from the dropdown.";
+      if (!cities.includes(cityInput.value)) {
+        e.preventDefault();
+        flashDiv.textContent = "Please select a valid city from the suggestions.";
         flashDiv.style.display = "block";
         cityInput.focus();
       } else {
-        flashDiv.style.display = "none"; // clear error if valid
+        flashDiv.style.display = "none";
       }
     });
   });
