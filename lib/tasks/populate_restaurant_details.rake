@@ -16,11 +16,11 @@ namespace :restaurants do
         place = results.first
 
         # Parse address components
-        address_parts = place.formatted_address.split(",").map(&:strip)
-        city    = address_parts[-3] || nil
-        state   = address_parts[-2] || nil
-        country = address_parts[-1] || nil
-        name    = place.name || restaurant.name
+        parts = place.formatted_address.split(",").map(&:strip)
+        country_name = parts.pop
+        state_name   = parts.pop
+        city_name    = parts.pop 
+        restaurant_name = parts.join(", ")
 
         restaurant.update(
           name: name
