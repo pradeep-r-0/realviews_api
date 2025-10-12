@@ -23,15 +23,15 @@ namespace :restaurants do
         restaurant_name = parts.join(", ")
 
         restaurant.update(
-          name: name
+          name: restaurant_name
         )
         restaurant.city.update(
-          name: city,
-          state: state,
-          country: country
+          name: city_name,
+          state: state_name,
+          country: country_name
         )
 
-        puts "Updated: #{name} | #{city}, #{state}, #{country}"
+        puts "Updated: #{restaurant_name} | #{city_name}, #{state_name}, #{country_name}"
       else
         puts "No results for: #{restaurant.name}"
       end
