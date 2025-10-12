@@ -8,6 +8,9 @@ gem "sib-api-v3-sdk"
 # for pagination
 gem "kaminari"
 
+# Gemfile
+gem 'google_places', '~> 2.0.0'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.2"
 # Use postgresql as the database for Active Record

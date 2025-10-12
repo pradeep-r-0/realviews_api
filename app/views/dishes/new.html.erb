@@ -3,16 +3,10 @@
     <h2>Add Review for a Dish</h2>
     <div id="flash-message"></div>
 
-    <!-- City (Awesomplete) -->
-    <div class="form-group">
-      <%= form.label :city_name, "City" %><br>
-      <%= form.text_field :city_name, id: "city-input", class: "awesomplete", required: true %>
-    </div>
-
     <!-- Restaurant -->
     <div class="form-group">
       <%= form.label :restaurant_name, "Restaurant Name" %><br>
-      <%= form.text_field :restaurant_name, id: "restaurant-input", required: true %>
+      <%= form.text_field :restaurant_name, id: "restaurant-input", required: true, placeholder: "Start typing restaurant name..." %>
     </div>
 
     <!-- Dish Name -->
@@ -52,36 +46,26 @@
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("#dish-form");
-    const cityInput = document.querySelector("#city-input");
     const restaurantInput = document.querySelector("#restaurant-input");
     const flashDiv = document.querySelector("#flash-message");
 
-    const cities = <%= raw @city_names.to_json %>;
-    const restaurants = <%= raw @restaurant_names.to_json %>;
-
-    new Awesomplete(cityInput, {
-      list: cities,
-      minChars: 1,
-      maxItems: 10,
-      autoFirst: true
-    });
-
-    new Awesomplete(restaurantInput, {
-      list: restaurants,
-      minChars: 1,
-      maxItems: 10,
-      autoFirst: true
-    });
-
-    form.addEventListener("submit", (e) => {
-      if (!cities.includes(cityInput.value)) {
-        e.preventDefault();
-        flashDiv.textContent = "Please select a valid city from the suggestions.";
-        flashDiv.style.display = "block";
-        cityInput.focus();
-      } else {
-        flashDiv.style.display = "none";
-      }
-    });
-  });
 </script>
+  <!-- Google Maps Places API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%=ENV['GOOGLE_PLACES_API_KEY']%>&libraries=places"></script>
+  <script>
+    function initAutocomplete() {
+      var input = document.getElementById('restaurant-input');
+
+      // Set types to establishments (restaurants, shops, etc.)
+      var autocomplete = new google.maps.places.Autocomplete(input, {
+        types: ['establishment']
+      });
+
+      autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+        // You can optionally use place.name, place.formatted_address, etc.
+      });
+  }
+
+    google.maps.event.addDomListener(window, 'load', initAutocomplete);
+  </script>

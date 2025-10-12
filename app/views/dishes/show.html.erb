@@ -1,11 +1,31 @@
-<div align='center' style="border: 2px solid black;">
-    <h2>Dish Details</h2>
+<div class="dish-details-card">
+  <h2>Dish Details</h2>
 
-    <p><strong>Restaurant:</strong> <%= @dish.restaurant.name %></p>
-    <p><strong>Dish Name:</strong> <%= @dish.name %></p>
-    <p><strong>Rating:</strong> <%= @dish.rating %></p>
-    <p><strong>Comments:</strong> <%= @dish.comments %></p>
+  <div class="show-fields">
+    <div class="field">
+      <span class="label">Restaurant:</span>
+      <span class="value"><%= @dish.restaurant.name %></span>
+    </div>
 
-    <ul><%= link_to "Review another Dish", new_dish_path%></ul>
-    <ul><%= link_to "Back to List", dishes_path%></ul>
+    <div class="field">
+      <span class="label">Dish Name:</span>
+      <span class="value"><%= @dish.name %></span>
+    </div>
+
+    <div class="field">
+      <span class="label">Rating:</span>
+      <span class="value"><%= @dish.rating %></span>
+    </div>
+
+    <div class="field">
+      <span class="label">Comments:</span>
+      <span class="value"><%= @dish.comments %></span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= link_to "Review another Dish", new_dish_path, class: "btn" %>
+    <%= link_to "Back to List", dishes_path, class: "btn" %>
+  </div>
 </div>
+

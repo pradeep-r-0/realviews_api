@@ -84,8 +84,15 @@ class DishesController < ApplicationController
   end
 
   def assign_restaurant
-    restaurant_name=params[:dish].delete(:restaurant_name)
-    city = City.find_or_initialize_by(name: params[:dish].delete(:city_name))
+    restaurant_details = params[:dish].delete(:restaurant_name)
+    parts = restaurant_details.split(",").map(&:strip)
+    country_name = parts.pop
+    state_name   = parts.pop
+    city_name    = parts.pop 
+    restaurant_name = parts.join(", ")
+    city = City.find_or_initialize_by(name: city_name, state: state_name, country: country_name)
+    city.save! if city.new_record?
+
     @restaurant = Restaurant.find_or_initialize_by(name: restaurant_name, city_id: city.id)
     return @restaurant unless @restaurant.new_record?
     @restaurant.save
@@ -94,7 +101,6 @@ class DishesController < ApplicationController
   end
 
   def set_city_and_restaurants
-    @city_names = City.approved.order(:name).pluck(:name).compact
     @restaurant_names = Restaurant.distinct.order(:name).pluck(:name).compact
   end
 end

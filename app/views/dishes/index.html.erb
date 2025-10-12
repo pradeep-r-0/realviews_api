@@ -1,74 +1,86 @@
-<div align='center'>
-<div class="filter-card">
-  <% unless action_name == "my_reviews" %>
-    <div class="filter-text">
-      <strong>🍽️ Use the filters below to quickly find favourite dishes, restaurants in your city.</strong>
+<div class="page-container" align="center">
+  <div class="filters-section <%= 'hidden' if flash[:notice].present? %>">
+    <!-- your existing filter-card here -->
+    <div class="filter-card shadow-lg">
+      <% unless action_name == "my_reviews" %>
+        <div class="filter-header">
+          <h2>🍽️ Discover Your Next Favourite Dish</h2>
+          <p>Use the filters below to explore restaurants and dishes in your city.</p>
+        </div>
+
+        <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off", class: "filter-form" } do %>
+          <div class="filter-group">
+            <% selected_city_id = params[:city_id].presence || @restaurant&.city_id %>
+            <%= select_tag :city_id,
+                  options_for_select(
+                    @cities.map { |c| [c.name, c.id] } + [["➕ Add City", "add_city"]],
+                    selected_city_id
+                  ),
+                  include_blank: "🌆 All Cities",
+                  class: "filter-input",
+                  onchange: "if (this.value === 'add_city') { window.location='#{new_city_path}'; }" %>
+          </div>
+
+          <div class="filter-group">
+            <%= text_field_tag :dish_name, params[:dish_name], placeholder: "🍛 Dish Name", class: "filter-input" %>
+          </div>
+
+          <div class="filter-group">
+            <%= text_field_tag :restaurant_name, params[:restaurant_name], placeholder: "🏨 Restaurant Name", class: "filter-input" %>
+          </div>
+
+          <%= submit_tag "🔍 Apply Filters", class: "btn-apply" %>
+        <% end %>
+      <% end %>
     </div>
+  </div>
 
-    <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off" } do %>
-      <div class="filter-group">
-        <% selected_city_id = params[:city_id].presence || @restaurant&.city_id %>
-        <%= select_tag :city_id,
-              options_for_select(
-                @cities.map { |c| [c.name, c.id] } + [["➕ Add City", "add_city"]],
-                selected_city_id
-              ),
-              include_blank: "All Cities",
-              class: "filter-input",
-              onchange: "if (this.value === 'add_city') { window.location='#{new_city_path}'; }" %>
-      </div>
+  <div class="table-wrapper">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Restaurant</th>
+          <th>Dish</th>
+          <th>
+            <% new_direction =
+                params[:sort_column] == "rating" && params[:sort_direction] == "asc" ? "desc" : "asc" %>
+            <%= link_to url_for(params.permit!.to_h.merge(sort_column: "rating", sort_direction: new_direction)),
+                        class: "sort-link #{'active' if params[:sort_column] == 'rating'}" do %>
+              ⭐ Rating
+              <span class="arrow">
+                <% if params[:sort_column] == "rating" %>
+                  <%= params[:sort_direction] == "asc" ? "↑" : "↓" %>
+                <% else %>
+                  ⇅
+                <% end %>
+              </span>
+            <% end %>
+          </th>
+          <th>💬 Comments</th>
+          <th>🏙️ City</th>
+        </tr>
+      </thead>
 
-      <div class="filter-group">
-        <%= text_field_tag :dish_name, params[:dish_name], placeholder: "Dish Name", class: "filter-input" %>
-      </div>
-
-      <div class="filter-group">
-        <%= text_field_tag :restaurant_name, params[:restaurant_name], placeholder: "Restaurant Name", class: "filter-input" %>
-      </div>
-
-      <%= submit_tag "Apply Filters", class: "btn-primary" %>
-    <% end %>
-  <% end %>
-</div>
-
-
-  <table border=true>
-      <th>Restaurant</th>
-      <th> Dish</th>
-      <th>
-      <% new_direction =
-          params[:sort_column] == "rating" && params[:sort_direction] == "asc" ? "desc" : "asc" %>
-
-      <%= link_to url_for(params.permit!.to_h.merge(sort_column: "rating", sort_direction: new_direction)),
-                  class: "sort-link #{'active' if params[:sort_column] == 'rating'}" do %>
-        Rating
-        <span class="arrow">
-          <% if params[:sort_column] == "rating" %>
-            <%= params[:sort_direction] == "asc" ? "↑" : "↓" %>
-          <% else %>
-            ⇅
-          <% end %>
-        </span>
-      <% end %>
-      </th>
-      <th> Comments </th>
-      <th> City </th>
-      <% @dishes.each do |dish| %>
+      <tbody>
+        <% @dishes.each do |dish| %>
           <tr>
-              <td><%=link_to dish.restaurant&.name, dishes_restaurant_path(dish.restaurant)%></td>
-              <td><%= dish.name %></td>
-              <td><%= dish.rating %></td>
-              <td><%= dish.comments %></td>
-              <td><%= dish.restaurant.city.name %></td>
+            <td><%= link_to dish.restaurant&.name, dishes_restaurant_path(dish.restaurant), class: "restaurant-link" %></td>
+            <td><%= dish.name %></td>
+            <td><%= dish.rating %></td>
+            <td><%= dish.comments %></td>
+            <td><%= dish.restaurant.city.name %></td>
           </tr>
-      <% end %>
-  </table>
-  <ul>
-    <li><%= link_to "Add Review", new_dish_path, class: "btn btn-primary" %></li>
-    <li><%= link_to "Back to List", dishes_path%></li>
-  </ul>
-</div>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-<div class="pagination" align="center">
-  <%= paginate @dishes %>
+  <div class="actions">
+    <%= link_to "➕ Add Review", new_dish_path, class: "btn-action" %>
+    <%= link_to "⬅️ Back to List", dishes_path, class: "btn-secondary" %>
+  </div>
+
+  <div class="pagination" align="center">
+    <%= paginate @dishes %>
+  </div>
 </div>

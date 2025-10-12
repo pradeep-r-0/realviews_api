@@ -1,5 +1,5 @@
 <div align="center">
-<h1>Sign in with email</h1>
+<h1>Sign in</h1>
 <%= form_with url: login_otp_send_path, local: true, authenticity_token: true, html: {autocomplete: "off"} do |f| %>
   <%= label_tag :email %>
   <%= text_field_tag :email, nil, required: true, autocomplete: "off" %>
