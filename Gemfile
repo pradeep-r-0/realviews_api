@@ -8,6 +8,7 @@ gem "sib-api-v3-sdk"
 # for pagination
 gem "kaminari"
 
+gem 'geocoder'
 # Gemfile
 gem 'google_places', '~> 2.0.0'
 

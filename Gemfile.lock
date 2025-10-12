@@ -120,6 +120,9 @@ GEM
     fugit (1.11.2)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
+    geocoder (1.8.6)
+      base64 (>= 0.1.0)
+      csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     google_places (2.0.0)
@@ -413,6 +416,7 @@ DEPENDENCIES
   brakeman (~> 7.1)
   debug
   dotenv-rails
+  geocoder
   google_places (~> 2.0.0)
   kamal
   kaminari
