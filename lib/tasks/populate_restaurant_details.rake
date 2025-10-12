@@ -4,7 +4,6 @@ namespace :restaurants do
     require 'google_places'
     require 'geocoder'
 
-    client = GooglePlaces::Client.new(ENV['GOOGLE_PLACES_API_KEY'])
 
     Restaurant.includes(:city).find_each do |restaurant|
       city_name = restaurant.city&.name
@@ -20,35 +19,47 @@ namespace :restaurants do
         end
 
         lat, lng = city_coords
-        radius = 20000 # 40 km search radius
+        radius = 20000 # 20 km search radius
 
         # Search restaurant near its city
-        results = client.spots(lat, lng, name: restaurant.name, radius: radius, types: ['restaurant'])
+        # Build URL for Places Autocomplete
+        url = URI("https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
+          URI.encode_www_form(
+            input: restaurant.name,
+            types: 'establishment',
+            key: ENV['GOOGLE_PLACES_API_KEY'],
+            location: "#{lat},#{lng}",
+            radius: 20000,        # 20 km around Hyderabad center
+            strictbounds: true    # ensures results stay within the radius
+          )
+        )
+        response = Net::HTTP.get(url)
+        results = JSON.parse(response)
+
 
         if results.any?
-          place = results.select{|x| x[:name]}.first
-
-          name = place.name
-          formatted_address = place.formatted_address
+          place = results["predictions"].first
+          formatted_address = place["description"]
 
           # Parse address components
           parts = formatted_address.split(",").map(&:strip)
           country_name = parts.pop
           state_name   = parts.pop
           city_name    = parts.pop
-          restaurant_details = parts.join(", ")
+          restaurant_name = parts.join(", ")
 
           # Update or create city
-          city = City.find_or_initialize_by(name: city_name, state: state_name, country: country_name)
-          city.save! if city.new_record?
+          city = City.find_or_initialize_by(name: city_name)
+          city.assign_attributes(state: state_name, country: country_name)
+          city.save! if city.changed?
 
           # Update restaurant record
           restaurant.update!(
-            name: name,
+            name: restaurant_name,
             city_id: city.id
           )
 
-          puts "✅ Updated: #{name} | #{city_name}, #{state_name}, #{country_name}"
+          puts "✅ Updated: #{restaurant_name} | #{city_name}, #{state_name}, #{country_name}"
         else
           puts "⚠️ No results for: #{restaurant.name}"
         end
