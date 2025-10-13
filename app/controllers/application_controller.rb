@@ -40,8 +40,9 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    unless user_logged_in?
-      redirect_to login_otp_path, alert: "Please login first"
-    end
+    return unless ActiveModel::Type::Boolean.new.cast(ENV["MANDATE_LOGIN"])
+    return if user_logged_in?
+
+    redirect_to login_otp_path, alert: "Please login first"
   end
 end

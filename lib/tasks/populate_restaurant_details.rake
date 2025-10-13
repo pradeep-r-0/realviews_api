@@ -29,7 +29,7 @@ namespace :restaurants do
             types: 'establishment',
             key: ENV['GOOGLE_PLACES_API_KEY'],
             location: "#{lat},#{lng}",
-            radius: 20000,        # 20 km around Hyderabad center
+            radius: 40000,        # 40 km around cityS center
             strictbounds: true    # ensures results stay within the radius
           )
         )
