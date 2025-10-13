@@ -1,5 +1,5 @@
 class FuelTopupsController < ApplicationController
-  before_action :require_login, only: %i[index]
+  before_action :require_login, only: %i[index new]
   before_action :set_car
 
   def new
@@ -30,4 +30,5 @@ class FuelTopupsController < ApplicationController
     params.require(:fuel_topup).permit(:brand, :rate_per_litre, :price, :odometer_reading,
                                        :topup_date, :state, :fuel_type)
   end
+
 end
