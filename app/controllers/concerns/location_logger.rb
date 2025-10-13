@@ -18,7 +18,7 @@ module LocationLogger
     return if user_ip.blank? || user_ip == "127.0.0.1" || user_ip == "::1"
 
     begin
-      uri = URI("https://ipapi.co/#{user_ip}/json/")
+      uri = URI("https://ipinfo.io/#{user_ip}/json/")
       response = Net::HTTP.get(uri)
       data = JSON.parse(response)
 
