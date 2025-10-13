@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include LocationLogger
+  
   helper_method :current_user, :user_logged_in?
   before_action :check_session_timeout
 
