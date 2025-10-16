@@ -25,7 +25,7 @@ module LocationLogger
       location_info = [
         data["city"],
         data["region"],
-        data["country_name"]
+        data["country"]
       ].compact.join(", ")
 
       user_label = user_logged_in? ? "User #{current_user.id}" : "Guest"
