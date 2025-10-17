@@ -14,6 +14,7 @@ gem 'google_places', '~> 2.0.0'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.2"
+gem "rails-ujs"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
@@ -65,3 +66,5 @@ end
 
 gem "sidekiq"
 gem "sidekiq-cron"
+
+gem "jsbundling-rails", "~> 1.3"

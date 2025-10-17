@@ -1,0 +1,134 @@
+/* app/assets/stylesheets/balance_sheets.css */
+
+/* Center all content in balance sheets pages */
+.balance-sheets-page {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styling */
+.balance-sheets-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.balance-sheets-page th, 
+.balance-sheets-page td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.balance-sheets-page th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.balance-sheets-page td {
+  background-color: #ffffff;
+}
+
+/* Buttons styling */
+.balance-sheets-page a.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.balance-sheets-page a.btn:hover {
+  background-color: #45a049;
+}
+
+/* Headings */
+.balance-sheets-page h1, 
+.balance-sheets-page h2, 
+.balance-sheets-page h3 {
+  margin-bottom: 20px;
+}
+
+/* Notes styling */
+.balance-sheets-page .notes {
+  margin: 20px 0;
+  font-style: italic;
+}
+
+.balance-sheets-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.balance-sheets-form .form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px; /* space between label and input */
+}
+
+.balance-sheets-form .form-group label {
+  width: 120px; /* fixed width for all labels */
+  text-align: right; /* aligns label text to the right */
+  font-weight: bold;
+}
+
+.balance-sheets-form .form-group input,
+.balance-sheets-form .form-group select {
+  flex: 1; /* input/select takes the remaining space */
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.expense-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #f8f8f8;
+  margin-bottom: 10px;
+}
+
+.expense-fields .form-group {
+  display: flex;
+  align-items: center;
+}
+
+.expense-fields .form-group label {
+  width: 140px;
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  .balance-sheets-form .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .balance-sheets-form .form-group label {
+    width: auto;
+    text-align: left;
+  }
+
+  .balance-sheets-form .form-group input,
+  .balance-sheets-form .form-group select {
+    width: 100%;
+  }
+}
+

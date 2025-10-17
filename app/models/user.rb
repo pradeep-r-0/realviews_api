@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :dishes
   has_many :ownerships
   has_many :cars, through: :ownerships
+  has_many :balance_sheets
   # Validations
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 

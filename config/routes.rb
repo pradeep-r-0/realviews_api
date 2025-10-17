@@ -50,10 +50,16 @@ Rails.application.routes.draw do
   post "login/otp/send",     to: "sessions#send_otp" # triggers email
   get  "login/otp/verify",   to: "sessions#verify", as: :verify_otp   # form to enter otp
   post "login/otp/confirm",  to: "sessions#confirm",  as: :validate_otp# checks otp and signs in
-  delete "logout",           to: "sessions#destroy"
+  delete "logout",           to: "sessions#destroy", as: :logout
 
   get  "/signup",  to: "registrations#new", as: :signup
   post "/signup",  to: "registrations#create"
 
   get "cities/new",  to: "cities#new"
+
+  resources :balance_sheets do
+    collection do
+      post 'generate', to: 'balance_sheets#generate'
+    end
+  end
 end

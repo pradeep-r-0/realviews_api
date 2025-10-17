@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_16_170440) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_17_093531) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "balance_sheets", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "month", null: false
+    t.integer "year", null: false
+    t.decimal "total_income", precision: 12, scale: 2, default: "0.0", null: false
+    t.decimal "total_expense", precision: 12, scale: 2, default: "0.0", null: false
+    t.decimal "net_balance", precision: 12, scale: 2, default: "0.0", null: false
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "year", "month"], name: "index_balance_sheets_on_user_id_and_year_and_month", unique: true
+    t.index ["user_id"], name: "index_balance_sheets_on_user_id"
+  end
 
   create_table "car_makes", force: :cascade do |t|
     t.string "name"
@@ -49,6 +63,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_16_170440) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_dishes_on_user_id"
+  end
+
+  create_table "expenses", force: :cascade do |t|
+    t.bigint "balance_sheet_id", null: false
+    t.string "description"
+    t.decimal "amount"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["balance_sheet_id"], name: "index_expenses_on_balance_sheet_id"
   end
 
   create_table "fuel_prices", force: :cascade do |t|
@@ -106,8 +130,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_16_170440) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "balance_sheets", "users"
   add_foreign_key "cars", "car_makes"
   add_foreign_key "dishes", "users"
+  add_foreign_key "expenses", "balance_sheets"
   add_foreign_key "fuel_topups", "cars"
   add_foreign_key "ownerships", "cars"
   add_foreign_key "ownerships", "users"

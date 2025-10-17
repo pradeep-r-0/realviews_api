@@ -1,0 +1,38 @@
+<!-- app/views/balance_sheets/index.html.erb -->
+<div class="balance-sheets-page">
+  <h1>Your Balance Sheets</h1>
+
+  <%= link_to "New Balance Sheet", new_balance_sheet_path, class: "button" %>
+
+  <%= button_to "Generate Current Month",
+        generate_balance_sheets_path,
+        method: :post,
+        params: { year: Date.current.year, month: Date.current.month },
+        class: "button" %>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Period</th>
+        <th>Total Income</th>
+        <th>Total Expense</th>
+        <th>Net</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @balance_sheets.each do |b| %>
+        <tr>
+          <td><%= link_to "#{Date::MONTHNAMES[b.month]} #{b.year}", balance_sheet_path(b) %></td>
+          <td><%= number_with_precision(b.total_income, precision: 2) %></td>
+          <td><%= number_with_precision(b.total_expense, precision: 2) %></td>
+          <td><%= number_with_precision(b.net_balance, precision: 2) %></td>
+          <td>
+            <%= link_to 'Edit', edit_balance_sheet_path(b) %> |
+            <%= link_to 'Delete', balance_sheet_path(b), method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,7 +1,6 @@
 <div class="welcome-container">
   <div class="welcome-block">
     <h2 class="welcome-title">🍽️ Welcome & Thanks for Your Curiosity!</h2>
-
     <div class="welcome-cards">
 
       <div class="welcome-card">
@@ -33,6 +32,13 @@
       </p>
       <p class="cars">
         Interested in tracking your car performance? <%= link_to "Click here", cars_path, class: "btn-link" %>&#x1F697;
+      </p>
+      <p class="balance-sheet">
+        <% if current_user.present? %>
+          <%= link_to "Balance Sheets", balance_sheets_path %>
+        <% else %>
+          <%= link_to "Balance Sheets", login_otp_path %>
+        <% end %>
       </p>
     </div>
 

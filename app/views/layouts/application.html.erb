@@ -3,11 +3,12 @@
   <head>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>
+    <script type="module" src="/assets/application.js"></script>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= favicon_link_tag 'favicon.ico' %>
     <!-- app/views/layouts/application.html.erb inside <head> -->
     <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
 
   </head>
   <body class="<%= body_class %>">
