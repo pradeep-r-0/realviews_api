@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_17_093531) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_17_155037) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,6 +24,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_17_093531) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "carry_forward", precision: 12, scale: 2
     t.index ["user_id", "year", "month"], name: "index_balance_sheets_on_user_id_and_year_and_month", unique: true
     t.index ["user_id"], name: "index_balance_sheets_on_user_id"
   end

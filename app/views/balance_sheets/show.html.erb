@@ -1,44 +1,34 @@
-<!-- app/views/balance_sheets/_form.html.erb -->
+<!-- app/views/balance_sheets/show.html.erb -->
+<div class="balance-sheets-page">
+  <h1>Balance Sheet for <%= Date::MONTHNAMES[@balance_sheet.month] %>, <%= @balance_sheet.year %></h1>
 
-<%= form_with(model: @balance_sheet, local: true) do |f| %>
-  <div class="balance-sheets-form">
-    <div class="form-group">
-      <%= f.label :year %>
-      <%= f.number_field :year %>
-    </div>
+  <p><strong>Total Income:</strong> <%= @balance_sheet.total_income %></p>
+  <p><strong>Carry Forward:</strong> <%= @balance_sheet.carry_forward %></p>
 
-    <div class="form-group">
-      <%= f.label :month %>
-      <%= f.select :month, (1..12).map { |m| [Date::MONTHNAMES[m], m] } %>
-    </div>
+  <h3>Expenses</h3>
+  <% if @balance_sheet.expenses.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @balance_sheet.expenses.each do |expense| %>
+          <tr>
+            <td><%= expense.description %></td>
+            <td><%= expense.amount %></td>
+            <td><%= expense.date.strftime("%d-%m-%Y") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No expenses recorded.</p>
+  <% end %>
 
-    <div class="form-group">
-      <%= f.label :total_income %>
-      <%= f.number_field :total_income, step: 0.01 %>
-    </div>
-
-    <h3>Expenses</h3>
-    <div id="expenses">
-      <%= f.fields_for :expenses do |expense_form| %>
-        <div class="form-group">
-          <%= expense_form.label :description %>
-          <%= expense_form.text_field :description %>
-        </div>
-
-        <div class="form-group">
-          <%= expense_form.label :amount %>
-          <%= expense_form.number_field :amount, step: 0.01 %>
-        </div>
-
-        <div class="form-group">
-          <%= expense_form.label :date %>
-          <%= expense_form.date_field :date %>
-        </div>
-      <% end %>
-    </div>
-
-    <div>
-      <%= f.submit "Update Balance Sheet", class: "btn" %>
-    </div>
-  </div>
-<% end %>
+  <%= link_to "Edit Balance Sheet", edit_balance_sheet_path(@balance_sheet), class: "btn" %>
+  <%= link_to "Back", balance_sheets_path, class: "btn" %>
+</div>

@@ -1,27 +1,26 @@
-document.addEventListener("turbo:load", () => {
+document.addEventListener("turbo:load", setupAddExpense);
+document.addEventListener("DOMContentLoaded", setupAddExpense);
+
+function setupAddExpense() {
   const addBtn = document.getElementById("add-expense-btn");
   const container = document.getElementById("expenses-container");
-  const templateDiv = document.getElementById("expense-template");
+  const template = document.getElementById("expense-template");
 
-  if (!addBtn || !container || !templateDiv) return;
+  if (!addBtn || !container || !template) return;
 
-  const templateHTML = templateDiv.innerHTML;
+  addBtn.onclick = (e) => {
+    e.preventDefault();
 
-  function attachRemoveButtons() {
-    document.querySelectorAll(".remove-expense-btn").forEach(btn => {
-      btn.onclick = function() {
-        const wrapper = this.closest(".expense-fields");
-        if (wrapper) wrapper.remove();
-      }
-    });
-  }
+    const html = template.innerHTML.replace(/NEW_RECORD/g, new Date().getTime());
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = html;
+    container.appendChild(wrapper.firstElementChild);
+  };
 
-  attachRemoveButtons(); // attach for existing fields
-
-  addBtn.addEventListener("click", () => {
-    const uniqueId = new Date().getTime();
-    const newHTML = templateHTML.replace(/NEW_RECORD/g, uniqueId);
-    container.insertAdjacentHTML("beforeend", newHTML);
-    attachRemoveButtons(); // attach to new field
+  document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("remove-expense")) {
+      e.preventDefault();
+      e.target.closest(".expense-fields").remove();
+    }
   });
-});
+}
