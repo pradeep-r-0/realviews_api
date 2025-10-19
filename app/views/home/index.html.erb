@@ -1,6 +1,6 @@
 <div class="welcome-container">
   <div class="welcome-block">
-    <h2 class="welcome-title">🍽️ Welcome & Thanks for Your Curiosity!</h2>
+    <h2 class="welcome-title"> Welcome🙏</h2>
     <div class="welcome-cards">
 
       <div class="welcome-card">
@@ -17,13 +17,6 @@
         </p>
       </div>
 
-      <div class="welcome-card">
-        <div class="card-icon">😎</div>
-        <p class="card-text">
-          You can also contribute by adding your own reviews.
-        </p>
-      </div>
-
     </div>
 
     <div class="welcome-actions">
@@ -31,16 +24,18 @@
         Start exploring dishes <%= link_to "Click here", dishes_path, class: "btn-link" %>&#x1F448;
       </p>
       <p class="cars">
-        Interested in tracking your car performance? <%= link_to "Click here", cars_path, class: "btn-link" %>&#x1F697;
+        Track your car efficiency? <%= link_to "Click here", cars_path, class: "btn-link" %>&#x1F697;
       </p>
+
       <p class="balance-sheet">
+        💰 Manage your finances
         <% if current_user.present? %>
-          <%= link_to "Balance Sheets", balance_sheets_path %>
+          <%= link_to "Click here", balance_sheets_path, class: "btn-link" %>&#x1F448;
         <% else %>
-          <%= link_to "Balance Sheets", login_otp_path %>
+          <%= link_to "Click here", login_otp_path, class: "btn-link" %>&#x1F448;
         <% end %>
-      </p>
-    </div>
+      </div>
+    </p>
 
     <p class="motto">✨ Our Motto: Helping you organize your thoughts to make wise decisions.</p>
   </div>

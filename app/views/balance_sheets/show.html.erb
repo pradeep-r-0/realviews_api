@@ -2,8 +2,8 @@
 <div class="balance-sheets-page">
   <h1>Balance Sheet for <%= Date::MONTHNAMES[@balance_sheet.month] %>, <%= @balance_sheet.year %></h1>
 
-  <p><strong>Total Income:</strong> <%= @balance_sheet.total_income %></p>
-  <p><strong>Carry Forward:</strong> <%= @balance_sheet.carry_forward %></p>
+  <p><strong>Total Income (₹):</strong> <%= @balance_sheet.total_income %></p>
+  <p><strong>Carry Forward (₹):</strong> <%= @balance_sheet.carry_forward %></p>
 
   <h3>Expenses</h3>
   <% if @balance_sheet.expenses.any? %>
@@ -11,7 +11,7 @@
       <thead>
         <tr>
           <th>Description</th>
-          <th>Amount</th>
+          <th>Amount (₹)</th>
           <th>Date</th>
         </tr>
       </thead>
