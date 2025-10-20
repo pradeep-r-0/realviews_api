@@ -1,41 +1,39 @@
 <div class="welcome-container">
   <div class="welcome-block">
-    <h2 class="welcome-title"> Welcome🙏</h2>
-    <div class="welcome-cards">
-
-      <div class="welcome-card">
-        <div class="card-icon">🤔</div>
-        <p class="card-text">
-          Tired of reviews that only talk about restaurants?
-        </p>
-      </div>
-
-      <div class="welcome-card highlight">
-        <div class="card-icon">😍</div>
-        <p class="card-text">
-          Here, you can <em>compare dishes across restaurants</em> and discover where your favorite meal truly shines.
-        </p>
-      </div>
-
-    </div>
-
+    <h2 class="welcome-title"> Welcome <span class="emoji">🙏</span></h2>
     <div class="welcome-actions">
-      <p class="explore">
-        Start exploring dishes <%= link_to "Click here", dishes_path, class: "btn-link" %>&#x1F448;
-      </p>
-      <p class="cars">
-        Track your car efficiency? <%= link_to "Click here", cars_path, class: "btn-link" %>&#x1F697;
-      </p>
+      <div class="card">
+        <div class="card-icon">🍽️</div>
+        <h3 class="card-title">Explore Dishes</h3>
+        <p class="card-text">
+          Discover popular foods and share your dining experiences.
+        </p>
+        <%= link_to "Click here", dishes_path, class: "btn-link" %> &#x1F448;
+      </div>
 
-      <p class="balance-sheet">
-        💰 Manage your finances
+      <div class="card">
+        <div class="card-icon">🚗</div>
+        <h3 class="card-title">Track Car Efficiency</h3>
+        <p class="card-text">
+          Monitor fuel top-ups and mileage to manage your car’s performance.
+        </p>
+        <%= link_to "Click here", cars_path, class: "btn-link" %> &#x1F448;
+      </div>
+
+      <div class="card">
+        <div class="card-icon">💰</div>
+        <h3 class="card-title">Manage Finances</h3>
+        <p class="card-text">
+          Record and analyze your daily expenses and balances.
+        </p>
         <% if current_user.present? %>
-          <%= link_to "Click here", balance_sheets_path, class: "btn-link" %>&#x1F448;
+          <%= link_to "Click here", balance_sheets_path, class: "btn-link" %> &#x1F448;
         <% else %>
-          <%= link_to "Click here", login_otp_path, class: "btn-link" %>&#x1F448;
+          <%= link_to "Click here", login_otp_path, class: "btn-link" %> &#x1F448;
         <% end %>
       </div>
-    </p>
+    </div>
+
 
     <p class="motto">✨ Our Motto: Helping you organize your thoughts to make wise decisions.</p>
   </div>

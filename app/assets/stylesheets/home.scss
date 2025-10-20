@@ -85,19 +85,67 @@
   text-align: center;
 }
 
-.welcome-block ul.welcome-list {
-  list-style-type: disc;   /* default bullets */
-  padding-left: 40px;      /* control bullet + text indentation */
-  margin: 20px 0;
-  text-align: left;        /* aligns text with bullets */
+.welcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
 }
 
-.welcome-block ul.welcome-list li {
-  margin-bottom: 15px;     /* spacing between items */
-  line-height: 1.5;        /* keeps multi-line items aligned properly */
+.welcome-actions .card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 25px;
+  width: 280px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.click{
-  color:#114b2b;
-  font-weight:bold;
+.welcome-actions .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #69c9cc, #87e7e7,);
+  color: white;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+.card-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.btn-link {
+  color: #ff0080;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.btn-link:hover {
+  color: #ff8c00;
+}
+
+.emoji {
+  -webkit-text-fill-color: initial;
+  background: none;
 }
