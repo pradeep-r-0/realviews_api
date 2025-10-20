@@ -1,0 +1,168 @@
+/* app/assets/stylesheets/balance_sheets.css */
+/* Center all content in balance sheets pages */
+/* line 4, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-page {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styling */
+/* line 16, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+/* line 22, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-page th,
+.balance-sheets-page td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+/* line 29, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-page th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* line 34, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-page td {
+  background-color: #ffffff;
+}
+
+/* Buttons styling */
+/* line 39, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-page a.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+/* line 50, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-page a.btn:hover {
+  background-color: #45a049;
+}
+
+/* Headings */
+/* line 55, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-page h1,
+.balance-sheets-page h2,
+.balance-sheets-page h3 {
+  margin-bottom: 20px;
+}
+
+/* Notes styling */
+/* line 62, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-page .notes {
+  margin: 20px 0;
+  font-style: italic;
+}
+
+/* line 67, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-form {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f8f8f8;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* line 76, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-form .form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  /* space between label and input */
+}
+
+/* line 84, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-form .form-group label {
+  width: 120px;
+  /* fixed width for all labels */
+  text-align: right;
+  /* aligns label text to the right */
+  font-weight: bold;
+}
+
+/* line 90, app/assets/stylesheets/balance_sheets.scss */
+.balance-sheets-form .form-group input,
+.balance-sheets-form .form-group select {
+  flex: 1;
+  /* input/select takes the remaining space */
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* line 98, app/assets/stylesheets/balance_sheets.scss */
+.expense-fields {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+/* line 110, app/assets/stylesheets/balance_sheets.scss */
+.expense-fields label {
+  width: 120px;
+  text-align: right;
+}
+
+/* line 115, app/assets/stylesheets/balance_sheets.scss */
+.expense-fields .form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 150px;
+}
+
+/* line 122, app/assets/stylesheets/balance_sheets.scss */
+.expense-fields input {
+  flex: 1;
+}
+
+/* line 126, app/assets/stylesheets/balance_sheets.scss */
+.remove-expense {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* line 135, app/assets/stylesheets/balance_sheets.scss */
+.remove-expense:hover {
+  background: #c0392b;
+}
+
+/* line 139, app/assets/stylesheets/balance_sheets.scss */
+.welcome-actions .balance-sheet {
+  border-left: 5px solid #4caf50;
+  /* green for finances */
+  font-size: 2em;
+  color: blue;
+  font-weight: bold;
+}
