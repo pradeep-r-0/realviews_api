@@ -45,28 +45,35 @@
 <!-- ✅ Initialize Awesomplete -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("#dish-form");
-    const restaurantInput = document.querySelector("#restaurant-input");
-    const flashDiv = document.querySelector("#flash-message");
-  })
+    const input = document.getElementById("restaurant-input");
+    if (!input) return;
+
+    // Initialize Google Places Autocomplete
+    const autocomplete = new google.maps.places.Autocomplete(input, {
+      types: ["establishment"],
+      componentRestrictions: { country: "in" } // optional
+    });
+
+    let selectedPlace = null;
+
+    // When a place is selected from suggestions
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (place && place.place_id) {
+        selectedPlace = place;
+        input.dataset.placeId = place.place_id; // Store the ID for Rails
+      }
+    });
+
+    // Prevent manual typing without selection
+    const form = input.closest("form");
+    form.addEventListener("submit", (e) => {
+      if (!selectedPlace) {
+        e.preventDefault();
+        alert("Please select a restaurant from the suggestions.");
+        input.focus();
+        return false;
+      }
+    });
+  });
 </script>
-
-  <!-- Google Maps Places API -->
-
-  <script>
-    function initAutocomplete() {
-      var input = document.getElementById('restaurant-input');
-
-      // Set types to establishments (restaurants, shops, etc.)
-      var autocomplete = new google.maps.places.Autocomplete(input, {
-        types: ['establishment']
-      });
-
-      autocomplete.addListener('place_changed', function() {
-        var place = autocomplete.getPlace();
-        // You can optionally use place.name, place.formatted_address, etc.
-      });
-  }
-
-    google.maps.event.addDomListener(window, 'load', initAutocomplete);
-  </script>
