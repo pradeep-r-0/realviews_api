@@ -30,3 +30,9 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# dont commit assets
+/public/assets
+/public/packs
+/node_modules
+
