@@ -4,10 +4,15 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    
     <%= favicon_link_tag 'favicon.ico' %>
     <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
-    <script src="https://maps.googleapis.com/maps/api/js?key=<%=ENV['GOOGLE_PLACES_API_KEY']%>&libraries=places"></script>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_PLACES_API_KEY'] %>&libraries=places">
+     async defer
+    </script>
+
   </head>
   <body class="<%= body_class %>">
     <div class="header-container">

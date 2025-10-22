@@ -41,39 +41,3 @@
 <!-- ✅ Awesomplete JS -->
 <link rel="stylesheet" href="https://leaverou.github.io/awesomplete/awesomplete.css">
 <script src="https://leaverou.github.io/awesomplete/awesomplete.min.js"></script>
-
-<!-- ✅ Initialize Awesomplete -->
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const input = document.getElementById("restaurant-input");
-    if (!input) return;
-
-    // Initialize Google Places Autocomplete
-    const autocomplete = new google.maps.places.Autocomplete(input, {
-      types: ["establishment"],
-      componentRestrictions: { country: "in" } // optional
-    });
-
-    let selectedPlace = null;
-
-    // When a place is selected from suggestions
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
-      if (place && place.place_id) {
-        selectedPlace = place;
-        input.dataset.placeId = place.place_id; // Store the ID for Rails
-      }
-    });
-
-    // Prevent manual typing without selection
-    const form = input.closest("form");
-    form.addEventListener("submit", (e) => {
-      if (!selectedPlace) {
-        e.preventDefault();
-        alert("Please select a restaurant from the suggestions.");
-        input.focus();
-        return false;
-      }
-    });
-  });
-</script>
