@@ -25,6 +25,7 @@ class FuelPriceFetcher
         Rails.logger.error "FuelPriceFetcher failed: #{res.code} #{res.body}"
       end
     end
+    delete_older_prices
   end
 
   def self.save_prices(data, fuel_type)
@@ -39,5 +40,10 @@ class FuelPriceFetcher
         fp.price = entry["price"].to_f
       end
     end
+  end
+
+  def delete_older_prices
+    Rails.logger.info "Deleting older fuel prices"
+    FuelPrice.where(created_at: ...20.days.ago).destroy_all
   end
 end
