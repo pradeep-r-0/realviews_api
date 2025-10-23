@@ -173,10 +173,11 @@ a:hover {
 
 .actions {
   margin-top: 25px;
-  display: flex;
-  justify-content: center;
   margin-bottom: 20px;
-  flex-direction: column; 
+  display: flex;
+  flex-direction: column;   /* stack buttons vertically */
+  align-items: center;      /* center horizontally */
+  gap: 12px;               /* space between buttons */
 }
 
 .btn {
