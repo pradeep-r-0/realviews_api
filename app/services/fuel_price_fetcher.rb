@@ -42,7 +42,7 @@ class FuelPriceFetcher
     end
   end
 
-  def delete_older_prices
+  def self.delete_older_prices
     Rails.logger.info "Deleting older fuel prices"
     FuelPrice.where(created_at: ...20.days.ago).destroy_all
   end
