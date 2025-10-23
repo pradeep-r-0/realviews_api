@@ -34,7 +34,7 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    window.fetchRate = async function() {
       const stateSelect = document.querySelector("#fuel_topup_state");
       const fuelType = document.querySelector("#fuel_topup_type");
       const rateField = document.querySelector("#fuel_topup_rate_per_litre");
@@ -45,39 +45,52 @@
         "#fuel_topup_topup_date_3i"
       ].map(id => document.querySelector(id));
 
-      async function fetchRate() {
-        const state = stateSelect.value;
-        const year = dateSelectors[0].value;
-        const month = dateSelectors[1].value.padStart(2, "0");
-        const day = dateSelectors[2].value.padStart(2, "0");
-        const date = `${year}-${month}-${day}`;
-        const type = fuelType.value;
+      if (!stateSelect || !fuelType || !rateField || dateSelectors.includes(null)) return;
 
-        if (state && date && type) {
-          try {
-            const res = await fetch(`/fuel_prices/get_todays_price?state=${state}&type=${type}&topup_date=${date}`);
-            if (res.ok) {
-              const data = await res.json();
-              console.log(data);
-              if (data.rate_per_litre) rateField.value = data.rate_per_litre;
-            }
-          } catch (err) {
-            console.error(err);
+      console.log("fetchrate");
+      const state = stateSelect.value;
+      const year = dateSelectors[0].value;
+      const month = dateSelectors[1].value.padStart(2, "0");
+      const day = dateSelectors[2].value.padStart(2, "0");
+      const date = `${year}-${month}-${day}`;
+      const type = fuelType.value;
+
+      if (state && date && type) {
+        try {
+          const res = await fetch(`/fuel_prices/get_todays_price?state=${state}&type=${type}&topup_date=${date}`);
+          if (res.ok) {
+            const data = await res.json();
+            console.log("data:", data);
+            if (data.rate_per_litre) rateField.value = data.rate_per_litre;
           }
+        } catch (err) {
+          console.error(err);
         }
       }
-      stateSelect.addEventListener("change", fetchRate);
-      fuelType.addEventListener("change", fetchRate);
-      dateSelectors.forEach(sel => sel.addEventListener("change", fetchRate));
-      document.addEventListener("turbo:load", () => {
-        fetchRate();
+    };
 
-        ["#state", "#fuel_type", "#date"].forEach(sel => {
-          const el = document.querySelector(sel);
-          if (el) el.addEventListener("change", fetchRate);
-        });
-      });
+    document.addEventListener("turbo:load", () => {
+      // ✅ only run on /cars/:id/fuel_topups/new
+      if (!window.location.pathname.match(/\/cars\/\d+\/fuel_topups\/new/)) return;
+
+      console.log("FuelTopup new page detected — attaching listeners");
+
+      const stateSelect = document.querySelector("#fuel_topup_state");
+      const fuelType = document.querySelector("#fuel_topup_type");
+
+      const dateSelectors = [
+        "#fuel_topup_topup_date_1i",
+        "#fuel_topup_topup_date_2i",
+        "#fuel_topup_topup_date_3i"
+      ].map(id => document.querySelector(id));
+
+      if (stateSelect) stateSelect.addEventListener("change", window.fetchRate);
+      if (fuelType) fuelType.addEventListener("change", window.fetchRate);
+      dateSelectors.forEach(sel => sel?.addEventListener("change", window.fetchRate));
+
+      // fetch once when page loads
+      window.fetchRate();
     });
-</script>
+  </script>
 </div>
 
