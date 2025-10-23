@@ -66,11 +66,11 @@
           }
         }
       }
-
       stateSelect.addEventListener("change", fetchRate);
+      fuelType.addEventListener("change", fetchRate);
       dateSelectors.forEach(sel => sel.addEventListener("change", fetchRate));
+      fetchRate();
     });
-
 </script>
 </div>
 
