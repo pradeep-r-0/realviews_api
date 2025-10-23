@@ -69,7 +69,14 @@
       stateSelect.addEventListener("change", fetchRate);
       fuelType.addEventListener("change", fetchRate);
       dateSelectors.forEach(sel => sel.addEventListener("change", fetchRate));
-      fetchRate();
+      document.addEventListener("turbo:load", () => {
+        fetchRate();
+
+        ["#state", "#fuel_type", "#date"].forEach(sel => {
+          const el = document.querySelector(sel);
+          if (el) el.addEventListener("change", fetchRate);
+        });
+      });
     });
 </script>
 </div>
