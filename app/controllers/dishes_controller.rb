@@ -93,7 +93,9 @@ class DishesController < ApplicationController
     city = City.find_or_initialize_by(name: city_name.titleize, state: state_name, country: country_name)
     city.save! if city.new_record?
 
+    Rails.logger.info "🍽️ restaurant_name=#{restaurant_name.inspect}, city_id=#{city.id}"
     @restaurant = Restaurant.find_or_initialize_by(name: restaurant_name, city_id: city.id)
+    Rails.logger.info "new_record: #{@restaurant.new_record?}"
     return @restaurant unless @restaurant.new_record?
     @restaurant.save
     #TO_DO
