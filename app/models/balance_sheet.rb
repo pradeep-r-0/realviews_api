@@ -24,7 +24,7 @@ class BalanceSheet < ApplicationRecord
     sheet = find_or_initialize_by(user: user, year: year, month: month)
     sheet.total_income  = income
     sheet.total_expense = expense
-    sheet.net_balance   = income + carry_forward - expense
+    sheet.net_balance   = income - expense
     sheet.notes          = notes if notes.present?
     sheet.save!
     sheet

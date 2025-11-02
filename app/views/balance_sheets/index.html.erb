@@ -10,29 +10,29 @@
         params: { year: Date.current.year, month: Date.current.month },
         class: "button" %>
 
+  <% if @balance_sheets.present? %>
   <table>
     <thead>
       <tr>
-        <th>Period</th>
-        <th>Total Income(₹)</th>
-        <th>Total Expense(₹)</th>
-        <th>Net(₹)</th>
-        <th></th>
+        <th>Details</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <% @balance_sheets.each do |b| %>
         <tr>
-          <td><%= link_to "#{Date::MONTHNAMES[b.month]} #{b.year}", balance_sheet_path(b) %></td>
-          <td><%= b.total_income %></td>
-          <td><%= b.total_expense %></td>
-          <td><%= b.net_balance %></td>
+          <td><%= link_to "#{b.user.name} - #{Date::MONTHNAMES[b.month]} #{b.year}", balance_sheet_path(b) %></td>
           <td>
-            <%= link_to 'Edit', edit_balance_sheet_path(b) %> |
+            <%= link_to 'View', balance_sheet_path(b) %> |
             <%= link_to 'Delete', balance_sheet_path(b), method: :delete, data: { confirm: 'Are you sure?' } %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
+  <% else %>
+    <div class="empty-state">
+      <p>No balance sheets yet.</p>
+    </div>
+  <% end %>
 </div>
