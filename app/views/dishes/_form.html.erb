@@ -1,0 +1,44 @@
+<%= form_with model: @dish, local: true, id: "dish-form", html: { autocomplete: "off" } do |form| %>
+  <div align='center'>
+    <h2><%= @dish.new_record? ? "Add Review for a Dish" : "Edit Dish Review" %></h2>
+    <div id="flash-message"></div>
+
+    <!-- Restaurant -->
+    <div class="form-group">
+      <%= form.label :restaurant_name, "Restaurant Name" %><br>
+      <%= form.text_field :restaurant_name, id: "restaurant-input", required: true,
+                placeholder: "Start typing restaurant name...", readonly: !@dish.new_record? %>
+    </div>
+
+    <!-- Dish Name -->
+    <div class="form-group">
+      <%= form.label :name, "Dish Name" %><br>
+      <%= form.text_field :name, required: true %>
+    </div>
+
+    <!-- Rating -->
+    <div class="form-group">
+      <%= form.label :rating, "Rating (1 to 5)" %><br>
+      <%= form.number_field :rating, in: 1..5, required: true %>
+    </div>
+
+    <!-- Comments -->
+    <div class="form-group">
+      <%= form.label :comments %><br>
+      <%= form.text_area :comments %>
+    </div>
+
+    <!-- Submit -->
+    <div class="form-group">
+      <%= form.submit @dish.new_record? ? "Add Review" : "Update Review" %>
+    </div>
+
+    <div>
+      <%= link_to "Back to Dishes", dishes_path %>
+    </div>
+  </div>
+<% end %>
+
+<!-- ✅ Awesomplete JS -->
+<link rel="stylesheet" href="https://leaverou.github.io/awesomplete/awesomplete.css">
+<script src="https://leaverou.github.io/awesomplete/awesomplete.min.js"></script>

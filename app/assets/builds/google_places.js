@@ -1,14 +1,18 @@
 // app/javascript/google_places.js
-console.log("from google_places");
+console.log("\u2705 google_places.js loaded \u2014 build version", Date.now());
 function initAutocomplete() {
-  console.log("inside auto complete");
   const input = document.getElementById("restaurant-input");
-  const placeIdField = document.getElementById("restaurant_place_id");
-  const latField = document.getElementById("restaurant_lat");
-  const lngField = document.getElementById("restaurant_lng");
   if (!input) return;
   if (input.dataset.autocompleteInitialized) return;
   input.dataset.autocompleteInitialized = true;
+  const isEditPage = window.location.pathname.match(/\/dishes\/\d+\/edit/);
+  if (input.readOnly || input.hasAttribute("readonly") || isEditPage) {
+    console.log("\u2733\uFE0F Edit mode detected \u2014 skipping autocomplete setup & validation");
+    return;
+  }
+  const placeIdField = document.getElementById("restaurant_place_id");
+  const latField = document.getElementById("restaurant_lat");
+  const lngField = document.getElementById("restaurant_lng");
   if (typeof google === "undefined" || !google.maps?.places) {
     setTimeout(initAutocomplete, 500);
     return;
@@ -35,6 +39,7 @@ function initAutocomplete() {
   const form = input.closest("form");
   if (form) {
     form.addEventListener("submit", (e) => {
+      if (input.readOnly || input.hasAttribute("readonly") || isEditPage) return;
       if (!placeSelected) {
         e.preventDefault();
         alert("Please select a restaurant from the suggestions.");

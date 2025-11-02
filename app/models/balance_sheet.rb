@@ -10,7 +10,7 @@ class BalanceSheet < ApplicationRecord
 
   validates :user_id, uniqueness: { scope: [:month, :year], message: "already has a balance sheet for this month" }
 
-  before_save :calculate_net_balance
+  before_save :calculate_net_balance, :calcualate_total_expense
   before_validation :set_default_carry_forward, on: :create
 
   # === Class Methods ===
@@ -41,6 +41,10 @@ class BalanceSheet < ApplicationRecord
 
   def total_expense
     expenses.sum(:amount)
+  end
+
+  def update_total_expense
+    self.total_expense = total_expense
   end
 
   private

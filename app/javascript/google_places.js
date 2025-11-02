@@ -1,13 +1,24 @@
 // app/javascript/google_places.js
+console.log("✅ google_places.js loaded — build version", Date.now());
+
 function initAutocomplete() {
   const input = document.getElementById("restaurant-input");
+  if (!input) return;
+
+  // prevent multiple setups
+  if (input.dataset.autocompleteInitialized) return;
+  input.dataset.autocompleteInitialized = true;
+
+  // ✅ Detect edit mode or readonly input
+  const isEditPage = window.location.pathname.match(/\/dishes\/\d+\/edit/);
+  if (input.readOnly || input.hasAttribute("readonly") || isEditPage) {
+    console.log("✳️ Edit mode detected — skipping autocomplete setup & validation");
+    return;
+  }
+
   const placeIdField = document.getElementById("restaurant_place_id");
   const latField = document.getElementById("restaurant_lat");
   const lngField = document.getElementById("restaurant_lng");
-
-  if (!input) return;
-  if (input.dataset.autocompleteInitialized) return;
-  input.dataset.autocompleteInitialized = true;
 
   if (typeof google === "undefined" || !google.maps?.places) {
     setTimeout(initAutocomplete, 500);
@@ -31,7 +42,6 @@ function initAutocomplete() {
     if (lngField) lngField.value = place.geometry.location.lng();
   });
 
-  // Reset hidden fields if user edits manually
   input.addEventListener("input", () => {
     placeSelected = false;
     if (placeIdField) placeIdField.value = "";
@@ -39,10 +49,12 @@ function initAutocomplete() {
     if (lngField) lngField.value = "";
   });
 
-  // Form validation to ensure selection from suggestions
   const form = input.closest("form");
   if (form) {
     form.addEventListener("submit", (e) => {
+      // ✅ Skip validation in edit mode or readonly
+      if (input.readOnly || input.hasAttribute("readonly") || isEditPage) return;
+
       if (!placeSelected) {
         e.preventDefault();
         alert("Please select a restaurant from the suggestions.");
@@ -52,5 +64,4 @@ function initAutocomplete() {
   }
 }
 
-// Run on every Turbo visit
 document.addEventListener("turbo:load", initAutocomplete);

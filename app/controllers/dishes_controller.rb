@@ -37,6 +37,10 @@ class DishesController < ApplicationController
     end
   end
 
+  def edit
+    @dish = current_user.dishes.find(params[:id])
+  end
+
   def new
     @dish = Dish.new
   end
@@ -55,9 +59,11 @@ class DishesController < ApplicationController
   # PATCH/PUT /dishes/1
   def update
     if @dish.update(dish_params)
-      render json: @dish
+      flash[:notice] = "Dish review was successfully updated."
+      redirect_to @dish
     else
-      render json: @dish.errors, status: :unprocessable_content
+      flash[:alert] = "Failed to update the dish review."
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -80,7 +86,7 @@ class DishesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def dish_params
-    params.require(:dish).permit(:name, :rating, :comments)
+    params.require(:dish).permit(:name, :rating, :comments, :restaurant_name)
   end
 
   def assign_restaurant
