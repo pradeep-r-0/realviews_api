@@ -24,7 +24,7 @@ class BalanceSheet < ApplicationRecord
     sheet = find_or_initialize_by(user: user, year: year, month: month)
     sheet.total_income  = income
     sheet.total_expense = expense
-    sheet.net_balance   = income - expense
+    sheet.net_balance   = income + carry_forward - expense
     sheet.notes          = notes if notes.present?
     sheet.save!
     sheet
@@ -36,15 +36,11 @@ class BalanceSheet < ApplicationRecord
   end
 
   def calculate_net_balance
-    self.net_balance = total_income.to_f - total_expense.to_f
+    self.net_balance = total_income.to_f + carry_forward.to_f - total_expense.to_f
   end
 
   def total_expense
     expenses.sum(:amount)
-  end
-
-  def net_balance
-    total_income - total_expense
   end
 
   private
