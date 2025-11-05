@@ -16,7 +16,7 @@ class FuelTopupsController < ApplicationController
   end
 
   def index
-    @fuel_topups = @car.fuel_topups.order(:topup_date)
+    @fuel_topups = @car.fuel_topups.order(topup_date: :desc)
   end
 
 
