@@ -95,13 +95,13 @@ class DishesController < ApplicationController
     country_name = parts.pop
     state_name   = parts.pop
     city_name    = parts.pop 
-    restaurant_name = parts.join(", ")
+    restaurant_name = parts.join(", ").titleize
     city = City.find_or_initialize_by(name: city_name.titleize, state: state_name, country: country_name)
     city.save! if city.new_record?
 
     Rails.logger.info "🍽️ restaurant_name=#{restaurant_name.inspect}, city_id=#{city.id}"
     @restaurant = Restaurant.find_or_initialize_by(name: restaurant_name, city_id: city.id)
-    Rails.logger.info "new_record: #{@restaurant.new_record?}"
+    Rails.logger.info "new_restaurant: #{@restaurant.new_record?}"
     return @restaurant unless @restaurant.new_record?
     @restaurant.save
     #TO_DO
