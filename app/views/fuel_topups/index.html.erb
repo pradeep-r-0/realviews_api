@@ -16,17 +16,17 @@
     </thead>
 
     <tbody>
-      <% prev_topup = @fuel_topups.first %>
-      <% @fuel_topups.each do |fuel_now| %>
+      <% current_topup = @fuel_topups.first %>
+      <% @fuel_topups.each do |prev_topup| %>
         <tr>
-          <td><%= fuel_now.topup_date.strftime("%d-%b-%Y") %></td>
-          <td><%= fuel_now.price.to_i %></td>
-          <td><%= fuel_now.rate_per_litre.to_f %></td>
-          <td><%= fuel_now.brand %></td>
-          <td><%= fuel_now.odometer_reading.to_i %></td>
+          <td><%= prev_topup.topup_date.strftime("%d-%b-%Y") %></td>
+          <td><%= prev_topup.price.to_i %></td>
+          <td><%= prev_topup.rate_per_litre.to_f %></td>
+          <td><%= prev_topup.brand %></td>
+          <td><%= prev_topup.odometer_reading.to_i %></td>
           <% 
-            if prev_topup.odometer_reading && prev_topup.id != fuel_now.id 
-              mileage = calculate_mileage(prev_topup, fuel_now)
+            if current_topup.odometer_reading && current_topup.id != prev_topup.id 
+              mileage = calculate_mileage(current_topup, prev_topup)
               mileage = (mileage > 30 || mileage < 0) ? '-' : mileage
           %>
             <td><%= mileage %></td>
@@ -34,8 +34,8 @@
             <td> - </td>
           <% end %>
         </tr>
-          <% ref_odo = fuel_now.odometer_reading %>
-      <% prev_topup = fuel_now %>
+          <% ref_odo = prev_topup.odometer_reading %>
+      <% current_topup = prev_topup %>
       <% end %>
     </tbody>
   </table>
