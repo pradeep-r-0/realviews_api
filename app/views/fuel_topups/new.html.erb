@@ -15,7 +15,7 @@
           "Uttar Pradesh", "Uttarakhand", "West Bengal"
         ]))],
         [:topup_date, "Date of Topup", form.date_select(:topup_date, start_year: Date.today.year-5, end_year: Date.today.year)],
-        [:rate_per_litre, "Rate per Litre (₹)", form.number_field(:rate_per_litre, step: 0.1)],
+        [:rate_per_litre, "Rate per Litre (₹)", form.number_field(:rate_per_litre, step: 0.01)],
         [:price, "Total Price (₹)", form.number_field(:price, step: 0.01)],
         [:odometer_reading, "Odometer Reading (km)", form.number_field(:odometer_reading, step: 0.1)]
       ] %>
