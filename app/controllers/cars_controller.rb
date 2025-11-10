@@ -18,7 +18,7 @@ class CarsController < ApplicationController
   end
 
   def show
-    @fuel_topups = car.fuel_topups.order(topup_date: :desc).limit(5)
+    @fuel_topups = car.fuel_topups.order(odometer_reading: :desc).limit(5)
   end
 
   def index

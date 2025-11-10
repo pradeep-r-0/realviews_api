@@ -3,8 +3,6 @@ module CarsHelper
     return -1 unless fuel_topups.size > 2
     
     now = fuel_topups.first
-
-    # size 2 for two record comparision, otherwise, it is overall mileage
     previous = fuel_topups.last
     return -1 unless now.odometer_reading || previous.odometer_reading || !previous.price || !previous.rate_per_litre
     
