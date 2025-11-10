@@ -7,8 +7,7 @@
             <%= link_to "#{car.car_make.name} #{car.model} #{car.variant} "+"("+"#{car.fuel_type.eql?("CNG") ? car.fuel_type : car.fuel_type.chars.first}".html_safe, car_path(car), style: "color: inherit;" %>)
           </h2>
         </td>
-        <% filtered_topups = car.fuel_topups.where.not(fuel_topups: { odometer_reading: nil, rate_per_litre: nil }).order(odometer_reading: :desc)
-            unless filtered_topups.size > 1
+        <% filtered_topups = car.fuel_topups.where.not(fuel_topups: { odometer_reading: nil, rate_per_litre: nil }).order(topup_date: :desc, odometer_reading: :desc)
         %>
         <td>
           <h4> Topup unavailable </h4>
