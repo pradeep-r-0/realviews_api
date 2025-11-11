@@ -1,5 +1,5 @@
-<h1>Edit Fuel Top-up</h1>
+<div style="text-align:center;">
+  <%= render 'form', ownership: @ownership, fuel_topup: @fuel_topup, readonly: @readonly %>
 
-<%= render 'form', fuel_top_up: @fuel_top_up %>
-
-<%= link_to 'Back', fuel_top_ups_path, class: "btn btn-secondary" %>
+  <%= link_to 'Back', ownership_fuel_topups_path, class: "btn btn-secondary" %>
+</div>

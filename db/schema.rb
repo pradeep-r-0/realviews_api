@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_29_184431) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_11_075930) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -97,7 +97,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_29_184431) do
     t.datetime "updated_at", null: false
     t.decimal "odometer_reading"
     t.string "state"
+    t.bigint "user_id"
     t.index ["car_id"], name: "index_fuel_topups_on_car_id"
+    t.index ["user_id"], name: "index_fuel_topups_on_user_id"
   end
 
   create_table "ownerships", force: :cascade do |t|
@@ -137,6 +139,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_29_184431) do
   add_foreign_key "dishes", "users"
   add_foreign_key "expenses", "balance_sheets"
   add_foreign_key "fuel_topups", "cars"
+  add_foreign_key "fuel_topups", "users"
   add_foreign_key "ownerships", "cars"
   add_foreign_key "ownerships", "users"
   add_foreign_key "restaurants", "cities"

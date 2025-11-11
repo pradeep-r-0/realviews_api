@@ -28,8 +28,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :cars, only: [:index, :show, :create, :new] do
-    resources :fuel_topups, only: [:new, :create, :index]
+  resources :cars, only: [:index, :show, :create, :new]
+
+  resources :ownerships do
+    resources :fuel_topups
   end
 
   resources :fuel_prices do

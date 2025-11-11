@@ -1,37 +1,9 @@
-<p id="notice"><%= notice %></p>
-
-<div class="d-flex justify-content-between align-items-center">
-  <h1>Fuel Top-up Details</h1>
-  <%= link_to edit_fuel_top_up_path(@fuel_top_up), class: "btn btn-sm btn-warning" do %>
-    <i class="fas fa-edit"></i> Edit
+<div class="d-flex flex-column align-items-center">
+  <% if @ownership.user == current_user %>
+    <%= link_to edit_ownership_fuel_topup_path(@ownership, @fuel_topup), class: "btn btn-sm btn-warning mb-3" do %>
+      <i class="fas fa-edit"></i> Edit
+    <% end %>
   <% end %>
+
+  <%= render 'form', ownership: @ownership, fuel_topup: @fuel_topup, readonly: @readonly %>
 </div>
-
-<p>
-  <strong>Date:</strong>
-  <%= @fuel_top_up.created_at.strftime("%d %b %Y") %>
-</p>
-
-<p>
-  <strong>Rate per Litre:</strong>
-  <%= @fuel_top_up.rate_per_litre %> L
-</p>
-
-<p>
-  <strong>Price:</strong>
-  ₹<%= number_to_currency(@fuel_top_up.price, unit: "", precision: 2) %>
-</p>
-
-<p>
-  <strong>Odometer Reading:</strong>
-  <%= @fuel_top_up.odometer_reading %> km
-</p>
-
-<p>
-  <strong>Car:</strong>
-  <%= link_to "#{@fuel_top_up.car.make} #{@fuel_top_up.car.model}", @fuel_top_up.car %>
-</p>
-
-<hr>
-
-<%= link_to 'Back', fuel_top_ups_path, class: "btn btn-secondary" %>
