@@ -38,7 +38,7 @@
 
           <td>
           <%  
-             if prev_topup.user_id == current_user.id %>
+             if @ownership && prev_topup.user_id == current_user.id %>
               <%= link_to 'Edit', edit_ownership_fuel_topup_path(@ownership, prev_topup),
                           class: "btn btn-sm btn-warning" %>
             <% end %>
@@ -52,6 +52,7 @@
   </table>
 
   <br>
-
-  <%= link_to 'New Fuel Top-up', new_ownership_fuel_topup_path(@ownership), class: "btn btn-primary" %>
+  <% if @ownership&.user_id == current_user.id %>
+    <%= link_to 'New Fuel Top-up', new_ownership_fuel_topup_path(@ownership), class: "btn btn-primary" %>
+  <% end %>
 </div>
