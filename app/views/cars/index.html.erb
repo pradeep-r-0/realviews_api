@@ -8,10 +8,11 @@
           </h2>
         </td>
         <% filtered_topups = car.fuel_topups.where.not(fuel_topups: { odometer_reading: nil, rate_per_litre: nil }).order(topup_date: :desc, odometer_reading: :desc)
+          unless(filtered_topups.size > 1)
         %>
-        <td>
-          <h4> Topup unavailable </h4>
-        </td>
+          <td>
+            <h4> Topup unavailable </h4>
+          </td>
         <% else %>
           <td>
             <h2 class="mileage"> 
