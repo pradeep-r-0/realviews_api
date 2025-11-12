@@ -19,7 +19,7 @@ class CarsController < ApplicationController
 
   def show
     @fuel_topups = car.fuel_topups.where.not(odometer_reading: nil).order(topup_date: :desc, odometer_reading: :desc).limit(5)
-    @ownership = car.ownerships.find_by_user_id(current_user.id)
+    @ownership = car.ownerships.find_by_user_id(current_user.id) if current_user
   end
 
   def index
