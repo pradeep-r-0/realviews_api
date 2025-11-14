@@ -1,5 +1,5 @@
 class DishesController < ApplicationController
-  before_action :set_dish, only: %i[ show update destroy ]
+  before_action :dish, only: %i[ show update destroy edit]
   before_action :require_login, only: %i[new create]
   before_action :set_city_and_restaurants, only: :new
 
@@ -30,7 +30,6 @@ class DishesController < ApplicationController
 
   # GET /dishes/1
   def show
-    @dish = Dish.find(params[:id])
     respond_to do |format|
       format.json { render json: @dish }
       format.html
@@ -38,7 +37,6 @@ class DishesController < ApplicationController
   end
 
   def edit
-    @dish = current_user.dishes.find(params[:id])
   end
 
   def new
@@ -80,8 +78,9 @@ class DishesController < ApplicationController
 
   private
   # Use callbacks to share common setup or constraints between actions.
-  def set_dish
-    @dish = Dish.find(params.expect(:id))
+
+  def dish
+    @dish ||= Dish.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
