@@ -194,3 +194,10 @@ a:hover {
 .btn:hover {
   background-color: #0f6cd4;
 }
+
+.styled-table {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;      /* center the table */
+  display: table;      /* ensures table keeps layout */
+}
