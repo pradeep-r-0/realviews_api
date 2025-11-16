@@ -5,7 +5,6 @@
       <% unless action_name == "my_reviews" %>
         <div class="filter-header">
           <h2>🍽️ Discover Your Next Favourite Dish</h2>
-          <p>Use the filters below to explore restaurants and dishes in your city.</p>
         </div>
 
         <%= form_with url: dishes_path, method: :get, local: true, html: { autocomplete: "off", class: "filter-form" } do %>
@@ -31,10 +30,10 @@
 
           <%= submit_tag "🔍 Apply Filters", class: "btn-apply" %>
         <% end %>
+        <%= link_to "➕ Add Review", new_dish_path, class: "btn-action" %>
       <% end %>
     </div>
   </div>
-
   <div class="table-wrapper">
     <table class="styled-table">
       <thead>
@@ -58,6 +57,7 @@
           </th>
           <th>💬 Comments</th>
           <th>🏙️ City</th>
+          <th> Actions </th>
         </tr>
       </thead>
 
