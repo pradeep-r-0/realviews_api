@@ -11,6 +11,7 @@ class FuelPriceFetcher
     raise "Missing IndianAPI key" unless api_key
 
     uri = URI(BASE_URL)
+    all_success = true
     FUEL_TYPES.each do |fuel_type|
       params = { location_type: "state", fuel_type: fuel_type }
       uri.query = URI.encode_www_form(params)
@@ -21,12 +22,13 @@ class FuelPriceFetcher
       if res.is_a?(Net::HTTPSuccess)
         data = JSON.parse(res.body)
         save_prices(data, fuel_type)
-        delete_older_prices
       else
+        all_success = false
         Rails.logger.error "FuelPriceFetcher failed: #{res.code} #{res.body}"
       end
       sleep(3)
     end
+    delete_older_prices if all_success
   end
 
   def self.save_prices(data, fuel_type)
