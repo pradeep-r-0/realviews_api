@@ -70,7 +70,7 @@
             <td><%= dish.comments %></td>
             <td><%= dish.restaurant.city.name %></td>
             <td>
-              <% if dish.user == current_user %>
+              <% if current_user && dish.user == current_user %>
                 <%= link_to edit_dish_path(dish), class: "btn btn-sm btn-outline-primary", title: "Edit" do %>
                   <i class="fa fa-edit"></i>
                 <% end %>
