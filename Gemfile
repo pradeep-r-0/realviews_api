@@ -8,9 +8,9 @@ gem "sib-api-v3-sdk"
 # for pagination
 gem "kaminari"
 
-gem 'geocoder'
+gem "geocoder"
 # Gemfile
-gem 'google_places', '~> 2.0.0'
+gem "google_places", "~> 2.0.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.2"
@@ -58,7 +58,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", "~> 7.1"
+  gem "brakeman", "~> 7.1.1"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false

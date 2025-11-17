@@ -18,6 +18,6 @@ class CreateBalanceSheets < ActiveRecord::Migration[8.0]
     end
 
     # Ensure one balance sheet per user per month/year
-    add_index :balance_sheets, [:user_id, :year, :month], unique: true
+    add_index :balance_sheets, [ :user_id, :year, :month ], unique: true
   end
 end

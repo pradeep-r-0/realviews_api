@@ -10,9 +10,8 @@ class Dish < ApplicationRecord
   end
 
   private
-  
+
   def titleize_name
     self.name = name.to_s.titleize
   end
-
 end

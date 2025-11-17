@@ -42,7 +42,7 @@ class RestaurantsController < ApplicationController
     @restaurant = Restaurant.find(params[:id].to_i)
     @dishes = load_dishes(@restaurant.dishes)
     @cities = City.all
-    render 'dishes/index'
+    render "dishes/index"
   end
 
   private

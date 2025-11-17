@@ -1,8 +1,8 @@
 namespace :restaurants do
   desc "Populate restaurant details from Google Places API, centered around each restaurant's city"
   task populate_from_google: :environment do
-    require 'google_places'
-    require 'geocoder'
+    require "google_places"
+    require "geocoder"
 
 
     Restaurant.includes(:city).find_each do |restaurant|
@@ -26,8 +26,8 @@ namespace :restaurants do
         url = URI("https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
           URI.encode_www_form(
             input: restaurant.name,
-            types: 'establishment',
-            key: ENV['GOOGLE_PLACES_API_KEY'],
+            types: "establishment",
+            key: ENV["GOOGLE_PLACES_API_KEY"],
             location: "#{lat},#{lng}",
             radius: 40000,        # 40 km around cityS center
             strictbounds: true    # ensures results stay within the radius

@@ -7,7 +7,7 @@ class CreateFuelPrices < ActiveRecord::Migration[8.0]
       t.date :date
 
       t.timestamps
-      t.index [:state, :fuel_type, :date], unique: true
+      t.index [ :state, :fuel_type, :date ], unique: true
     end
   end
 end

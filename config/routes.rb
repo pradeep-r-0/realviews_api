@@ -2,13 +2,13 @@ require "sidekiq/web"
 require "sidekiq/cron/web"
 
 Rails.application.routes.draw do
-   # Mount Sidekiq dashboard at /sidekiq
+  # Mount Sidekiq dashboard at /sidekiq
   mount Sidekiq::Web => "/sidekiq"
-  
+
   get "home/index"
-  
-  get '/.well-known/appspecific/com.chrome.devtools.json', to: proc { [204, {}, ['']] }
-  get '/favicon.ico', to: proc { [204, {}, []] }
+
+  get "/.well-known/appspecific/com.chrome.devtools.json", to: proc { [ 204, {}, [ "" ] ] }
+  get "/favicon.ico", to: proc { [ 204, {}, [] ] }
 
   resources :restaurants do
     member do
@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :cars, only: [:index, :show, :create, :new]
+  resources :cars, only: [ :index, :show, :create, :new ]
 
   resources :ownerships do
     resources :fuel_topups
@@ -61,7 +61,7 @@ Rails.application.routes.draw do
 
   resources :balance_sheets do
     collection do
-      post 'generate', to: 'balance_sheets#generate'
+      post "generate", to: "balance_sheets#generate"
     end
   end
 end

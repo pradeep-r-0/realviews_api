@@ -1,12 +1,12 @@
- # This file should ensure the existence of records required to run the application in every environment (production,
- # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
- # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
- #
- # Example:
- #
- #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
- #     MovieGenre.find_or_create_by!(name: genre_name)
- #   end
+# This file should ensure the existence of records required to run the application in every environment (production,
+# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
+# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
+#
+# Example:
+#
+#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
+#     MovieGenre.find_or_create_by!(name: genre_name)
+#   end
 [
   { name: '11 SPICES MULTI CUSINE RESTAURANT'.titlecase, city_id: 1 },
   { name: 'All day Parathas', city_id: 1 },
@@ -88,20 +88,20 @@ end
   { name: "Maruti Suzuki" },
   { name: "Mahindra" },
   { name: "Citroen" },
-  { name: "Land Rover"},
-  { name: "BMW"},
-  { name: "Mercedes-Benz"},
-  { name: "Audi"},
-  { name: "Mini"},
-  { name: "Force"},
-  { name: "Renault"},
-  { name: "Kia"},
-  { name: "Fiat"},
-  { name: "Chevrolet"},
-  { name: "MG"},
-  { name: "Skoda"},
-  { name: "Jeep"},
-  { name: "Volvo"}  
+  { name: "Land Rover" },
+  { name: "BMW" },
+  { name: "Mercedes-Benz" },
+  { name: "Audi" },
+  { name: "Mini" },
+  { name: "Force" },
+  { name: "Renault" },
+  { name: "Kia" },
+  { name: "Fiat" },
+  { name: "Chevrolet" },
+  { name: "MG" },
+  { name: "Skoda" },
+  { name: "Jeep" },
+  { name: "Volvo" }
 ].each do |make|
   CarMake.find_or_create_by(make)
 end

@@ -8,7 +8,7 @@ class BalanceSheet < ApplicationRecord
   validates :month, inclusion: { in: 1..12, message: "must be between 1 and 12" }
   validates :year, numericality: { greater_than_or_equal_to: 2000 }
 
-  validates :user_id, uniqueness: { scope: [:month, :year], message: "already has a balance sheet for this month" }
+  validates :user_id, uniqueness: { scope: [ :month, :year ], message: "already has a balance sheet for this month" }
 
   before_save :calculate_net_balance, :update_total_expense
   before_validation :set_default_carry_forward, on: :create
@@ -48,7 +48,7 @@ class BalanceSheet < ApplicationRecord
   end
 
   private
-  
+
   def set_default_carry_forward
     # Only set if user hasn't provided a value
     return if carry_forward.present?

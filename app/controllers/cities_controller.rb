@@ -8,7 +8,7 @@ class CitiesController < ApplicationController
 
 
   def create
-    city = City.find_or_initialize_by(name:city_params)
+    city = City.find_or_initialize_by(name: city_params)
     # You might save to a table or notify admins
     # For now, just log it
     if city.new_record?

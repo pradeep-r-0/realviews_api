@@ -1,6 +1,6 @@
 class BalanceSheetsController < ApplicationController
   before_action :require_login
-  before_action :set_balance_sheet, only: [:show, :edit, :update, :destroy]
+  before_action :set_balance_sheet, only: [ :show, :edit, :update, :destroy ]
 
   # GET /balance_sheets
   def index
@@ -99,8 +99,7 @@ class BalanceSheetsController < ApplicationController
   def balance_sheet_params
     params.require(:balance_sheet).permit(
       :year, :month, :total_income, :carry_forward, :notes,
-      expenses_attributes: [:id, :description, :amount, :date, :_destroy]
+      expenses_attributes: [ :id, :description, :amount, :date, :_destroy ]
     )
   end
-
 end

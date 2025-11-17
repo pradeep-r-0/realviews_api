@@ -1,6 +1,6 @@
 # app/controllers/concerns/location_logger.rb
-require 'net/http'
-require 'json'
+require "net/http"
+require "json"
 
 module LocationLogger
   extend ActiveSupport::Concern
@@ -14,7 +14,7 @@ module LocationLogger
   def log_user_location
     return unless ActiveModel::Type::Boolean.new.cast(ENV["LOG_LOCATION"])
 
-    user_ip = request.headers['X-Forwarded-For']&.split(',')&.first&.strip || request.remote_ip
+    user_ip = request.headers["X-Forwarded-For"]&.split(",")&.first&.strip || request.remote_ip
     return if user_ip.blank? || user_ip == "127.0.0.1" || user_ip == "::1"
 
     begin

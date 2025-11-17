@@ -6,5 +6,5 @@ class Car < ApplicationRecord
 
   validates :variant, :fuel_type, presence: true
   # Composite uniqueness validation
-  validates :variant, uniqueness: { scope: [:car_make_id, :fuel_type], message: "with this make and fuel type already exists" }
+  validates :variant, uniqueness: { scope: [ :car_make_id, :fuel_type ], message: "with this make and fuel type already exists" }
 end

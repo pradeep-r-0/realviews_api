@@ -73,7 +73,7 @@ class DishesController < ApplicationController
   def my_reviews
     load_dishes(current_user.dishes)
     @cities = City.approved
-    render 'index'
+    render "index"
   end
 
   private
@@ -93,7 +93,7 @@ class DishesController < ApplicationController
     parts = restaurant_details.split(",").map(&:strip)
     country_name = parts.pop
     state_name   = parts.pop
-    city_name    = parts.pop 
+    city_name    = parts.pop
     restaurant_name = parts.join(", ").titleize
     city = City.find_or_initialize_by(name: city_name.titleize, state: state_name, country: country_name)
     city.save! if city.new_record?
@@ -103,7 +103,7 @@ class DishesController < ApplicationController
     Rails.logger.info "new_restaurant: #{@restaurant.new_record?}"
     return @restaurant unless @restaurant.new_record?
     @restaurant.save
-    #TO_DO
+    # TO_DO
     # CityMailer.send_otp(@restaurant).deliver_now
   end
 
