@@ -21,12 +21,12 @@ class FuelPriceFetcher
       if res.is_a?(Net::HTTPSuccess)
         data = JSON.parse(res.body)
         save_prices(data, fuel_type)
+        delete_older_prices
       else
         Rails.logger.error "FuelPriceFetcher failed: #{res.code} #{res.body}"
       end
       sleep(3)
     end
-    delete_older_prices
   end
 
   def self.save_prices(data, fuel_type)
