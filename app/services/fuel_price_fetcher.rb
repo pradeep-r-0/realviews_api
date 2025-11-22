@@ -3,7 +3,6 @@ require "json"
 
 class FuelPriceFetcher
   BASE_URL = "https://fuel.indianapi.in/live_fuel_price"
-  STATES=[ "Andaman And Nicobar", "Andhra Pradesh", "Arunachal Pradesh",  "Assam",  "Bihar", "Chandigarh", "Chhatisgarh", "Dadra And Nagar Haveli", "Daman And Diu", "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu And Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Pondicherry", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal" ]
   FUEL_TYPES=[ "petrol", "diesel" ]
 
   def self.fetch_and_store
@@ -17,6 +16,7 @@ class FuelPriceFetcher
       uri.query = URI.encode_www_form(params)
       req = Net::HTTP::Get.new(uri)
       req["X-API-Key"] = api_key
+      Rails.logger.info "Calling IndianAPI for #{fuel_type} at #{Time.now}"
 
       res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
       if res.is_a?(Net::HTTPSuccess)
@@ -26,7 +26,7 @@ class FuelPriceFetcher
         all_success = false
         Rails.logger.error "FuelPriceFetcher failed: #{res.code} #{res.body}"
       end
-      sleep(3)
+      sleep(60)
     end
     delete_older_prices if all_success
   end
