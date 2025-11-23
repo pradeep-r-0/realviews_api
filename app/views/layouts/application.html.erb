@@ -7,10 +7,10 @@
     
     <%= favicon_link_tag 'favicon.ico' %>
     <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <%= javascript_include_tag "application", defer: true, type: "module" %>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_PLACES_API_KEY'] %>&libraries=places">
-     async defer
+      async defer
     </script>
 
   </head>
@@ -64,6 +64,9 @@
     <p class="disclaimer">
       Disclaimer: This site is completely <b>free</b> of cost.
     </p>
+    <div class="share-container">
+        <%= link_to "Share with Friends", "#", onclick: "shareRealViews(); return false;" %>
+    </div>
     <div class="footer">
       <p>© <%= Time.current.year %> Contact pradeepr95@gmail.com for any concerns.</p>
     </div>

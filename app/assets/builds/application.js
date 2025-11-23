@@ -6199,6 +6199,20 @@ function initAutocomplete() {
 }
 document.addEventListener("turbo:load", initAutocomplete);
 
+// app/javascript/share.js
+function shareRealViews() {
+  if (navigator.share) {
+    navigator.share({
+      title: "RealViews",
+      text: "Check out honest restaurant reviews!",
+      url: window.location.href
+    });
+  } else {
+    alert("Share is not supported on this device. Copy the link: " + window.location.href);
+  }
+}
+window.shareRealViews = shareRealViews;
+
 // node_modules/@rails/ujs/app/assets/javascripts/rails-ujs.esm.js
 var linkClickSelector = "a[data-confirm], a[data-method], a[data-remote]:not([disabled]), a[data-disable-with], a[data-disable]";
 var buttonClickSelector = {
