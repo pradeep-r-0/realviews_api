@@ -11,6 +11,10 @@ class FuelPriceFetcher
 
     uri = URI(BASE_URL)
     all_success = true
+    if Rails.cache.read("fuel_api_blocked_#{Date.today}")
+      Rails.logger.warn "Fuel API blocked for today — skipping."
+      return
+    end
     FUEL_TYPES.each do |fuel_type|
       params = { location_type: "state", fuel_type: fuel_type }
       uri.query = URI.encode_www_form(params)
@@ -19,6 +23,13 @@ class FuelPriceFetcher
       Rails.logger.info "Calling IndianAPI for #{fuel_type} at #{Time.now}"
 
       res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+      
+      if res.code == "429"
+        Rails.logger.error "Fuel API rate limit exceeded — blocking further calls for the day."
+        Rails.cache.write("fuel_api_blocked_#{Date.today}", true, expires_in: 24.hours)
+        return
+      end
+
       if res.is_a?(Net::HTTPSuccess)
         data = JSON.parse(res.body)
         save_prices(data, fuel_type)
