@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_11_075930) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_26_194239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -98,7 +98,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_075930) do
     t.decimal "odometer_reading"
     t.string "state"
     t.bigint "user_id"
+    t.integer "ownership_id"
     t.index ["car_id"], name: "index_fuel_topups_on_car_id"
+    t.index ["ownership_id"], name: "index_fuel_topups_on_ownership_id"
     t.index ["user_id"], name: "index_fuel_topups_on_user_id"
   end
 
