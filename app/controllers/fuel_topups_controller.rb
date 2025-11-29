@@ -14,13 +14,13 @@ class FuelTopupsController < ApplicationController
   end
 
   def create
-    @fuel_topup = @ownership.fuel_topups.new(fuel_topup_params)
-    @fuel_topup.user = current_user
+    @fuel_topup = @ownership.fuel_topups.new(fuel_topup_params.merge(user: current_user, car: @ownership.car))
     if @fuel_topup.save
       redirect_to ownership_fuel_topups_path(@ownership),
                   notice: "Fuel top-up added successfully!"
     else
-      render :new, status: :unprocessable_entity
+      flash.now[:alert] = @fuel_topup.errors.full_messages.join(",")
+      render :new, status: :unprocessable_content
     end
   end
 
