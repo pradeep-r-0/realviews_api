@@ -20,7 +20,7 @@
 
     <tbody>
       <% current_topup = @fuel_topups.first %>
-      <% @fuel_topups.each do |prev_topup| %>
+      <% @fuel_topups.each_with_index do |prev_topup, index| %>
         <tr>
           <td><%= prev_topup.topup_date.strftime("%d-%b-%Y") %></td>
           <td><%= prev_topup.price.to_i %></td>
@@ -28,7 +28,7 @@
           <td><%= prev_topup.brand %></td>
           <td><%= prev_topup.odometer_reading.to_i %></td>
 
-          <% if(@fuel_topups.first == current_topup) %>
+          <% if(index == 0) %>
               <td><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</td>
           <% elsif current_topup.odometer_reading && current_topup.id != prev_topup.id %>
             <% mileage = calculate_mileage(current_topup, prev_topup)
@@ -47,7 +47,6 @@
           </td>
 
         </tr>
-
         <% current_topup = prev_topup %>
       <% end %>
     </tbody>
