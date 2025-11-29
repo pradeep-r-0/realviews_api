@@ -28,7 +28,9 @@
           <td><%= prev_topup.brand %></td>
           <td><%= prev_topup.odometer_reading.to_i %></td>
 
-          <% if current_topup.odometer_reading && current_topup.id != prev_topup.id %>
+          <% if(@fuel_topups.first == current_topup) %>
+              <td><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</td>
+          <% elsif current_topup.odometer_reading && current_topup.id != prev_topup.id %>
             <% mileage = calculate_mileage(current_topup, prev_topup)
                mileage = (mileage > 30 || mileage < 0) ? '-' : mileage %>
             <td><%= mileage %></td>
