@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17677302327">
+    </script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-17677302327');
+    </script>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -12,7 +22,6 @@
       src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_PLACES_API_KEY'] %>&libraries=places">
       async defer
     </script>
-
   </head>
   <body class="<%= body_class %>">
     <div class="header-container">
@@ -39,13 +48,13 @@
           <div style="text-align: right; margin-bottom: 15px;">
             <%= link_to "My Reviews", my_reviews_dishes_path, class: "btn btn-link" %>
             <%= link_to "Logout", logout_path, method: :delete, class: "btn btn-danger" %>
-          <% else %>
-            <div class="auth-links">
-              <%= link_to "Login", login_otp_path, class: "btn btn-primary" %>
-              <%= link_to "Signup", signup_path, class: "btn btn-primary" %>
-            </div>
-          <% end %>
           </div>
+        <% else %>
+          <div class="auth-links">
+            <%= link_to "Login", login_otp_path, class: "btn btn-primary" %>
+            <%= link_to "Signup", signup_path, class: "btn btn-primary" %>
+          </div>
+        <% end %>
       </div>
     </div>
 
