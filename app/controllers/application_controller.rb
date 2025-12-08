@@ -4,12 +4,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :user_logged_in?
   before_action :check_session_timeout
 
-  SESSION_TIMEOUT = 24.hours
+  SESSION_TIMEOUT_HOURS = ENV["SESSION_TIMEOUT_HOURS"].to_i.hours
 
   private
 
   def check_session_timeout
-    if session[:last_seen_at] && session[:last_seen_at] < SESSION_TIMEOUT.ago
+    if session[:last_seen_at] && Time.current - session[:last_seen_at] > SESSION_TIMEOUT.ago
       reset_session
       redirect_to login_otp_path, alert: "Your session has expired due to inactivity."
     else
