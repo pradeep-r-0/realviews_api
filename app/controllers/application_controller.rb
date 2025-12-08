@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   private
 
   def check_session_timeout
-    if session[:last_seen_at] && Time.current - session[:last_seen_at] > SESSION_TIMEOUT.ago
+    if session[:last_seen_at] && Time.current - session[:last_seen_at].to_time > SESSION_TIMEOUT_HOURS
       reset_session
       redirect_to login_otp_path, alert: "Your session has expired due to inactivity."
     else
