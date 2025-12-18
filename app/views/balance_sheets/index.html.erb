@@ -21,7 +21,7 @@
     <tbody>
       <% @balance_sheets.each do |b| %>
         <tr>
-          <td><%= link_to "#{b.user.name} - #{Date::MONTHNAMES[b.month]} #{b.year}", balance_sheet_path(b) %></td>
+          <td><%= link_to "#{Date::MONTHNAMES[b.month]} #{b.year}", balance_sheet_path(b) %></td>
           <td>
             <%= link_to 'View', balance_sheet_path(b) %> |
             <%= link_to 'Delete', balance_sheet_path(b), method: :delete, data: { confirm: 'Are you sure?' } %>
