@@ -1,6 +1,7 @@
 class DishesController < ApplicationController
-  before_action :dish, only: %i[ show update destroy edit]
-  before_action :require_login, only: %i[new create]
+  before_action :require_login, except: %i[index show]
+  before_action :set_dish, only: %i[show edit update destroy]
+  before_action :check_ownership, only: %i[update destroy edit]
   before_action :set_city_and_restaurants, only: :new
 
   # GET /dishes
@@ -79,7 +80,7 @@ class DishesController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
 
-  def dish
+  def set_dish
     @dish ||= Dish.find(params[:id])
   end
 
@@ -110,4 +111,9 @@ class DishesController < ApplicationController
   def set_city_and_restaurants
     @restaurant_names = Restaurant.distinct.order(:name).pluck(:name).compact
   end
+
+  def check_ownership
+    return redirect_to(dishes_path, alert: "You are not authorized to access this dish.") if @dish.user != current_user
+  end
+
 end
