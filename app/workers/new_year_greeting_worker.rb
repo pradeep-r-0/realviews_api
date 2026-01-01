@@ -2,6 +2,8 @@ class NewYearGreetingWorker
   include Sidekiq::Worker
 
   def perform
+    return unless Time.zone.now.year == 2026
+    
     users = User.all
 
     return if users.empty? || Rails.env != "production"
