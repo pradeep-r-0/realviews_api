@@ -11,7 +11,7 @@ schedule:
   #   cron: "1 0 * * *"   # every day at 12:01 AM
   #   class: "FetchFuelPricesJob"
   new_year_mailer:
-    cron: "30 9 1 1 *"
-    class: "NewYearMailerJob"
+    cron: "0 10 1 1 *"
+    class: "NewYearGreetingWorker"
 redis:
   url: <%= ENV.fetch("REDIS_URL") { "redis://127.0.0.1:6379/0" } %>
