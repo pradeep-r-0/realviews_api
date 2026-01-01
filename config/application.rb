@@ -23,6 +23,7 @@ module RealviewsApi
     config.api_only = false
     config.load_defaults 8.0
     config.time_zone = "Asia/Kolkata"
+    config.active_record.default_timezone = :local
     config.active_job.queue_adapter = :sidekiq
   end
 end
