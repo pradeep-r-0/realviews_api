@@ -10,8 +10,9 @@ class BalanceSheet < ApplicationRecord
 
   validates :user_id, uniqueness: { scope: [ :month, :year ], message: "already has a balance sheet for this month" }
 
-  before_save :calculate_net_balance, :update_total_expense
   before_validation :set_default_carry_forward, on: :create
+
+  after_touch :recalculate_totals
 
   # === Class Methods ===
   def self.for_month(user, year:, month:)
@@ -35,16 +36,11 @@ class BalanceSheet < ApplicationRecord
     Date.new(year, month, 1)
   end
 
-  def calculate_net_balance
-    self.net_balance = total_income.to_f + carry_forward.to_f - total_expense.to_f
-  end
-
-  def total_expense
-    expenses.sum(:amount)
-  end
-
-  def update_total_expense
-    self.total_expense = total_expense
+  def recalculate_totals
+    expense_sum = expenses.sum(:amount).to_f    
+    update_columns(total_expense: expense_sum,
+                    net_balance: total_income.to_f + carry_forward.to_f - expense_sum,
+                    updated_at: DateTime.now)
   end
 
   private
