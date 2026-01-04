@@ -143,3 +143,30 @@
   font-weight: bold;
 }
 
+.btn-add-expense {
+  background-color: #0d6efd; /* Bootstrap blue */
+  color: #fff;
+  border: 1px solid #0d6efd;
+}
+
+.btn-save-balance {
+  background-color: #198754; /* Bootstrap green */
+  color: #fff;
+  border: 1px solid #198754;
+}
+
+.btn-add-expense:hover {
+  background-color: #0b5ed7;
+  border-color: #0b5ed7;
+}
+
+.btn-save-balance:hover {
+  background-color: #157347;
+  border-color: #157347;
+}
+
+.equal-btn {
+  min-width: 180px;
+  text-align: center;
+}
+
