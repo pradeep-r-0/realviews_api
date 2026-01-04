@@ -4,7 +4,7 @@
 
   <p><strong>Total Income (₹):</strong> <%= @balance_sheet.total_income %></p>
   <p><strong>Carry Forward (₹):</strong> <%= @balance_sheet.carry_forward %></p>
-  <p><strong>Total Expenses (₹):</strong> <%= @balance_sheet.expenses.sum(:amount).to_f %></p>
+  <p><strong>Total Expenses (₹):</strong> <%= @balance_sheet.total_expense %></p>
   <p><strong>Net balance (₹): </strong> <%= @balance_sheet.net_balance %></p>
 
   <h3>Expenses</h3>
