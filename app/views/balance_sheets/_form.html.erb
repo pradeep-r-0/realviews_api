@@ -27,8 +27,6 @@
       <% end %>
     </div>
 
-    <button type="button" id="add-expense-btn" class="btn btn-secondary">Add Expense</button>
-
     <div id="expense-template" style="display:none;">
       <% new_expense = balance_sheet.expenses.build %>
       <%= f.fields_for :expenses, new_expense, child_index: "NEW_RECORD" do |expense_form| %>
@@ -36,8 +34,16 @@
       <% end %>
     </div>
 
-    <div class="form-group">
-      <%= f.submit "Save Balance Sheet", class: "btn btn-primary" %>
-    </div>
+    <button type="button"
+            id="add-expense-btn"
+            class="btn equal-btn btn-add-expense">
+      Add Expense
+    </button>
+
+    <%= f.button "Save",
+        type: :submit,
+        class: "btn equal-btn btn-save-balance" %>
+
+
   </div>
 <% end %>
