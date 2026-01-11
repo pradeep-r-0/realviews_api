@@ -1,40 +1,31 @@
 console.log("🔥 expenses.js loaded");
 
-document.addEventListener("turbo:load", setupAddExpense);
-document.addEventListener("DOMContentLoaded", setupAddExpense);
-
-function setupAddExpense() {
-  const addBtn = document.getElementById("add-expense-btn");
-  const container = document.getElementById("expenses-container");
-  const template = document.getElementById("expense-template");
-
-  if (!addBtn || !container || !template) return;
-
-  // Add new expense
-  addBtn.addEventListener("click", (e) => {
+// Use document delegation for Turbo support
+document.addEventListener("click", (e) => {
+  // Remove button
+  if (e.target.classList.contains("remove-expense")) {
     e.preventDefault();
-    const html = template.innerHTML.replace(/NEW_RECORD/g, new Date().getTime());
+    const expenseFields = e.target.closest(".expense-fields");
+    const destroyField = expenseFields.querySelector("input[name*='_destroy']");
+    if (destroyField) {
+      destroyField.value = "1"; // mark for destruction
+      expenseFields.style.display = "none";
+      console.log("Expense marked for destroy");
+    } else {
+      expenseFields.remove(); // new record
+      console.log("New expense removed");
+    }
+  }
+
+  // Add button
+  if (e.target.id === "add-expense-btn") {
+    e.preventDefault();
+    const template = document.getElementById("expense-template");
+    const container = document.getElementById("expenses-container");
+    const html = template.innerHTML.replace(/_new_record_/g, new Date().getTime());
     const wrapper = document.createElement("div");
     wrapper.innerHTML = html;
     container.appendChild(wrapper.firstElementChild);
-  });
-
-  // Remove expense
-  container.addEventListener("click", function(e) {
-    if (!e.target.classList.contains("remove-expense")) return;
-    e.preventDefault();
-
-    const expenseFields = e.target.closest(".expense-fields");
-    const destroyField = expenseFields.querySelector("input[name*='_destroy']");
-
-    if (destroyField) {
-      // mark for destruction
-      destroyField.value = "1";
-      // add class to visually hide, don't remove or set display:none
-      expenseFields.classList.add("marked-for-destroy");
-    } else {
-      expenseFields.remove(); // for new records not in DB
-    }
-  });
-
-}
+    console.log("New expense added");
+  }
+});

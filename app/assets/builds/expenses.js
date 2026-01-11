@@ -1,30 +1,30 @@
-// app/javascript/expenses.js
-console.log("\u{1F525} expenses.js loaded");
-document.addEventListener("turbo:load", setupAddExpense);
-document.addEventListener("DOMContentLoaded", setupAddExpense);
-function setupAddExpense() {
-  const addBtn = document.getElementById("add-expense-btn");
-  const container = document.getElementById("expenses-container");
-  const template = document.getElementById("expense-template");
-  if (!addBtn || !container || !template) return;
-  addBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    const html = template.innerHTML.replace(/NEW_RECORD/g, (/* @__PURE__ */ new Date()).getTime());
-    const wrapper = document.createElement("div");
-    wrapper.innerHTML = html;
-    container.appendChild(wrapper.firstElementChild);
-  });
-  container.addEventListener("click", function(e) {
-    if (!e.target.classList.contains("remove-expense")) return;
-    e.preventDefault();
-    const expenseFields = e.target.closest(".expense-fields");
-    const destroyField = expenseFields.querySelector("input[name*='_destroy']");
-    if (destroyField) {
-      destroyField.value = "1";
-      expenseFields.classList.add("marked-for-destroy");
-    } else {
-      expenseFields.remove();
+(() => {
+  // app/javascript/expenses.js
+  console.log("\u{1F525} expenses.js loaded");
+  document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("remove-expense")) {
+      e.preventDefault();
+      const expenseFields = e.target.closest(".expense-fields");
+      const destroyField = expenseFields.querySelector("input[name*='_destroy']");
+      if (destroyField) {
+        destroyField.value = "1";
+        expenseFields.style.display = "none";
+        console.log("Expense marked for destroy");
+      } else {
+        expenseFields.remove();
+        console.log("New expense removed");
+      }
+    }
+    if (e.target.id === "add-expense-btn") {
+      e.preventDefault();
+      const template = document.getElementById("expense-template");
+      const container = document.getElementById("expenses-container");
+      const html = template.innerHTML.replace(/_new_record_/g, (/* @__PURE__ */ new Date()).getTime());
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = html;
+      container.appendChild(wrapper.firstElementChild);
+      console.log("New expense added");
     }
   });
-}
-//# sourceMappingURL=/assets/expenses.js.map
+})();
+//# sourceMappingURL=expenses.js.map

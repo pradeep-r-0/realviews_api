@@ -2,6 +2,6 @@
   "version": 3,
   "sources": ["../../javascript/share.js"],
   "sourcesContent": ["export function shareRealViews() {\n  if (navigator.share) {\n    navigator.share({\n      title: \"RealViews\",\n      text: \"Check out honest restaurant reviews!\",\n      url: window.location.href,\n    });\n  } else {\n    alert(\"Share is not supported on this device. Copy the link: \" + window.location.href);\n  }\n}\n\nwindow.shareRealViews = shareRealViews;\n"],
-  "mappings": ";AAAO,SAAS,iBAAiB;AAC/B,MAAI,UAAU,OAAO;AACnB,cAAU,MAAM;AAAA,MACd,OAAO;AAAA,MACP,MAAM;AAAA,MACN,KAAK,OAAO,SAAS;AAAA,IACvB,CAAC;AAAA,EACH,OAAO;AACL,UAAM,2DAA2D,OAAO,SAAS,IAAI;AAAA,EACvF;AACF;AAEA,OAAO,iBAAiB;",
+  "mappings": ";;AAAO,WAAS,iBAAiB;AAC/B,QAAI,UAAU,OAAO;AACnB,gBAAU,MAAM;AAAA,QACd,OAAO;AAAA,QACP,MAAM;AAAA,QACN,KAAK,OAAO,SAAS;AAAA,MACvB,CAAC;AAAA,IACH,OAAO;AACL,YAAM,2DAA2D,OAAO,SAAS,IAAI;AAAA,IACvF;AAAA,EACF;AAEA,SAAO,iBAAiB;",
   "names": []
 }
