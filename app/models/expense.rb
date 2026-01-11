@@ -5,6 +5,11 @@ class Expense < ApplicationRecord
   validates :date, presence: true
   validates :description, presence: true
   before_save :update_parent_totals
+  scope :active, -> { where(deleted: false) }
+
+  def destroy
+    update(deleted: true)
+  end
 
   private
   def update_parent_totals

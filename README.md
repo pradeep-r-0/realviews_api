@@ -21,4 +21,6 @@ Things you may want to cover:
 
 * Deployment instructions
 
+yarn build generated files in assets folder thus updating javascript
+
 * ...

@@ -1,7 +1,9 @@
 # app/models/balance_sheet.rb
 class BalanceSheet < ApplicationRecord
   belongs_to :user
-  has_many :expenses, dependent: :destroy
+  has_many :expenses, -> { where(deleted: false) },
+          inverse_of: :balance_sheet,
+          dependent: :destroy
   accepts_nested_attributes_for :expenses, allow_destroy: true
 
   validates :month, :year, presence: true

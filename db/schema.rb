@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_12_081835) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_11_142843) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -74,7 +74,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_12_081835) do
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "deleted", default: false, null: false
     t.index ["balance_sheet_id"], name: "index_expenses_on_balance_sheet_id"
+    t.index ["deleted"], name: "index_expenses_on_deleted"
   end
 
   create_table "fuel_prices", force: :cascade do |t|

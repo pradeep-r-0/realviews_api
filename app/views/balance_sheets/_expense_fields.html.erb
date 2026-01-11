@@ -14,5 +14,7 @@
     <%= f.date_field :date %>
   </div>
 
+  <!-- hidden _destroy field is mandatory -->
+  <%= f.hidden_field :_destroy %>
   <button type="button" class="remove-expense">Remove</button>
 </div>
