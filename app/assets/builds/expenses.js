@@ -19,7 +19,7 @@
       e.preventDefault();
       const template = document.getElementById("expense-template");
       const container = document.getElementById("expenses-container");
-      const html = template.innerHTML.replace(/_new_record_/g, (/* @__PURE__ */ new Date()).getTime());
+      const html = template.innerHTML.replace(/NEW_RECORD/g, Date.now());
       const wrapper = document.createElement("div");
       wrapper.innerHTML = html;
       container.appendChild(wrapper.firstElementChild);

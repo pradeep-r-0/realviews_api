@@ -1,7 +1,7 @@
 # app/models/balance_sheet.rb
 class BalanceSheet < ApplicationRecord
   belongs_to :user
-  has_many :expenses, -> { where(deleted: false) },
+  has_many :expenses,
           inverse_of: :balance_sheet,
           dependent: :destroy
   accepts_nested_attributes_for :expenses, allow_destroy: true
@@ -39,7 +39,7 @@ class BalanceSheet < ApplicationRecord
   end
 
   def recalculate_totals
-    expense_sum = expenses.sum(:amount).to_f    
+    expense_sum = expenses.where(deleted: false).sum(:amount).to_f    
     update_columns(total_expense: expense_sum,
                     net_balance: total_income.to_f + carry_forward.to_f - expense_sum,
                     updated_at: DateTime.now)

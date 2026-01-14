@@ -1,7 +1,7 @@
 <div class="expense-fields">
   <div class="form-group">
     <%= f.label :description %>
-    <%= f.text_field :description %>
+    <%= f.text_field :description, autocomplete: "off" %>
   </div>
 
   <div class="form-group">
@@ -15,6 +15,6 @@
   </div>
 
   <!-- hidden _destroy field is mandatory -->
-  <%= f.hidden_field :_destroy %>
+  <%= f.hidden_field :_destroy, value: "0" %>
   <button type="button" class="remove-expense">Remove</button>
 </div>
