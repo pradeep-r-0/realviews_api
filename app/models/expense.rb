@@ -1,5 +1,6 @@
 class Expense < ApplicationRecord
   belongs_to :balance_sheet
+  scope :undeleted, -> { where(deleted: false) }
 
   validates :amount, numericality: { greater_than_or_equal_to: 0 }
   validates :date, presence: true
