@@ -23,6 +23,14 @@
       src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_PLACES_API_KEY'] %>&libraries=places">
       async defer
     </script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4VT0195768"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4VT0195768');
+    </script>
   </head>
   <body class="<%= body_class %>">
     <div class="header-container">
