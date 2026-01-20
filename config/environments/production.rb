@@ -13,6 +13,9 @@ Rails.application.configure do
   config.consider_all_requests_local = false
 
   config.assets.compile = true
+  # Tell Rails to serve files from /public
+  config.public_file_server.enabled = true
+
 
   # Cache assets for far-future expiry since they are all digest stamped.
   config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
