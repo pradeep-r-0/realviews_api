@@ -25,5 +25,11 @@ module RealviewsApi
     config.time_zone = "Asia/Kolkata"
     config.active_record.default_timezone = :local
     config.active_job.queue_adapter = :sidekiq
+
+        # Ensure gzipped sitemap served as XML for Google
+    config.middleware.insert_before 0, Rack::Static,
+      urls: ["/sitemap.xml.gz"], root: Rails.root.join("public"), header_rules: [
+        [:all, { 'Content-Type' => 'application/gzip' }]
+      ]
   end
 end

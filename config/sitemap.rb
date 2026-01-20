@@ -3,6 +3,7 @@
 SitemapGenerator::Sitemap.default_host = "https://realviews.in"
 SitemapGenerator::Sitemap.public_path = 'public/'
 SitemapGenerator::Sitemap.create_index = true
+SitemapGenerator::Sitemap.compress = true
 
 SitemapGenerator::Sitemap.create do
   # Homepage
