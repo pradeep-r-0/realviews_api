@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
       flash[:notice] = "OTP sent to #{user.email} (check spam too)."
       redirect_to verify_otp_path
     else
-      flash[:alert] = "No account found. Please Signup first!"
+      flash[:success] = "Welcome, please enter your good name 😊"
       redirect_to signup_path(email: params[:email])
     end
   end
