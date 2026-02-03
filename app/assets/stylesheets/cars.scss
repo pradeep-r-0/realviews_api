@@ -117,10 +117,22 @@ body.page-cars {
   border-collapse: collapse;
 }
 
+
 .cars-table td {
   padding: 10px 15px;   /* reduce spacing */
   max-width: 250px;      /* limit each cell width */
   word-wrap: break-word; /* wrap long content */
+}
+
+/* Dates column */
+.cars-table td.date-cell {
+  white-space: nowrap;
+}
+
+/* Brand column */
+.cars-table td.brand-cell {
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .cars-table h2 {
