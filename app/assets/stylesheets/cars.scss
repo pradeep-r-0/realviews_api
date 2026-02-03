@@ -26,8 +26,11 @@
   width: 220px;
 }
 
-.field{
-  margin-bottom: 5px;
+.column .field{
+  margin-bottom: 2px;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
 }
 
 .centered-columns {
@@ -108,8 +111,9 @@ body.page-cars {
 }
 
 .cars-table {
-  max-width: 650px;     /* optional: limit total width */
-  margin: 0 auto;       /* center table */
+  width: 100%;       /* fill container */
+  max-width: 650px;  /* optional: limit on large screens */
+  margin: 15px auto; /* center table with some spacing */
   border-collapse: collapse;
 }
 
@@ -131,3 +135,37 @@ body.page-cars {
 .cars-link {
   right: 260px;                  /* bottom-right corner */
 }
+
+.column {
+  width: 100%;        /* allow full width */
+  max-width: 900px;  /* control readability */
+  text-align: center;
+}
+
+.center-block {
+  display: flex;               /* treat as flex container */
+  justify-content: center;     /* center horizontally */
+  flex-direction: column;      /* keep children stacked vertically */
+  align-items: center;         /* center all children horizontally */
+  width: 100%;                 /* optional, match parent width */
+}
+
+.field-bold {
+  font-weight: bold;
+}
+
+.center-block .mileage {
+  margin-top: 0;            /* optional: remove spacing above mileage */
+}
+
+.center-block .btn {
+  margin-top: 4px;          /* minimal spacing above button */
+}
+
+.car-title {
+  margin: 5px 0;       /* reduces top/bottom spacing */
+  font-weight: bold;    /* optional: keep it bold */
+  font-size: 1.5em;    /* adjust size if needed */
+}
+
+

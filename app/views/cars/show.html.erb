@@ -1,60 +1,77 @@
-<div align="center">
-  <h2>
-  <% @ownership = @car.ownerships.find_by_user_id(current_user.id) if current_user %>
-    <%= @car.car_make.name %> <%= @car.model %> 
-    <span style="font-size: 0.8em;"><%= @car.variant %></span> 
-    <span style="font-size: 0.8em;">
-      (<%= @car.fuel_type.eql?("CNG") ? @car.fuel_type : @car.fuel_type.chars.first %>)
-    </span>
-  </h2>
+<div class="centered-columns">
+  <div class="column">
 
-  <h3>Model: <%= @car.date_of_purchase.strftime("%B %Y") %></h3>
+    <% @ownership = @car.ownerships.find_by_user_id(current_user.id) if current_user %>
 
-  <% mileage = calculate_avg_mileage(@fuel_topups)
-     mileage = mileage < 0 ? '-' : mileage.to_s + 'kmpl (avg of last 5 topups)' %>
+    <h2 class="car-title">
+      <%= @car.car_make.name %> <%= @car.model %>
+      <span class="text-muted"><%= @car.variant %></span>
+      <span class="text-muted">
+        (<%= @car.fuel_type.eql?("CNG") ? @car.fuel_type : @car.fuel_type.chars.first %>)
+      </span>
+    </h2>
 
-  <h3 style="color: green">Mileage : <%= mileage %></h3>
+    <div class="center-block">
+      <div class="field text-secondary field-bold">
+        Model: <%= @car.date_of_purchase.strftime("%B %Y") %>
+      </div>
 
-  <h3>
-    Refill History
-    <% if current_user && @ownership&.user_id == current_user.id %>
-      <span><%= link_to "view all", ownership_fuel_topups_path(@ownership), class: "btn btn-primary" %></span>
-    <% end %>
-  </h3>
+      <% mileage = calculate_avg_mileage(@fuel_topups)
+        mileage = mileage < 0 ? '-' : "#{mileage} kmpl (avg of last 5 topups)" %>
 
-  <table border="1">
-    <tr>
-      <th>Date</th>
-      <th>Fuel Brand</th>
-      <th>Price</th>
-      <th>Odometer Reading</th>
-    </tr>
-    <% @fuel_topups.each do |top_up| %>
+      <div class="field mileage field-bold">
+        Mileage: <%= mileage %>
+      </div>
+
+      <% if current_user && @ownership&.user_id == current_user.id %>
+        <div class="field">
+          <%= link_to "View Full Refill History",
+              ownership_fuel_topups_path(@ownership),
+              class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+
+    <table class="cars-table">
       <tr>
-        <td><%= top_up.topup_date.strftime("%d-%m-%Y") %></td>
-        <td><%= top_up.brand %></td>
-        <td><%= top_up.price %></td>
-        <td><%= top_up.odometer_reading %></td>
+        <th>Date</th>
+        <th>Fuel Brand</th>
+        <th>Price</th>
+        <th>Odometer</th>
       </tr>
+
+      <% @fuel_topups.each do |top_up| %>
+        <tr>
+          <td><%= top_up.topup_date.strftime("%d-%m-%Y") %></td>
+          <td><%= top_up.brand %></td>
+          <td>₹<%= top_up.price %></td>
+          <td><%= top_up.odometer_reading %></td>
+        </tr>
+      <% end %>
+    </table>
+
+    <% if @fuel_topups.size < 2 %>
+      <div class="field mileage">
+        Add at least 2 fuel topup records to view mileage.
+      </div>
     <% end %>
-  </table>
 
-  <% if(@fuel_topups.size < 2) %>
-    <h4 style="color: green;">Add at least 2 fuel topup records to view mileage.</h4>
-  <%
-    end
-  %>
+    <% if @ownership.present? %>
+      <div class="center-block">
+        <%= link_to "Topup Fuel",
+            new_ownership_fuel_topup_path(@ownership),
+            class: "btn btn-primary" %>
+      </div>
+    <% end %>
 
-  <% if @ownership.present? %>
-    <i style="font-size:28px" class="fas">&#xf52f;</i>
-    <%= link_to "Topup Fuel", new_ownership_fuel_topup_path(@ownership), class: "btn btn-primary"%>
-    <br>
-  <% end %>
+    <div class="qna-box">
+      <ul>
+        <li class="question">🤔 How does it work?</li>
+        <li class="answer">
+          We calculate based on kms between your consecutive topups
+        </li>
+      </ul>
+    </div>
 
-  <div class="qna-box">
-    <ul>
-      <li class="question">🤔 How does it work?</li>
-      <li class="answer">We count based on kms between your consecutive full tank topups</li>
-    </ul>
   </div>
 </div>
