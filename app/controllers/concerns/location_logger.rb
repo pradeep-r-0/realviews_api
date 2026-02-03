@@ -28,7 +28,7 @@ module LocationLogger
         data["country"]
       ].compact.join(", ")
 
-      user_label = user_logged_in? ? "User #{current_user.email}" : "Guest"
+      user_label = user_logged_in? ? "User #{current_user.name}" : "Guest"
       Rails.logger.info("🌍 #{user_label} accessed from IP #{user_ip} (#{location_info})")
 
     rescue => e
