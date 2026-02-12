@@ -370,35 +370,16 @@ body.page-dishes {
 }
 
 .filter-group {
-  flex: 1;
-  min-width: 200px;
+  margin: 10px 5px;
+  display: inline-block;
 }
 
 .filter-input {
-  width: 100%;
-  padding: 10px 12px;
-  font-size: 16px;
-  border: 1px solid #ccc;
+  padding: 8px 12px;
   border-radius: 6px;
-  box-sizing: border-box;
-  height: 42px;
-  line-height: 1.2;
+  border: 1px solid #ccc;
+  min-width: 180px;
 }
-
-/* Normalize select */
-select.filter-input {
-  height: 42px;
-  padding: 10px 36px 10px 12px; /* right padding for arrow */
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: white;
-  background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px;
-}
-
 
 .welcome-container {
   display: flex;

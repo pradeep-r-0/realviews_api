@@ -195,49 +195,9 @@ a:hover {
   background-color: #0f6cd4;
 }
 
-.table-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  width: 100%;
-}
-
 .styled-table {
+  max-width: 900px;
   width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
+  margin: 0 auto;      /* center the table */
+  display: table;      /* ensures table keeps layout */
 }
-
-@media (max-width: 768px) {
-  .styled-table thead {
-    display: none;
-  }
-
-  .styled-table tr {
-    display: block;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    background: #fff;
-  }
-
-  .styled-table td {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-  }
-
-  .styled-table td::before {
-    font-weight: bold;
-    content: attr(data-label);
-  }
-}
-
-.btn-action, .btn-secondary {
-  padding: 10px 16px;
-  font-size: 16px;
-  border-radius: 8px;
-  display: inline-block;
-  margin: 5px;
-}
-
