@@ -211,7 +211,7 @@ a:hover {
 .styled-table td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
-  text-align: left;
+  text-align: right;
 }
 
 .mobile-sort {
@@ -254,6 +254,11 @@ a:hover {
     justify-content: space-between;
     padding: 6px 0;
     font-size: 15px;
+  }
+
+  td[data-label] a {
+    display: inline-block;
+    margin-left: 8px;
   }
 
   /* Add column labels */
