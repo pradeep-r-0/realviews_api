@@ -46,25 +46,26 @@
             <li><%= link_to "Food", dishes_path, class: "menu-link" %></li>
             <li><%= link_to "Balance Sheet", balance_sheets_path, class: "menu-link" %></li>
           </ul>
+
+          <div class="login-box">
+            <% if user_logged_in? %>
+              <div class="user-name">
+                <%= current_user.name || current_user.email %>
+              </div>
+
+              <div class="user-actions">
+                <%= link_to "My Reviews", my_reviews_dishes_path, class: "btn btn-link" %>
+                <%= link_to "Logout", logout_path, method: :delete, class: "btn btn-danger" %>
+              </div>
+            <% else %>
+              <div class="auth-links">
+                <%= link_to "Login", login_otp_path, class: "btn btn-primary" %>
+                <%= link_to "Signup", signup_path, class: "btn btn-primary" %>
+              </div>
+            <% end %>
+          </div>
         </nav>
       <% end %>
-
-      <div class="login-box">
-        <% if user_logged_in? %>
-          <div style="text-align">
-            <%= current_user.name || current_user.email %>
-          </div>
-          <div style="text-align: right; margin-bottom: 15px;">
-            <%= link_to "My Reviews", my_reviews_dishes_path, class: "btn btn-link" %>
-            <%= link_to "Logout", logout_path, method: :delete, class: "btn btn-danger" %>
-          </div>
-        <% else %>
-          <div class="auth-links">
-            <%= link_to "Login", login_otp_path, class: "btn btn-primary" %>
-            <%= link_to "Signup", signup_path, class: "btn btn-primary" %>
-          </div>
-        <% end %>
-      </div>
     </div>
 
     <div class="flash-messages">
