@@ -110,12 +110,10 @@ body.page-cars {
   font-weight: bold;
 }
 
-.cars-table {
-  width: 100%;       /* fill container */
-  max-width: 650px;  /* optional: limit on large screens */
-  margin: 15px auto; /* center table with some spacing */
-  border-collapse: collapse;
-}
+  .cars-table {
+    max-width: 100%;       /* remove desktop limit */
+    margin: 0;             /* remove auto centering */
+  }
 
 
 .cars-table td {
@@ -180,4 +178,60 @@ body.page-cars {
   font-size: 1.5em;    /* adjust size if needed */
 }
 
+@media (max-width: 768px) {
+  .cars-table, 
+  .cars-table thead, 
+  .cars-table tbody, 
+  .cars-table th, 
+  .cars-table td, 
+  .cars-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .cars-table-wrapper {
+    padding: 0 10px;       /* keep small margin from viewport edges */
+  }
+
+  .cars-table thead tr {
+    display: none; /* hide headers on mobile */
+  }
+
+  .cars-table tbody tr {
+    width: 100vw;          /* span full viewport width */
+    margin: 0;             /* remove spacing from table */
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 10px 12px;
+  }
+
+  .cars-table td {
+    display: flex;
+    justify-content: flex-start;
+    padding: 6px 10px;
+    gap: 12px; /* add gap between label and value */
+  }
+
+  .cars-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    flex: 0 0 40%;
+    text-align: left;
+    padding-right: 6px;
+  }
+
+  .cars-table td span {
+    flex: 1 1 60%;
+    text-align: right;
+  }
+
+  .cars-table, 
+  .cars-table tbody, 
+  .cars-table tr {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+}
 

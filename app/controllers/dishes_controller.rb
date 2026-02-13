@@ -22,6 +22,7 @@ class DishesController < ApplicationController
         @dishes = @dishes.joins(:restaurant).where("restaurants.name ILIKE ?", "%#{params[:restaurant_name]}%")
     end
 
+    @dishes = @dishes.page(params[:page]).per(10)
 
     respond_to do |format|
       format.html # renders views/dishes/index.html.erb

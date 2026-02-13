@@ -6,7 +6,7 @@ class FuelTopupsController < ApplicationController
   before_action :set_fuel_topup, only: %i[edit update destroy]
 
   def index
-    @fuel_topups = @ownership.fuel_topups.order(topup_date: :desc, odometer_reading: :desc)
+    @fuel_topups = @ownership.fuel_topups.order(topup_date: :desc, odometer_reading: :desc).page(params[:page]).per(10)
   end
 
   def new

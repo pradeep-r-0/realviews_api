@@ -22,18 +22,18 @@
       <% current_topup = @fuel_topups.first %>
       <% @fuel_topups.each_with_index do |prev_topup, index| %>
         <tr>
-          <td class="date-cell"><%= prev_topup.topup_date.strftime("%d-%b-%Y") %></td>
-          <td><%= prev_topup.price.to_i %></td>
-          <td><%= prev_topup.rate_per_litre.to_f %></td>
-          <td class="brand-cell"><%= prev_topup.brand %></td>
-          <td><%= prev_topup.odometer_reading.to_i %></td>
+          <td data-label="Date"><span><%= prev_topup.topup_date.strftime("%d-%b-%Y") %></span></td>
+          <td data-label="Amount"><span><%= prev_topup.price.to_i %></span></td>
+          <td data-label="Rate per Litre"><span><%= prev_topup.rate_per_litre.to_f %></span></td>
+          <td data-label="Brand"><span><%= prev_topup.brand %></span></td>
+          <td data-label="Odometer Reading"><span><%= prev_topup.odometer_reading.to_i %></span></td>
 
           <% if(index == 0) %>
-              <td><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</td>
+              <td data-label="Mileage"><span><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</span></td>
           <% elsif current_topup.odometer_reading && current_topup.id != prev_topup.id %>
             <% mileage = calculate_mileage(current_topup, prev_topup)
                mileage = (mileage > 30 || mileage < 0) ? '-' : mileage %>
-            <td><%= mileage %></td>
+            <td data-label="Mileage"><span><%= mileage %></span></td>
           <% else %>
             <td> - </td>
           <% end %>
@@ -51,6 +51,10 @@
       <% end %>
     </tbody>
   </table>
+
+  <div class="pagination">
+    <%= paginate @fuel_topups %>
+  </div>
 
   <br>
   <% if @ownership&.user_id == current_user.id %>
