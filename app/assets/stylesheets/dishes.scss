@@ -195,9 +195,71 @@ a:hover {
   background-color: #0f6cd4;
 }
 
-.styled-table {
-  max-width: 900px;
+/* Desktop Table */
+.table-wrapper {
   width: 100%;
-  margin: 0 auto;      /* center the table */
-  display: table;      /* ensures table keeps layout */
+  overflow-x: auto;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.mobile-sort {
+  display: none;
+}
+
+/* ---------------- MOBILE CARD MODE ---------------- */
+@media (max-width: 768px) {
+
+  .mobile-sort {
+    display: flex;
+    justify-content: center;   /* center horizontally */
+    margin-bottom: 12px;
+  }
+
+  .mobile-sort select {
+    max-width: 260px;  /* optional: prevent full width */
+    width: 100%;
+  }
+
+  /* Hide table header */
+  .styled-table thead {
+    display: none;
+  }
+
+  /* Each row becomes a card */
+  .styled-table tr {
+    display: block;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+
+  /* Each cell becomes a label + value row */
+  .styled-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 15px;
+  }
+
+  /* Add column labels */
+  .styled-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #555;
+  }
 }

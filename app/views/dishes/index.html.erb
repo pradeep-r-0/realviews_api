@@ -1,4 +1,4 @@
-<div class="page-container" align="center">
+<div class="page-container">
   <div class="filters-section <%= 'hidden' if flash[:notice].present? %>">
     <!-- your existing filter-card here -->
     <div class="filter-card shadow-lg">
@@ -35,12 +35,22 @@
     </div>
   </div>
   <div class="table-wrapper">
+    <div class="mobile-sort">
+      <%= form_with url: dishes_path, method: :get, local: true do %>
+        <%= select_tag :sort_direction,
+          options_for_select([["Rating High → Low", "desc"], ["Rating Low → High", "asc"]], params[:sort_direction]),
+          onchange: "this.form.submit()",
+          class: "filter-input"
+        %>
+        <%= hidden_field_tag :sort_column, "rating" %>
+      <% end %>
+    </div>
     <table class="styled-table">
       <thead>
         <tr>
           <th>Restaurant</th>
           <th>Dish</th>
-          <th>
+                    <th>
             <% new_direction =
                 params[:sort_column] == "rating" && params[:sort_direction] == "asc" ? "desc" : "asc" %>
             <%= link_to url_for(params.permit!.to_h.merge(sort_column: "rating", sort_direction: new_direction)),
@@ -57,21 +67,28 @@
           </th>
           <th>💬 Comments</th>
           <th>🏙️ City</th>
-          <th> Actions </th>
+          <th>Actions</th>
         </tr>
       </thead>
 
       <tbody>
         <% @dishes.each do |dish| %>
           <tr>
-            <td><%= link_to dish.restaurant&.name, dishes_restaurant_path(dish.restaurant), class: "restaurant-link" %></td>
-            <td><%= dish.name %></td>
-            <td><%= dish.rating %></td>
-            <td><%= dish.comments %></td>
-            <td><%= dish.restaurant.city.name %></td>
-            <td>
+            <td data-label="Restaurant">
+              <%= link_to dish.restaurant&.name, dishes_restaurant_path(dish.restaurant) %>
+            </td>
+
+            <td data-label="Dish"><%= dish.name %></td>
+
+            <td data-label="Rating"><%= dish.rating %></td>
+
+            <td data-label="Comments"><%= truncate(dish.comments, length: 80) %></td>
+
+            <td data-label="City"><%= dish.restaurant.city.name %></td>
+
+            <td data-label="Actions">
               <% if current_user && dish.user == current_user %>
-                <%= link_to edit_dish_path(dish), class: "btn btn-sm btn-outline-primary", title: "Edit" do %>
+                <%= link_to edit_dish_path(dish), class: "btn btn-sm btn-outline-primary" do %>
                   <i class="fa fa-edit"></i>
                 <% end %>
               <% end %>
@@ -81,6 +98,7 @@
       </tbody>
     </table>
   </div>
+
 
   <div class="actions">
     <%= link_to "➕ Add Review", new_dish_path, class: "btn-action" %>
