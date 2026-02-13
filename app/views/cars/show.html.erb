@@ -31,8 +31,7 @@
         </div>
       <% end %>
     </div>
-
-    <table class="cars-table">
+    <table class="topups-table">
       <tr>
         <th>Date</th>
         <th>Fuel Brand</th>
@@ -49,6 +48,31 @@
         </tr>
       <% end %>
     </table>
+
+    <!-- Mobile cards (outside table) -->
+    <div class="fuel-cards">
+      <% @fuel_topups.each do |top_up| %>
+        <div class="fuel-card">
+          <div class="fuel-row">
+            <span class="fuel-label">Date:</span>
+            <span class="fuel-value"><%= top_up.topup_date.strftime("%d-%m-%Y") %></span>
+          </div>
+          <div class="fuel-row">
+            <span class="fuel-label">Fuel Brand:</span>
+            <span class="fuel-value"><%= top_up.brand %></span>
+          </div>
+          <div class="fuel-row">
+            <span class="fuel-label">Price:</span>
+            <span class="fuel-value">₹<%= top_up.price %></span>
+          </div>
+          <div class="fuel-row">
+            <span class="fuel-label">Odometer:</span>
+            <span class="fuel-value"><%= top_up.odometer_reading %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
 
     <% if @fuel_topups.size < 2 %>
       <div class="field mileage">

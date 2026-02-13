@@ -22,10 +22,6 @@
   font-weight: bold;
 }
 
-.fuel-input {
-  width: 220px;
-}
-
 .column .field{
   margin-bottom: 2px;
   padding: 0;
@@ -110,30 +106,25 @@ body.page-cars {
   font-weight: bold;
 }
 
-  .cars-table {
-    max-width: 100%;       /* remove desktop limit */
-    margin: 0;             /* remove auto centering */
-  }
 
-
-.cars-table td {
+.topups-table td {
   padding: 10px 15px;   /* reduce spacing */
   max-width: 250px;      /* limit each cell width */
   word-wrap: break-word; /* wrap long content */
 }
 
 /* Dates column */
-.cars-table td.date-cell {
+.topups-table td.date-cell {
   white-space: nowrap;
 }
 
 /* Brand column */
-.cars-table td.brand-cell {
+.topups-table td.brand-cell {
   overflow-wrap: break-word;
   white-space: normal;
 }
 
-.cars-table h2 {
+.topups-table h2 {
   font-size: 1.2em;     /* optional: reduce text size */
   margin: 0;
 }
@@ -178,26 +169,89 @@ body.page-cars {
   font-size: 1.5em;    /* adjust size if needed */
 }
 
-@media (max-width: 768px) {
-  .cars-table, 
-  .cars-table thead, 
-  .cars-table tbody, 
-  .cars-table th, 
-  .cars-table td, 
-  .cars-table tr {
+/* Title */
+.fuel-card-title {
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+/* Submit button */
+.fuel-submit {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Field rows */
+.fuel-row {
+  display: flex;
+  flex-direction: row; /* desktop: label + input inline */
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* Label */
+.fuel-label {
+  font-weight: bold;
+  width: 40%;          /* desktop: fixed width for label */
+  text-align: right;
+  padding-right: 10px;
+}
+
+.fuel-input {
+  width: 55%;
+}
+
+/* Full-width input inside wrapper */
+.fuel-input input,
+.fuel-input select {
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Outer wrapper centers the card */
+.fuel-card-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+
+.topups-table {
+  display: table;   /* show table by default on desktop */
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Hide mobile cards on desktop */
+.fuel-cards {
+  display: none;
+}
+
+
+@media (max-width: 768px) { 
+  .topups-table thead, 
+  .topups-table tbody, 
+  .topups-table th, 
+  .topups-table td, 
+  .topups-table tr {
     display: block;
     width: 100%;
   }
 
-  .cars-table-wrapper {
+  .topups-table-wrapper {
     padding: 0 10px;       /* keep small margin from viewport edges */
   }
 
-  .cars-table thead tr {
+  .topups-table thead tr {
     display: none; /* hide headers on mobile */
   }
 
-  .cars-table tbody tr {
+  .topups-table tbody tr {
     width: 100vw;          /* span full viewport width */
     margin: 0;             /* remove spacing from table */
     border-radius: 8px;
@@ -205,14 +259,14 @@ body.page-cars {
     padding: 10px 12px;
   }
 
-  .cars-table td {
+  .topups-table td {
     display: flex;
     justify-content: flex-start;
     padding: 6px 10px;
     gap: 12px; /* add gap between label and value */
   }
 
-  .cars-table td::before {
+  .topups-table td::before {
     content: attr(data-label);
     font-weight: bold;
     flex: 0 0 40%;
@@ -220,18 +274,81 @@ body.page-cars {
     padding-right: 6px;
   }
 
-  .cars-table td span {
+  .topups-table td span {
     flex: 1 1 60%;
     text-align: right;
   }
 
-  .cars-table, 
-  .cars-table tbody, 
-  .cars-table tr {
+  .topups-table, 
+  .topups-table tbody, 
+  .topups-table tr {
     width: 100%;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
+
+  .fuel-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fuel-label {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 4px;
+    padding-right: 0;
+  }
+
+  .fuel-input {
+    width: 100%;
+  }
+
+  .topups-table {
+    display: none;
+  }
+
+  /* Outer wrapper for cards */
+  .fuel-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;              /* space between cards only */
+  }
+
+  .fuel-card .fuel-row {
+    display: flex;           /* horizontal layout */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;      /* vertical center */
+    padding: 0;
+    margin-bottom: 6px;
+    background-color: #f8f9fa; /* optional: light gray background for each row */
+  }
+
+  /* Label */
+  .fuel-card .fuel-label {
+    font-weight: bold;
+    flex: 0 0 40%;            /* fixed width for label */
+    text-align: left;
+    padding-right: 10px;
+    display: block;
+  }
+
+  /* Value */
+  .fuel-card .fuel-value {
+    flex: 1;                  /* take remaining space */
+    text-align: right;        /* align value to the right */
+    display: block;
+  }
+
+  /* Individual fuel card */
+  .fuel-card {
+    padding: 15px 20px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    box-sizing: border-box;
+  }
+
 }
 

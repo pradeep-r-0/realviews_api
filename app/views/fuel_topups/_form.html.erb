@@ -1,91 +1,82 @@
-<div style="display: flex; justify-content: center;">
-  <div class="fuel-form">
-    <h1>
+<div class="fuel-card-wrapper">
+  <div class="fuel-card">
+
+    <h1 class="fuel-card-title">
       <%= @fuel_topup.persisted? ? "Edit Fuel Topup for" : "Add Fuel Topup for" %>
       <%= @car.car_make.name %> <%= @car.model %>
     </h1>
 
     <%= form_with(model: [@ownership, @fuel_topup], local: true) do |form| %>
       <% fields = [
-        [:brand, "Brand", form.select(:brand, options_for_select(["Indian Oil", "Bharat Petrol", "HP", "Shell", "Nayara"], @fuel_topup.brand))],
-        [:fuel_type, "Fuel Type", form.select(:fuel_type, options_for_select(["Petrol", "Diesel", "CNG"], @fuel_topup.fuel_type))],
-        [:state, "Select State of Topup", form.select(:state, options_for_select([
+        [:brand, "Brand", form.select(:brand, options_for_select(["Indian Oil", "Bharat Petrol", "HP", "Shell", "Nayara"], @fuel_topup.brand), {}, class: "form-control")],
+        [:fuel_type, "Fuel Type", form.select(:fuel_type, options_for_select(["Petrol", "Diesel", "CNG"], @fuel_topup.fuel_type), {}, class: "form-control")],
+        [:state, "State of Topup", form.select(:state, options_for_select([
           "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
           "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
           "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
           "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab",
           "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
           "Uttar Pradesh", "Uttarakhand", "West Bengal"
-        ], @fuel_topup.state))],
-        [:topup_date, "Date of Topup", form.date_select(:topup_date, start_year: Date.today.year-5, end_year: Date.today.year)],
-        [:rate_per_litre, "Rate per Litre (₹)", form.number_field(:rate_per_litre, step: 0.01)],
-        [:price, "Total Price (₹)", form.number_field(:price, step: 0.01)],
-        [:odometer_reading, "Odometer Reading (km)", form.number_field(:odometer_reading, step: 0.01)]
+        ], @fuel_topup.state), {}, class: "form-control")],
+        [:topup_date, "Date of Topup", form.text_field(:topup_date, value: @fuel_topup.topup_date&.strftime("%d-%m-%Y"), class: "form-control datepicker", autocomplete: "off")],
+        [:rate_per_litre, "Rate per Litre (₹)", form.number_field(:rate_per_litre, step: 0.01, class: "form-control")],
+        [:price, "Total Price (₹)", form.number_field(:price, step: 0.01, class: "form-control")],
+        [:odometer_reading, "Odometer Reading (km)", form.number_field(:odometer_reading, step: 0.01, class: "form-control")]
       ] %>
 
-      <% fields.each_with_index do |(field, label, input), index| %>
-        <div class="fuel-row <%= 'even' if index.even? %>">
-          <div class="fuel-label"><%= form.label field, label %></div>
+      <% fields.each do |field, label, input| %>
+        <div class="fuel-row">
+          <label class="fuel-label"><%= label %></label>
           <div class="fuel-input"><%= input %></div>
         </div>
       <% end %>
 
-      <div style="text-align: center; margin-top: 15px;">
+      <div class="fuel-submit">
         <%= form.submit(@fuel_topup.persisted? ? "Update Fuel Topup" : "Add Fuel Topup", class: "btn btn-primary") %>
       </div>
     <% end %>
   </div>
-
-  <script>
-    window.fetchRate = async function() {
-      const stateSelect = document.querySelector("#fuel_topup_state");
-      const fuelType = document.querySelector("#fuel_topup_fuel_type");
-      const rateField = document.querySelector("#fuel_topup_rate_per_litre");
-
-      const dateSelectors = [
-        "#fuel_topup_topup_date_1i",
-        "#fuel_topup_topup_date_2i",
-        "#fuel_topup_topup_date_3i"
-      ].map(id => document.querySelector(id));
-
-      if (!stateSelect || !fuelType || !rateField || dateSelectors.includes(null)) return;
-
-      const state = stateSelect.value;
-      const year = dateSelectors[0].value;
-      const month = dateSelectors[1].value.padStart(2, "0");
-      const day = dateSelectors[2].value.padStart(2, "0");
-      const date = `${year}-${month}-${day}`;
-      const type = fuelType.value;
-
-      if (state && date && type) {
-        try {
-          const res = await fetch(`/fuel_prices/get_todays_price?state=${state}&type=${type}&topup_date=${date}`);
-          if (res.ok) {
-            const data = await res.json();
-            if (data.rate_per_litre) rateField.value = data.rate_per_litre;
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    };
-
-    document.addEventListener("turbo:load", () => {
-      const stateSelect = document.querySelector("#fuel_topup_state");
-      const fuelType = document.querySelector("#fuel_topup_fuel_type");
-
-      const dateSelectors = [
-        "#fuel_topup_topup_date_1i",
-        "#fuel_topup_topup_date_2i",
-        "#fuel_topup_topup_date_3i"
-      ].map(id => document.querySelector(id));
-
-      if (stateSelect) stateSelect.addEventListener("change", window.fetchRate);
-      if (fuelType) fuelType.addEventListener("change", window.fetchRate);
-      dateSelectors.forEach(sel => sel?.addEventListener("change", window.fetchRate));
-
-      // fetch once when page loads
-      window.fetchRate();
-    });
-  </script>
 </div>
+
+<!-- JS for Flatpickr + Rate Fetch -->
+<script>
+document.addEventListener("turbo:load", () => {
+  const dateField = document.querySelector(".datepicker");
+  if (dateField) {
+    flatpickr(dateField, {
+      dateFormat: "d-m-Y",
+      defaultDate: dateField.value || null
+    });
+  }
+
+  const stateSelect = document.querySelector("#fuel_topup_state");
+  const fuelType = document.querySelector("#fuel_topup_fuel_type");
+  const rateField = document.querySelector("#fuel_topup_rate_per_litre");
+
+  const fetchRate = async () => {
+    if (!stateSelect || !fuelType || !rateField || !dateField) return;
+
+    const state = stateSelect.value;
+    const type = fuelType.value;
+    const date = dateField.value.split("-").reverse().join("-"); // dd-mm-yyyy -> yyyy-mm-dd
+
+    if (state && type && date) {
+      try {
+        const res = await fetch(`/fuel_prices/get_todays_price?state=${state}&type=${type}&topup_date=${date}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.rate_per_litre) rateField.value = data.rate_per_litre;
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
+  if (stateSelect) stateSelect.addEventListener("change", fetchRate);
+  if (fuelType) fuelType.addEventListener("change", fetchRate);
+  if (dateField) dateField.addEventListener("change", fetchRate);
+
+  fetchRate();
+});
+</script>
