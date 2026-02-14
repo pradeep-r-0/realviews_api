@@ -348,6 +348,16 @@ body.page-cars {
     background: #fff;
     box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+  }
+
+  .fuel-card.odd {
+    background-color: #ffffff;
+  }
+
+  .fuel-card.even {
+    background-color: #e8f5e9;
   }
 
 }

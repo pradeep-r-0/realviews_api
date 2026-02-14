@@ -1,0 +1,23 @@
+<!-- Mobile cards (outside table) -->
+<div class="fuel-card <%= index.even? ? 'even' : 'odd' %>">
+    <span class="fuel-label">Date</span>
+    <span class="fuel-value"><%= current_topup.topup_date.strftime("%d-%m-%Y") %></span>
+
+    <span class="fuel-label">Fuel Brand</span>
+    <span class="fuel-value"><%= current_topup.brand %></span>
+
+    <span class="fuel-label">Price</span>
+    <span class="fuel-value">₹<%= current_topup.price %></span>
+
+    <span class="fuel-label">Odometer</span>
+    <span class="fuel-value"><%= current_topup.odometer_reading %></span>
+
+    <span class="fuel-label">Mileage</span>
+    <span class="fuel-value">
+      <% if index == 0 %>
+        🔥 Burning now
+      <% else %>
+        <%= current_topup.mileage_from(next_topup) || "-" %>
+      <% end %>
+    </span>
+</div>

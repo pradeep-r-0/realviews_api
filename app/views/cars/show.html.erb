@@ -49,27 +49,12 @@
       <% end %>
     </table>
 
-    <!-- Mobile cards (outside table) -->
-    <div class="fuel-cards">
-      <% @fuel_topups.each do |top_up| %>
-        <div class="fuel-card">
-          <div class="fuel-row">
-            <span class="fuel-label">Date:</span>
-            <span class="fuel-value"><%= top_up.topup_date.strftime("%d-%m-%Y") %></span>
-          </div>
-          <div class="fuel-row">
-            <span class="fuel-label">Fuel Brand:</span>
-            <span class="fuel-value"><%= top_up.brand %></span>
-          </div>
-          <div class="fuel-row">
-            <span class="fuel-label">Price:</span>
-            <span class="fuel-value">₹<%= top_up.price %></span>
-          </div>
-          <div class="fuel-row">
-            <span class="fuel-label">Odometer:</span>
-            <span class="fuel-value"><%= top_up.odometer_reading %></span>
-          </div>
-        </div>
+    <div class="fuel-cards">  
+      <% @fuel_topups.each_with_index do |current_topup, index| %>
+        <% next_topup = @fuel_topups[index - 1] if index > 0 %>
+
+        <%= render partial: "fuel_topups/fuel_topup",
+                  locals: { current_topup: current_topup, next_topup: next_topup, index: index } %>
       <% end %>
     </div>
 
@@ -80,13 +65,14 @@
       </div>
     <% end %>
 
-    <% if @ownership.present? %>
-      <div class="center-block">
+    <div class="center-block">
+      <% if @ownership.present? %>
         <%= link_to "Topup Fuel",
             new_ownership_fuel_topup_path(@ownership),
             class: "btn btn-primary" %>
-      </div>
-    <% end %>
+      <% end %>
+      <%= link_to 'Back', cars_path, class: "btn btn-primary" %>
+    </div>
 
     <div class="qna-box">
       <ul>
