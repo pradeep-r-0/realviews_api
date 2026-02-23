@@ -350,6 +350,7 @@ body.page-cars {
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 120px 1fr;
+    flex-direction: column;
   }
 
   .fuel-card.odd {

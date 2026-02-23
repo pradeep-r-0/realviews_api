@@ -2,7 +2,6 @@
   <div class="fuel-card">
 
     <h1 class="fuel-card-title">
-      <%= @fuel_topup.persisted? ? "Edit Fuel Topup for" : "Add Fuel Topup for" %>
       <%= @car.car_make.name %> <%= @car.model %>
     </h1>
 
@@ -21,7 +20,7 @@
         [:topup_date, "Date of Topup", form.text_field(:topup_date, value: @fuel_topup.topup_date&.strftime("%d-%m-%Y"), class: "form-control datepicker", autocomplete: "off")],
         [:rate_per_litre, "Rate per Litre (₹)", form.number_field(:rate_per_litre, step: 0.01, class: "form-control")],
         [:price, "Total Price (₹)", form.number_field(:price, step: 0.01, class: "form-control")],
-        [:odometer_reading, "Odometer Reading (kms)", form.number_field(:odometer_reading, step: 0.01, class: "form-control")]
+        [:odometer_reading, "Odometer (kms)", form.number_field(:odometer_reading, step: 0.01, class: "form-control")]
       ] %>
 
       <% fields.each do |field, label, input| %>
@@ -30,15 +29,6 @@
           <div class="fuel-input"><%= input %></div>
         </div>
       <% end %>
-
-        <% if(index == 0) %>
-          <td data-label="Mileage (kmpl)"><span><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</span></td>
-        <% elsif current_topup.odometer_reading && current_topup.id != next_topup.id %>
-          <% mileage = current_topup.mileage_from(next_topup) %>  
-          <td data-label="Mileage (kmpl)"><span><%= mileage %></span></td>
-        <% else %>
-          <td> - </td>
-        <% end %>
 
       <div class="fuel-submit">
         <%= form.submit(@fuel_topup.persisted? ? "Update Fuel Topup" : "Add Fuel Topup", class: "btn btn-primary") %>

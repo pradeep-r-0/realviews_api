@@ -12,7 +12,7 @@
         <th>Bill Amount (₹)</th>
         <th>Rate per Litre</th>
         <th>Brand</th>
-        <th>Odometer Reading (kms)</th>
+        <th>Odometer (kms)</th>
         <th>Mileage (kmpl)</th>
         <th>Actions</th>
       </tr>
@@ -24,9 +24,9 @@
         <tr>
           <td data-label="Date"><span><%= current_topup.topup_date.strftime("%d-%b-%Y") %></span></td>
           <td data-label="Amount"><span><%= current_topup.price.to_i %></span></td>
-          <td data-label="Rate per Litre"><span><%= current_topup.rate_per_litre.to_f %></span></td>
+          <td data-label="Rate/Litre"><span><%= current_topup.rate_per_litre.to_f %></span></td>
           <td data-label="Brand"><span><%= current_topup.brand %></span></td>
-          <td data-label="Odometer Reading"><span><%= current_topup.odometer_reading.to_i %></span></td>
+          <td data-label="Odometer (kms)"><span><%= current_topup.odometer_reading.to_i %></span></td>
 
           <% if(index == 0) %>
             <td data-label="Mileage (kmpl)"><span><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</span></td>
