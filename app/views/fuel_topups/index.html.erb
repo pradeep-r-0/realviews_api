@@ -5,7 +5,7 @@
     <%= @car.date_of_purchase.strftime("%B %Y") %>
   </h2>
 
-  <table class="cars-table">
+  <table class="topups-table">
     <thead>
       <tr>
         <th>Date</th>
@@ -19,20 +19,19 @@
     </thead>
 
     <tbody>
-      <% current_topup = @fuel_topups.first %>
-      <% @fuel_topups.each_with_index do |prev_topup, index| %>
+      <% next_topup = @fuel_topups.first %>
+      <% @fuel_topups.each_with_index do |current_topup, index| %>
         <tr>
-          <td data-label="Date"><span><%= prev_topup.topup_date.strftime("%d-%b-%Y") %></span></td>
-          <td data-label="Amount"><span><%= prev_topup.price.to_i %></span></td>
-          <td data-label="Rate per Litre"><span><%= prev_topup.rate_per_litre.to_f %></span></td>
-          <td data-label="Brand"><span><%= prev_topup.brand %></span></td>
-          <td data-label="Odometer Reading"><span><%= prev_topup.odometer_reading.to_i %></span></td>
+          <td data-label="Date"><span><%= current_topup.topup_date.strftime("%d-%b-%Y") %></span></td>
+          <td data-label="Amount"><span><%= current_topup.price.to_i %></span></td>
+          <td data-label="Rate per Litre"><span><%= current_topup.rate_per_litre.to_f %></span></td>
+          <td data-label="Brand"><span><%= current_topup.brand %></span></td>
+          <td data-label="Odometer Reading"><span><%= current_topup.odometer_reading.to_i %></span></td>
 
           <% if(index == 0) %>
-              <td data-label="Mileage"><span><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</span></td>
-          <% elsif current_topup.odometer_reading && current_topup.id != prev_topup.id %>
-            <% mileage = calculate_mileage(current_topup, prev_topup)
-               mileage = (mileage > 30 || mileage < 0) ? '-' : mileage %>
+            <td data-label="Mileage"><span><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</span></td>
+          <% elsif current_topup.odometer_reading && current_topup.id != next_topup.id %>
+            <% mileage = current_topup.mileage_from(next_topup) %>  
             <td data-label="Mileage"><span><%= mileage %></span></td>
           <% else %>
             <td> - </td>
@@ -40,17 +39,26 @@
 
           <td>
           <%  
-             if @ownership && prev_topup.user_id == current_user.id %>
-              <%= link_to 'Edit', edit_ownership_fuel_topup_path(@ownership, prev_topup),
+             if @ownership && current_topup.user_id == current_user.id %>
+              <%= link_to 'Edit', edit_ownership_fuel_topup_path(@ownership, current_topup),
                           class: "btn btn-sm btn-warning" %>
             <% end %>
           </td>
 
         </tr>
-        <% current_topup = prev_topup %>
+        <% next_topup = current_topup %>
       <% end %>
     </tbody>
   </table>
+
+  <div class="fuel-cards"> 
+    <% @fuel_topups.each_with_index do |current_topup, index| %>
+      <% next_topup = @fuel_topups[index - 1] if index > 0 %>
+
+      <%= render partial: "fuel_topups/fuel_topup",
+                locals: { current_topup: current_topup, next_topup: next_topup, index: index } %>
+    <% end %>
+  </div>
 
   <div class="pagination">
     <%= paginate @fuel_topups %>
@@ -58,6 +66,7 @@
 
   <br>
   <% if @ownership&.user_id == current_user.id %>
-    <%= link_to 'New Fuel Top-up', new_ownership_fuel_topup_path(@ownership), class: "btn btn-primary" %>
+    <%= link_to 'New Top-up', new_ownership_fuel_topup_path(@ownership), class: "btn btn-primary" %>
   <% end %>
+  <%= link_to 'Back', car_path(@car), class: "btn btn-primary" %>
 </div>
