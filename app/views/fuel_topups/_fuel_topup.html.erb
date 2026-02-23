@@ -9,10 +9,13 @@
     <span class="fuel-label">Price</span>
     <span class="fuel-value">₹<%= current_topup.price %></span>
 
-    <span class="fuel-label">Odometer</span>
+    <span class="fuel-label">Rate/litre</span>
+    <span class="fuel-value">₹<%= current_topup.rate_per_litre %></span>
+
+    <span class="fuel-label">Odometer Reading (kms)</span>
     <span class="fuel-value"><%= current_topup.odometer_reading %></span>
 
-    <span class="fuel-label">Mileage</span>
+    <span class="fuel-label">Mileage (kmpl)</span>
     <span class="fuel-value">
       <% if index == 0 %>
         🔥 Burning now

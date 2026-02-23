@@ -12,7 +12,7 @@
         <th>Bill Amount (₹)</th>
         <th>Rate per Litre</th>
         <th>Brand</th>
-        <th>Odometer Reading (km)</th>
+        <th>Odometer Reading (kms)</th>
         <th>Mileage (kmpl)</th>
         <th>Actions</th>
       </tr>
@@ -29,10 +29,10 @@
           <td data-label="Odometer Reading"><span><%= current_topup.odometer_reading.to_i %></span></td>
 
           <% if(index == 0) %>
-            <td data-label="Mileage"><span><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</span></td>
+            <td data-label="Mileage (kmpl)"><span><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</span></td>
           <% elsif current_topup.odometer_reading && current_topup.id != next_topup.id %>
             <% mileage = current_topup.mileage_from(next_topup) %>  
-            <td data-label="Mileage"><span><%= mileage %></span></td>
+            <td data-label="Mileage (kmpl)"><span><%= mileage %></span></td>
           <% else %>
             <td> - </td>
           <% end %>
