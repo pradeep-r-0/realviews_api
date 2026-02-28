@@ -5,7 +5,7 @@ class Expense < ApplicationRecord
   validates :amount, numericality: { greater_than_or_equal_to: 0 }
   validates :date, presence: true
   validates :description, presence: true
-  before_save :update_parent_totals
+  after_save :update_parent_totals
   scope :active, -> { where(deleted: false) }
 
   def destroy
