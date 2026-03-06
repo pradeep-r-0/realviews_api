@@ -351,6 +351,7 @@ body.page-cars {
     display: grid;
     grid-template-columns: 120px 1fr;
     flex-direction: column;
+    display: flex;
   }
 
   .fuel-card.odd {
@@ -359,6 +360,29 @@ body.page-cars {
 
   .fuel-card.even {
     background-color: #e8f5e9;
+  }
+
+  .flatpickr-calendar {
+    max-width: 100%;
+    font-size: 14px;
+  }
+
+  .flatpickr-days {
+    width: 100% !important;
+  }
+
+  .flatpickr-day {
+    max-width: none;
+  }
+
+  /* Mobile fix */
+  @media (max-width: 768px) {
+    .fuel-card-title {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 12px;
+    }
   }
 
 }
