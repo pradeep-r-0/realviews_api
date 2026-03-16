@@ -365,6 +365,7 @@ body.page-cars {
   .flatpickr-calendar {
     max-width: 100%;
     font-size: 14px;
+    box-sizing: border-box;
   }
 
   .flatpickr-days {

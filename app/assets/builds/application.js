@@ -6219,6 +6219,46 @@
   }
   window.shareRealViews = shareRealViews;
 
+  // app/javascript/cars.js
+  console.log("cars.js loaded");
+  document.addEventListener("turbo:load", () => {
+    const brandSelect = document.querySelector("#fuel_topup_brand");
+    const fuelType = document.querySelector("#fuel_topup_fuel_type");
+    const petrolBrands = [
+      "Indian Oil",
+      "Indian Oil XP95",
+      "Bharat Petrol",
+      "Bharat Petrol Speed",
+      "HP",
+      "HP Power",
+      "Shell",
+      "Shell V-Power",
+      "Nayara",
+      "Jio-bp"
+    ];
+    const otherBrands = [
+      "Indian Oil",
+      "Bharat Petrol",
+      "HP",
+      "Shell",
+      "Nayara",
+      "Jio-bp"
+    ];
+    const updateBrands = () => {
+      if (!brandSelect || !fuelType) return;
+      const brands = fuelType.value === "Petrol" ? petrolBrands : otherBrands;
+      brandSelect.innerHTML = "";
+      brands.forEach((brand) => {
+        const option = document.createElement("option");
+        option.value = brand;
+        option.textContent = brand;
+        brandSelect.appendChild(option);
+      });
+    };
+    if (fuelType) fuelType.addEventListener("change", updateBrands);
+    updateBrands();
+  });
+
   // node_modules/@rails/ujs/app/assets/javascripts/rails-ujs.esm.js
   var linkClickSelector = "a[data-confirm], a[data-method], a[data-remote]:not([disabled]), a[data-disable-with], a[data-disable]";
   var buttonClickSelector = {
