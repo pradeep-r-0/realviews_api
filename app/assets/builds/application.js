@@ -6247,15 +6247,24 @@
     const updateBrands = () => {
       if (!brandSelect || !fuelType) return;
       const brands = fuelType.value === "Petrol" ? petrolBrands : otherBrands;
+      const savedBrand = brandSelect.dataset.selected;
       brandSelect.innerHTML = "";
       brands.forEach((brand) => {
         const option = document.createElement("option");
         option.value = brand;
         option.textContent = brand;
+        if (savedBrand && brand === savedBrand) {
+          option.selected = true;
+        }
         brandSelect.appendChild(option);
       });
     };
-    if (fuelType) fuelType.addEventListener("change", updateBrands);
+    if (fuelType) {
+      fuelType.addEventListener("change", () => {
+        brandSelect.dataset.selected = null;
+        updateBrands();
+      });
+    }
     updateBrands();
   });
 

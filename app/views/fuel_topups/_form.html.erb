@@ -7,7 +7,7 @@
 
     <%= form_with(model: [@ownership, @fuel_topup], local: true) do |form| %>
       <% fields = [
-        [:brand, "Brand", form.select(:brand, options_for_select(["Indian Oil", "Bharat Petrol", "HP", "Shell", "Nayara"], @fuel_topup.brand), {}, class: "form-control")],
+        [:brand, "Brand", form.select(:brand, [], {}, class: "form-control", data: { selected: @fuel_topup.brand})],
         [:fuel_type, "Fuel Type", form.select(:fuel_type, options_for_select(["Petrol", "Diesel", "CNG"], @fuel_topup.fuel_type), {}, class: "form-control")],
         [:state, "State of Topup", form.select(:state, options_for_select([
           "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",

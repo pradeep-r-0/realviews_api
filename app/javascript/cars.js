@@ -30,6 +30,7 @@ document.addEventListener("turbo:load", () => {
     if (!brandSelect || !fuelType) return;
 
     const brands = fuelType.value === "Petrol" ? petrolBrands : otherBrands;
+    const savedBrand = brandSelect.dataset.selected;
 
     brandSelect.innerHTML = "";
 
@@ -37,11 +38,19 @@ document.addEventListener("turbo:load", () => {
       const option = document.createElement("option");
       option.value = brand;
       option.textContent = brand;
+      // 👇 restore selection
+      if (savedBrand && brand === savedBrand) {
+        option.selected = true;
+      }
       brandSelect.appendChild(option);
     });
   };
 
-  if (fuelType) fuelType.addEventListener("change", updateBrands);
-
+  if (fuelType) {
+    fuelType.addEventListener("change", () => {
+      brandSelect.dataset.selected = null; // 👈 reset when user changes
+      updateBrands();
+    });
+  }
   updateBrands();
 });
