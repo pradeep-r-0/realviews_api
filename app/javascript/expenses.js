@@ -25,7 +25,7 @@ document.addEventListener("click", (e) => {
     const html = template.innerHTML.replace(/NEW_RECORD/g, Date.now());
     const wrapper = document.createElement("div");
     wrapper.innerHTML = html;
-    container.appendChild(wrapper.firstElementChild);
-    console.log("New expense added");
+    container.prepend(wrapper.firstElementChild);
+    console.log("New expense added at the top");
   }
 });
