@@ -2,6 +2,7 @@
 class BalanceSheet < ApplicationRecord
   belongs_to :user
   has_many :expenses,
+          -> { order(created_at: :desc) },
           inverse_of: :balance_sheet,
           dependent: :destroy
   accepts_nested_attributes_for :expenses, allow_destroy: true

@@ -23,7 +23,7 @@ class BalanceSheetsController < ApplicationController
   # GET /balance_sheets/:id/edit
   def edit
     @balance_sheet = current_user.balance_sheets.find(params[:id])
-    @expenses = @balance_sheet.expenses.order(created_at: :desc)
+    @expenses = @balance_sheet.expenses
     # Build an expense if none exist yet
     #@balance_sheet.expenses.build if @expenses.empty?
   end
