@@ -17,10 +17,10 @@
 
     <span class="fuel-label">Mileage (kmpl)</span>
     <span class="fuel-value">
-      <% if index == 0 %>
+      <% if current_topup.id == @lastest_topup_id %>
         🔥 Burning now
       <% else %>
-        <%= current_topup.mileage_from(next_topup) || "-" %>
+        <%= current_topup.mileage_from(next_topup) %>
       <% end %>
     </span>
     <span class="fuel-label"></span>

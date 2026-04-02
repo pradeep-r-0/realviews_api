@@ -9,7 +9,7 @@ class FuelTopup < ApplicationRecord
   def mileage_from(next_topup)
     return nil unless next_topup && odometer_reading && next_topup.odometer_reading
     mileage = calculate_mileage(next_topup)
-    (mileage > 30 || mileage < 0) ? nil : mileage
+    (mileage > 30 || mileage < 0) ? "-" : mileage
   end
 
   private
