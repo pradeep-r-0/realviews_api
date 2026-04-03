@@ -18,6 +18,8 @@
           <th>Date</th>
         </tr>
       </thead>
+      <%= link_to "Edit", edit_balance_sheet_path(@balance_sheet), class: "btn" %>
+      <%= link_to "Back", balance_sheets_path, class: "btn" %>
       <tbody>
         <% expenses.each do |expense| %>
           <tr>

@@ -21,14 +21,14 @@
     </div>
 
     <h3>Expenses</h3>
-    <%= f.button "Save",
-    type: :submit,
-    class: "btn equal-btn btn-save-balance" %>
     <button type="button"
         id="add-expense-btn"
         class="btn equal-btn btn-add-expense">
       Add Expense
     </button>
+    <%= f.button "Save",
+    type: :submit,
+    class: "btn equal-btn btn-save-balance" %>
     <div id="expenses-container">
       <%= f.fields_for :expenses, collection: @expenses do |expense_form| %>
         <%= render 'expense_fields', f: expense_form %>
