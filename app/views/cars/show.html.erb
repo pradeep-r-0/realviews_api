@@ -52,7 +52,7 @@
           <% if topup.id == @latest_topup_id %>
             <span><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</span>
           <% else %>
-            <% mileage = current_topup.mileage_from(next_topup) %>
+            <% mileage = topup.mileage_from(@prev_topup) %>
             <% if mileage.nil? %>
               -
             <% else %>
