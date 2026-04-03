@@ -27,17 +27,18 @@
           <td data-label="Rate/Litre"><span><%= current_topup.rate_per_litre.to_f %></span></td>
           <td data-label="Brand"><span><%= current_topup.brand %></span></td>
           <td data-label="Odometer (kms)"><span><%= current_topup.odometer_reading.to_i %></span></td>
-
-          <% if(current_topup.id == @latest_topup_id) %>  
-            <td data-label="Mileage (kmpl)"><span><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</span></td>
-          <% else %>
-            <% mileage = current_topup.mileage_from(next_topup) %>  
-            <td data-label="Mileage (kmpl)"><span><%= mileage %></span></td>
-          <% end %>
-
+          <td data-label="Mileage (kmpl)">
+            <span>
+              <% if current_topup.id == @latest_topup_id %>
+                <i class='fas fa-fire-alt' style='color:orange'></i> Burning now
+              <% else %>
+                <% mileage = current_topup.mileage_from(next_topup) %>
+                <%= mileage.nil? ? "-" : mileage %>
+              <% end %>
+            </span>
+          </td>              
           <td>
-          <%  
-             if @ownership && current_topup.user_id == current_user.id %>
+            <% if @ownership && current_topup.user_id == current_user.id %>
               <%= link_to 'Edit', edit_ownership_fuel_topup_path(@ownership, current_topup),
                           class: "btn btn-sm btn-warning" %>
             <% end %>

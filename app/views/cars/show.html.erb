@@ -41,20 +41,26 @@
         <th>Mileage (kmpl)</th>
       </tr>
 
-      <% @fuel_topups.each_with_index do |top_up, index| %>
+      <% @fuel_topups.each_with_index do |topup, index| %>
         <tr>
-          <td><%= top_up.topup_date.strftime("%d-%m-%Y") %></td>
-          <td><%= top_up.brand %></td>
-          <td>₹<%= top_up.price %></td>
-          <td>₹<%= top_up.rate_per_litre %></td>
-          <td><%= top_up.odometer_reading %></td>
+          <td><%= topup.topup_date.strftime("%d-%m-%Y") %></td>
+          <td><%= topup.brand %></td>
+          <td>₹<%= topup.price %></td>
+          <td>₹<%= topup.rate_per_litre %></td>
+          <td><%= topup.odometer_reading %></td>
           <td>
-          <% if index == 0 %>
+          <% if topup.id == @latest_topup_id %>
             <span><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</span>
-          <% else %>          
-            <%= top_up.mileage_from(@prev_topup) %></td>
+          <% else %>
+            <% mileage = current_topup.mileage_from(next_topup) %>
+            <% if mileage.nil? %>
+              -
+            <% else %>
+              <%= mileage %>
+            <% end %>
           <% end %>
-          <% @prev_topup = top_up %>
+          </td>
+          <% @prev_topup = topup %>
         </tr>
       <% end %>
     </table>
@@ -64,7 +70,7 @@
         <% next_topup = @fuel_topups[index - 1] if index > 0 %>
 
         <%= render partial: "fuel_topups/fuel_topup",
-                  locals: { current_topup: current_topup, next_topup: next_topup, index: index } %>
+                  locals: { current_topup: current_topup, next_topup: next_topup, index: index, latest_topup_id: @latest_topup_id } %>
       <% end %>
     </div>
 
