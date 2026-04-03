@@ -50,12 +50,13 @@
     </tbody>
   </table>
 
-  <div class="fuel-cards"> 
+  <div class="fuel-cards">
+    <% next_topup = @page_previous_topup %>
     <% @fuel_topups.each_with_index do |current_topup, index| %>
-      <% next_topup = @fuel_topups[index - 1] if index > 0 %>
 
       <%= render partial: "fuel_topups/fuel_topup",
                 locals: { current_topup: current_topup, next_topup: next_topup, index: index } %>
+      <% next_topup = current_topup %>
     <% end %>
   </div>
 
