@@ -17,7 +17,7 @@ class CarsController < ApplicationController
   end
 
   def show
-    @fuel_topups = car.fuel_topups.where.not(odometer_reading: nil).order(topup_date: :desc).limit(5)
+    @fuel_topups = car.fuel_topups.where.not(odometer_reading: nil).order(topup_date: :desc, odometer_reading: :desc).limit(5)
     @latest_topup_id = @fuel_topups.first.id
     @ownership = car.ownerships.find_by_user_id(current_user.id) if current_user
   end
