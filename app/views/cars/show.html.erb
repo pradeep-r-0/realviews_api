@@ -17,7 +17,7 @@
       </div>
 
       <% mileage = calculate_avg_mileage(@fuel_topups)
-        mileage = mileage < 0 ? '-' : "#{mileage} kmpl (avg of last 5 topups)" %>
+        mileage = (mileage < 0 or mileage > 30) ? '-' : "#{mileage} kmpl (avg of last 5 topups)" %>
 
       <div class="field mileage field-bold">
         Mileage: <%= mileage %>
