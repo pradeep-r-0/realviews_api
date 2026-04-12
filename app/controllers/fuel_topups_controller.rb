@@ -7,7 +7,7 @@ class FuelTopupsController < ApplicationController
 
   def index
     @fuel_topups = @ownership.fuel_topups.order(topup_date: :desc, odometer_reading: :desc).page(params[:page]).per(10)
-    @latest_topup_id = @fuel_topups.first
+    @latest_topup_id = @fuel_topups.first.id
     @page_previous_topup = params[:page].to_i == 1 ? nil : current_user.fuel_topups.order(:id).where("id > #{@fuel_topups.first.id}").limit(1).first
   end
 

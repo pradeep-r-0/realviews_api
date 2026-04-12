@@ -4,6 +4,8 @@
     <%= @car.car_make.name %> <%= @car.model %> <%= @car.variant %> -
     <%= @car.date_of_purchase.strftime("%B %Y") %>
   </h2>
+  
+  <% e20_start_date = Date.new(2026, 4, 1) %>
 
   <table class="topups-table">
     <thead>
@@ -20,31 +22,40 @@
 
     <tbody>
       <% next_topup = @page_previous_topup %>
-      <% @fuel_topups.each_with_index do |current_topup, index| %>
+
+      <% @fuel_topups.each do |current_topup| %>
         <tr>
           <td data-label="Date"><span><%= current_topup.topup_date.strftime("%d-%b-%Y") %></span></td>
           <td data-label="Amount"><span><%= current_topup.price.to_i %></span></td>
           <td data-label="Rate/Litre"><span><%= current_topup.rate_per_litre.to_f %></span></td>
           <td data-label="Brand"><span><%= current_topup.brand %></span></td>
           <td data-label="Odometer (kms)"><span><%= current_topup.odometer_reading.to_i %></span></td>
+
+          <% is_latest = (current_topup.id == @latest_topup_id) %>
+          <% is_e20 = current_topup.topup_date >= e20_start_date %>
+          <% mileage = current_topup.mileage_from(next_topup) unless is_latest %>
+
           <td data-label="Mileage (kmpl)">
             <span>
-              <% if current_topup.id == @latest_topup_id %>
+              <% if is_latest %>
                 <i class='fas fa-fire-alt' style='color:orange'></i> Burning now
+              <% elsif mileage.nil? %>
+                -
               <% else %>
-                <% mileage = current_topup.mileage_from(next_topup) %>
-                <%= mileage.nil? ? "-" : mileage %>
+                <%= mileage.to_s + (is_e20 ? " (E20) " : "") %>
               <% end %>
             </span>
-          </td>              
-          <td>
-            <% if @ownership && current_topup.user_id == current_user.id %>
-              <%= link_to 'Edit', edit_ownership_fuel_topup_path(@ownership, current_topup),
-                          class: "btn btn-sm btn-warning" %>
-            <% end %>
           </td>
 
+          <td>
+            <% if @ownership && current_topup.user_id == current_user.id %>
+              <%= link_to 'Edit',
+                  edit_ownership_fuel_topup_path(@ownership, current_topup),
+                  class: "btn btn-sm btn-warning" %>
+            <% end %>
+          </td>
         </tr>
+
         <% next_topup = current_topup %>
       <% end %>
     </tbody>
@@ -55,7 +66,7 @@
     <% @fuel_topups.each_with_index do |current_topup, index| %>
 
       <%= render partial: "fuel_topups/fuel_topup",
-                locals: { current_topup: current_topup, next_topup: next_topup, index: index } %>
+                locals: { current_topup: current_topup, next_topup: next_topup, index: index, e20_start_date: e20_start_date } %>
       <% next_topup = current_topup %>
     <% end %>
   </div>
