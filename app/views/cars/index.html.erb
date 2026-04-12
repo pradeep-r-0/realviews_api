@@ -16,7 +16,8 @@
         <% else %>
           <td>
             <h2 class="mileage"> 
-              <%= calculate_avg_mileage(filtered_topups) %> kmpl
+              <% mileage = calculate_avg_mileage(filtered_topups) %>
+              <%= (mileage > 30 or mileage <0) ? "NA" : mileage.to_s+"kmpl" %>
             </h2>
           </td>
         <% end %>
