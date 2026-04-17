@@ -16,12 +16,13 @@
         <th>Brand</th>
         <th>Odometer (kms)</th>
         <th>Mileage (kmpl)</th>
+        <th>Last Trip (kms)</th>
         <th>Actions</th>
       </tr>
     </thead>
 
     <tbody>
-      <% next_topup = @page_previous_topup %>
+      <% next_topup = @page_previous_topup # reverse chronological %>
 
       <% @fuel_topups.each do |current_topup| %>
         <tr>
@@ -45,6 +46,9 @@
                 <%= mileage.to_s + (is_e20 ? " (E20) " : "") %>
               <% end %>
             </span>
+          </td>
+          <td>
+            <%= (is_latest or mileage.nil?) ? "-" : (next_topup.odometer_reading - current_topup.odometer_reading).to_f %>
           </td>
 
           <td>
