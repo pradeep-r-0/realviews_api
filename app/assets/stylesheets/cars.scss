@@ -232,6 +232,27 @@ body.page-cars {
   display: none;
 }
 
+.e20-slot {
+  width: 50px; /* reserve enough space */
+  display: inline-flex;
+  justify-content: center;
+}
+
+.e20-inline {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.e20-logo {
+  height: 18px;
+}
+
+.e20-text {
+  font-size: 11px;
+  font-weight: bold;
+  color: #2e7d32;
+}
 
 @media (max-width: 768px) { 
   .topups-table thead, 
