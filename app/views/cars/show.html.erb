@@ -17,27 +17,46 @@
       </div>
 
       <div class="mileage-summary-wrapper">
-        <table class="mileage-summary">
-          <thead>
-            <tr>
-              <th colspan="2">Avg Mileage</th>
-            </tr>
-            <tr>
-              <th>Before E20</th>
-              <th>E20</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <%= calculate_avg_mileage(@non_e20_topups) %>
-              </td>
-              <td>
-                <%= calculate_avg_mileage(@e20_topups) %>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <% if @car.fuel_type.to_s.downcase == "petrol" %>
+
+          <!-- ✅ Petrol: show full E20 table -->
+          <table class="mileage-summary">
+            <thead>
+              <tr>
+                <th colspan="2">Avg Mileage</th>
+              </tr>
+              <tr>
+                <th>Before E20</th>
+                <th>E20</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><%= calculate_avg_mileage(@non_e20_topups) %></td>
+                <td><%= calculate_avg_mileage(@e20_topups) %></td>
+              </tr>
+            </tbody>
+          </table>
+
+        <% else %>
+
+          <!-- ✅ Non-petrol: show single avg -->
+          <table class="mileage-summary">
+            <thead>
+              <tr>
+                <th>Avg Mileage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <%= calculate_avg_mileage(@fuel_topups) %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        <% end %>
       </div>
 
       <% if current_user && @ownership&.user_id == current_user.id %>

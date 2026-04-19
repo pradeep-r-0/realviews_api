@@ -1,6 +1,6 @@
 module CarsHelper
   def calculate_avg_mileage(fuel_topups)
-    return -1 unless fuel_topups.present? && fuel_topups.size > 1
+    return "NA" unless fuel_topups.present? && fuel_topups.size > 1
 
     now = fuel_topups.first
     previous = fuel_topups.reorder(topup_date: :asc, id: :asc).first
