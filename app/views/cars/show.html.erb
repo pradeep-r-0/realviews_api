@@ -16,12 +16,33 @@
         Model: <%= @car.date_of_purchase.strftime("%B %Y") %>
       </div>
 
-      <% mileage = calculate_avg_mileage(@fuel_topups)
-        mileage = (mileage < 0 or mileage > 30) ? '-' : "#{mileage} kmpl (avg of last 5 topups)" %>
+      <% 
+         e20_start_date = Date.new(2026, 4, 1)
+         e20_topups = @fuel_topups.select { |t| t.topup_date >= e20_start_date }
+         non_e20_topups = @fuel_topups.select { |t| t.topup_date < e20_start_date }
+      %>
 
-      <div class="field mileage field-bold">
-        Mileage: <%= mileage %>
-      </div>
+      <table class="mileage-summary">
+        <thead>
+          <tr>
+            <th colspan="2">Avg Mileage</th>
+          </tr>
+          <tr>
+            <th>Before E20</th>
+            <th>E20</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <%= calculate_avg_mileage(non_e20_topups, original_topups: @fuel_topups) %>
+            </td>
+            <td>
+              <%= calculate_avg_mileage(e20_topups, original_topups: @fuel_topups) %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
       <% if current_user && @ownership&.user_id == current_user.id %>
         <div class="field">

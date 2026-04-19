@@ -178,6 +178,33 @@ body.page-cars {
   white-space: nowrap;
 }
 
+.mileage-summary {
+  margin: 15px auto;
+  border-collapse: collapse;
+  min-width: 320px;
+  text-align: center;
+}
+
+.mileage-summary th,
+.mileage-summary td {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+}
+
+.mileage-summary thead tr:first-child th {
+  background-color: #10971b; /* highlight main heading */
+  font-size: 1.1em;
+}
+
+.mileage-summary thead tr:nth-child(2) th {
+  background-color: #96cab9;
+}
+
+.mileage-summary td {
+  font-weight: bold;
+  color: #2e7d32;
+}
+
 .burning-now {
   color: orange;
 }
