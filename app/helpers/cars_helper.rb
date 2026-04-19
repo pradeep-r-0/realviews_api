@@ -1,9 +1,9 @@
 module CarsHelper
-  def calculate_avg_mileage(fuel_topups, original_topups:)
-    return -1 unless fuel_topups.size > 1
+  def calculate_avg_mileage(fuel_topups)
+    return -1 unless fuel_topups.present? && fuel_topups.size > 1
 
     now = fuel_topups.first
-    previous = fuel_topups.last
+    previous = fuel_topups.reorder(topup_date: :asc, id: :asc).first
 
     return "Not available" unless now.odometer_reading &&
                                   previous.odometer_reading &&
@@ -13,7 +13,7 @@ module CarsHelper
     total_price = fuel_topups.pluck(:price).sum
 
     # 🔥 subtract only if this is the "latest dataset"
-    if fuel_topups.first == original_topups.first
+    if fuel_topups.first.id == @latest_topup_id
       total_price -= now.price
     end
 

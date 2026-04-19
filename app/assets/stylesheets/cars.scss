@@ -179,16 +179,18 @@ body.page-cars {
 }
 
 .mileage-summary {
-  margin: 15px auto;
-  border-collapse: collapse;
-  min-width: 320px;
-  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  width: auto;
+  table-layout: fixed;
 }
 
-.mileage-summary th,
-.mileage-summary td {
-  padding: 10px 15px;
-  border: 1px solid #ddd;
+.mileage-summary-wrapper .mileage-summary th,
+.mileage-summary-wrapper .mileage-summary td {
+  padding: 2px 8px !important;
+  line-height: 1 !important;
+  vertical-align: middle;
 }
 
 .mileage-summary thead tr:first-child th {
@@ -197,7 +199,7 @@ body.page-cars {
 }
 
 .mileage-summary thead tr:nth-child(2) th {
-  background-color: #96cab9;
+  background-color: #8dc7c4;
 }
 
 .mileage-summary td {
@@ -214,7 +216,7 @@ body.page-cars {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  white-space: nowrap;
+  line-height: 1;
 }
 
 .e20-logo {
@@ -339,10 +341,6 @@ body.page-cars {
   display: flex;
   align-items: center;
   gap: 3px;
-}
-
-.e20-logo {
-  height: 18px;
 }
 
 .e20-text {

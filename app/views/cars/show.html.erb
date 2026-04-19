@@ -16,33 +16,29 @@
         Model: <%= @car.date_of_purchase.strftime("%B %Y") %>
       </div>
 
-      <% 
-         e20_start_date = Date.new(2026, 4, 1)
-         e20_topups = @fuel_topups.select { |t| t.topup_date >= e20_start_date }
-         non_e20_topups = @fuel_topups.select { |t| t.topup_date < e20_start_date }
-      %>
-
-      <table class="mileage-summary">
-        <thead>
-          <tr>
-            <th colspan="2">Avg Mileage</th>
-          </tr>
-          <tr>
-            <th>Before E20</th>
-            <th>E20</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <%= calculate_avg_mileage(non_e20_topups, original_topups: @fuel_topups) %>
-            </td>
-            <td>
-              <%= calculate_avg_mileage(e20_topups, original_topups: @fuel_topups) %>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="mileage-summary-wrapper">
+        <table class="mileage-summary">
+          <thead>
+            <tr>
+              <th colspan="2">Avg Mileage</th>
+            </tr>
+            <tr>
+              <th>Before E20</th>
+              <th>E20</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <%= calculate_avg_mileage(@non_e20_topups) %>
+              </td>
+              <td>
+                <%= calculate_avg_mileage(@e20_topups) %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <% if current_user && @ownership&.user_id == current_user.id %>
         <div class="field">
