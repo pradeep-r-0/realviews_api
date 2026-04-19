@@ -16,7 +16,8 @@
         <% else %>
           <td>
             <h2 class="mileage"> 
-              <% mileage = calculate_avg_mileage(filtered_topups, original_topups: filtered_topups) %>
+              <% mileage = calculate_avg_mileage(filtered_topups, original_topups: filtered_topups).to_f %>
+              <% Rails.logger.info("mileage: #{mileage}") %>
               <%= (mileage > 30 or mileage <0) ? "NA" : mileage.to_s+"kmpl" %>
             </h2>
           </td>
