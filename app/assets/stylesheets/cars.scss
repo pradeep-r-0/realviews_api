@@ -133,6 +133,76 @@ body.page-cars {
   color: green;
 }
 
+.mileage-col {
+  width: 200px;
+}
+
+.mileage-wrap {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.fuel-card .mileage-main {
+  display: grid;
+  grid-template-columns: 70px auto;
+  align-items: center;
+  width: 100%;              /* 🔥 important */
+  justify-content: end;     /* 🔥 push content to right */
+}
+
+.fuel-card .e20-badge {
+  justify-self: start;
+}
+
+.fuel-card .mileage-value {
+  text-align: right;
+}
+
+/* 🔥 FIXED ALIGNMENT CONTAINER */
+.mileage-main {
+  display: grid;
+  grid-template-columns: 70px 40px; /* number + badge */
+  align-items: center;
+}
+
+/* 🔥 ALL NUMBERS ALIGN HERE */
+.mileage-value {
+  width: 70px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* STATUS (burning / dash) */
+.mileage-status {
+  white-space: nowrap;
+}
+
+.burning-now {
+  color: orange;
+}
+
+/* E20 badge */
+.e20-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.e20-logo {
+  height: 18px;
+  width: auto;
+  display: block;
+}
+
+.e20-text {
+  font-size: 11px;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+
 .cars-link {
   right: 260px;                  /* bottom-right corner */
 }

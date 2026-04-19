@@ -18,17 +18,14 @@
     <span class="fuel-label">Mileage (kmpl)</span>
     <span class="fuel-value">
       <% is_latest = current_topup.id == @latest_topup_id 
-        if is_latest %>
-          🔥 Burning now
-      <% else %>
-          <% is_e20 = current_topup.topup_date >= e20_start_date %>
-          <% mileage = current_topup.mileage_from(next_topup) %>
-          <% if mileage.nil? %>
-            -
-          <% else %>
-            <%= mileage.to_s + (is_e20 ? + " (E20) " : "") %>
-          <% end %>
-      <% end %>
+          is_e20 = current_topup.topup_date >= e20_start_date
+          mileage = current_topup.mileage_from(next_topup)
+      %>
+      <%= formatted_mileage(
+        mileage: mileage,
+        is_latest: is_latest,
+        is_e20: is_e20
+      ) %>
     </span>
     <span class="fuel-label">Last Trip (kms)</span>
     <span class="fuel-value">

@@ -36,27 +36,16 @@
           <% is_e20 = current_topup.topup_date >= e20_start_date %>
           <% mileage = current_topup.mileage_from(next_topup) unless is_latest %>
 
-          <td data-label="Mileage (kmpl)">
-            <span>
-              <% if is_latest %>
-                <i class='fas fa-fire-alt' style='color:orange'></i> Burning now
-              <% elsif mileage.nil? %>
-                -
-              <% else %>
-                  <span class="mileage-cell">
-                    <span class="mileage-value"><%= mileage %></span>
-
-                    <span class="e20-slot">
-                      <% if is_e20 %>
-                        <span class="e20-inline">
-                          <%= image_tag "e20.png", class: "e20-logo" %>
-                          <span class="e20-text">E20</span>
-                        </span>
-                      <% end %>
-                    </span>
-                  </span>
-              <% end %>
-            </span>
+          <td data-label="Mileage (kmpl)" class="mileage-col">
+            <div class="mileage-wrap">
+              <span class="mileage-anchor">
+                <%= formatted_mileage(
+                  mileage: mileage,
+                  is_latest: is_latest,
+                  is_e20: is_e20
+                ) %>
+              </span>
+            </div>
           </td>
           <td>
             <%= (is_latest or mileage.nil?) ? "-" : (next_topup.odometer_reading - current_topup.odometer_reading).to_f %>

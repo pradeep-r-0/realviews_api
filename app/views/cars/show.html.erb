@@ -66,18 +66,11 @@
               <% if mileage.nil? %>
                 -
               <% else %>
-                  <span class="mileage-cell">
-                    <span class="mileage-value"><%= mileage %></span>
-
-                    <span class="e20-slot">
-                      <% if is_e20 %>
-                        <span class="e20-inline">
-                          <%= image_tag "e20.png", class: "e20-logo" %>
-                          <span class="e20-text">E20</span>
-                        </span>
-                      <% end %>
-                    </span>
-                  </span>
+                  <%= formatted_mileage(
+                    mileage: mileage,
+                    is_latest: is_latest,
+                    is_e20: is_e20
+                  ) %>
               <% end %>
             <% end %>
           </td>
