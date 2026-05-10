@@ -98,13 +98,18 @@ class DishesController < ApplicationController
     city_name    = parts.pop
     restaurant_name = parts.join(", ").titleize
     city = City.find_or_initialize_by(name: city_name.titleize, state: state_name, country: country_name)
+    Rails.logger.info "new city: #{city_name.titleize}?: #{city.new_record?}"
     city.save! if city.new_record?
 
     Rails.logger.info "🍽️ restaurant_name=#{restaurant_name.inspect}, city_id=#{city.id}"
     @restaurant = Restaurant.find_or_initialize_by(name: restaurant_name, city_id: city.id)
     Rails.logger.info "new_restaurant: #{@restaurant.new_record?}"
     return @restaurant unless @restaurant.new_record?
-    @restaurant.save
+    begin
+      @restaurant.save!
+    rescue => e
+      Rails.logger.error "Error occurred while saving restaurant: #{e.errors.full_messages}"
+    end
     # TO_DO
     # CityMailer.send_otp(@restaurant).deliver_now
   end
