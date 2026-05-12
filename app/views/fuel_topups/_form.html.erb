@@ -6,7 +6,7 @@
     </h1>
 
 
-    <%= form_with(model: [@ownership, @fuel_topup], local: true) do |form| %>
+    <%= form_with(model: [@ownership, @fuel_topup], local: true, html: {multipart: true}) do |form| %>
 
       <div class="fuel-row" hidden>
         <label class="fuel-label">Upload Fuel Receipt</label>
