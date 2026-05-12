@@ -16,6 +16,9 @@
                 accept: "image/*",
                 id: "receipt_image_upload",
                 class: "form-control" %>
+              <small class="receipt-help-text">
+                Auto-fills the fields below. Values can still be edited later.
+              </small>
         </div>
       </div>
 
@@ -47,7 +50,9 @@
 
       <% fields.each do |field, label, input| %>
         <div class="fuel-row">
-          <label class="fuel-label"><%= label %></label>
+          <label class="fuel-label"><%= label %>
+            <span class="required-star">*</span>
+          </label>
           <div class="fuel-input"><%= input %></div>
         </div>
       <% end %>

@@ -349,6 +349,19 @@ body.page-cars {
   color: #2e7d32;
 }
 
+.required-star {
+  color: red;
+  font-weight: bold;
+}
+
+.receipt-help-text {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.4;
+}
+
 @media (max-width: 768px) { 
   .topups-table thead, 
   .topups-table tbody, 
@@ -517,6 +530,7 @@ body.page-cars {
     border-radius: 8px;
   }
 
+
   /* Mobile fix */
   @media (max-width: 768px) {
     .fuel-card-title {
@@ -539,6 +553,11 @@ body.page-cars {
     .fuel-card .fuel-value {
       width: 100%;
       text-align: right;
+    }
+
+    .fuel-card {
+      display: flex;
+      flex-direction: column;
     }
   }
 
