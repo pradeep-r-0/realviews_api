@@ -5,7 +5,20 @@
       <%= @car.car_make.name %> <%= @car.model %>
     </h1>
 
+
     <%= form_with(model: [@ownership, @fuel_topup], local: true) do |form| %>
+
+      <div class="fuel-row" hidden>
+        <label class="fuel-label">Upload Fuel Receipt</label>
+
+        <div class="fuel-input">
+          <%= file_field_tag :receipt_image,
+                accept: "image/*",
+                id: "receipt_image_upload",
+                class: "form-control" %>
+        </div>
+      </div>
+
       <% fields = [
         [:brand, "Brand", form.select(:brand, [], {}, class: "form-control", data: { selected: @fuel_topup.brand})],
         [:fuel_type, "Fuel Type", form.select(:fuel_type, options_for_select(["Petrol", "Diesel", "CNG"], @fuel_topup.fuel_type), {}, class: "form-control")],
@@ -34,6 +47,19 @@
         <%= form.submit(@fuel_topup.persisted? ? "Update" : "Create", class: "btn btn-primary") %>
       </div>
     <% end %>
+
+    <div id="verifyModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <h3>Verify Fuel Top-up Details</h3>
+
+        <pre id="verifyText"></pre>
+
+        <div style="margin-top: 15px;">
+          <button id="confirmSubmit" class="btn btn-primary">Yes, Submit</button>
+          <button id="cancelSubmit" class="btn btn-secondary">No, Edit</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -80,6 +106,49 @@ document.addEventListener("turbo:load", () => {
   if(!rateField.value){
     fetchRate();
   }
+
+
+  const form = document.querySelector(".fuel-card form");
+  const modal = document.getElementById("verifyModal");
+  const verifyText = document.getElementById("verifyText");
+  const confirmBtn = document.getElementById("confirmSubmit");
+  const cancelBtn = document.getElementById("cancelSubmit");
+
+  let allowSubmit = false;
+
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const state = document.querySelector("#fuel_topup_state")?.value;
+      const fuelType = document.querySelector("#fuel_topup_fuel_type")?.value;
+      const rate = document.querySelector("#fuel_topup_rate_per_litre")?.value;
+      const price = document.querySelector("#amount_field")?.value;
+      const date = document.querySelector("#fuel_topup_topup_date")?.value;
+
+      verifyText.innerText =
+        `State: ${state}
+        Fuel Type: ${fuelType}
+        Rate: ₹${rate}
+        Total Price: ₹${price}
+        Date: ${date}`;
+
+      modal.style.display = "block";
+    });
+  }
+
+  confirmBtn.onclick = () => {
+    allowSubmit = true;
+    modal.style.display = "none";
+    setTimeout(() => {
+      form.submit();
+    }, 0);
+  };
+
+  cancelBtn.onclick = () => {
+    modal.style.display = "none";
+    // user stays on form and can edit freely
+  };
 
 });
 </script>

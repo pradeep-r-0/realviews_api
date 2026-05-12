@@ -48,11 +48,12 @@ class BalanceSheetsController < ApplicationController
 
   # PATCH/PUT /balance_sheets/:id
   def update
-    if @balance_sheet.update(balance_sheet_params)
+    begin
+      @balance_sheet.update!(balance_sheet_params)
       flash[:notice] = "Balance sheet updated."
       redirect_to balance_sheet_path(@balance_sheet)
-    else
-      flash.now[:alert] = "Could not update."
+    rescue => e
+      flash.now[:alert] = "Could not update. Error: #{e.errors.full_messages}"
       render :edit, status: :unprocessable_entity
     end
   end

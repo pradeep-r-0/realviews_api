@@ -1,7 +1,7 @@
 class FuelPricesController < ApplicationController
   def get_todays_price
     state = params[:state]
-    date = params[:topup_date]
+    date = Date.strptime(params[:topup_date], "%d/%m/%Y")
     type = params[:type]
 
     price_record = FuelPrice.where(state: state, fuel_type: type)

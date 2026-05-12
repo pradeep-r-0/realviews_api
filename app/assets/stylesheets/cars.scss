@@ -407,16 +407,25 @@ body.page-cars {
   .fuel-row {
     flex-direction: column;
     align-items: stretch;
+    gap: 6px;
   }
 
   .fuel-label {
     width: 100%;
+    min-width: unset;
     text-align: left;
-    margin-bottom: 4px;
     padding-right: 0;
   }
 
   .fuel-input {
+    width: 100%;
+  }
+
+  .fuel-submit {
+    text-align: center;
+  }
+
+  .fuel-submit .btn {
     width: 100%;
   }
 
@@ -489,6 +498,23 @@ body.page-cars {
 
   .flatpickr-day {
     max-width: none;
+  }
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+  }
+
+  .modal-content {
+    background: white;
+    padding: 20px;
+    max-width: 400px;
+    margin: 100px auto;
+    border-radius: 8px;
   }
 
   /* Mobile fix */

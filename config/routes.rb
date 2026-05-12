@@ -64,4 +64,7 @@ Rails.application.routes.draw do
       post "generate", to: "balance_sheets#generate"
     end
   end
+
+  post "fuel_topups/scan_receipt",
+     to: "fuel_topups#scan_receipt"
 end

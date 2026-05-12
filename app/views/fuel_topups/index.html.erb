@@ -26,7 +26,7 @@
 
       <% @fuel_topups.each do |current_topup| %>
         <tr>
-          <td data-label="Date"><span><%= current_topup.topup_date.strftime("%d-%b-%Y") %></span></td>
+          <td data-label="Date"><span><%= current_topup.topup_date.strftime("%d-%m-%Y") %></span></td>
           <td data-label="Amount"><span><%= current_topup.price.to_i %></span></td>
           <td data-label="Rate/Litre"><span><%= current_topup.rate_per_litre.to_f %></span></td>
           <td data-label="Brand"><span><%= current_topup.brand %></span></td>

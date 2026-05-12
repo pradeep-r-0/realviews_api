@@ -27,6 +27,8 @@ gem "puma", ">= 5.0"
 
 gem "redis", "~> 5.0"
 
+gem 'rtesseract'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
