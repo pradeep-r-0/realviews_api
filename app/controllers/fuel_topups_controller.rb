@@ -163,7 +163,7 @@ class FuelTopupsController < ApplicationController
 
     json = {
       fuel_brand: fuel_brand,
-      rate_per_litre: rate,
+      rate_per_litre: (rate > 1000) ? rate/100 : rate,
       amount: amount,
       state: state,
       topup_date: topup_date,
