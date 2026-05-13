@@ -556,7 +556,7 @@ body.page-cars {
     }
 
     .fuel-card {
-      display: flex;
+      // display: flex; card label value horizontal alignment issue
       flex-direction: column;
     }
   }
