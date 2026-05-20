@@ -15,9 +15,10 @@ class Car < ApplicationRecord
   def send_welcome_mail
     cars_without_topups.find_each do |car|
       user = car.user
-      Rails.logger.info "#{car.make}: #{car.model} L #{car.variant} newly added by user: #{user&.email}"
+      Rails.logger.info "#{car.car_make&.name}: #{car.model} L #{car.variant} newly added by user: #{user&.email}"
       next unless user
-      UserMailer
+
+      CarMailer
         .fuel_topup_reminder(user, car)
         .deliver_now
     end
