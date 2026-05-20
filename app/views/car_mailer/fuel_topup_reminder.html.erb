@@ -1,7 +1,7 @@
 <p>Hi <%= @user.name.presence || "there" %>,</p>
 
 <p>
-We noticed that you recently added your car #{car} to REalVIEWS —
+We noticed that you recently added your car <%= @car %> to REalVIEWS —
 welcome aboard! 🚗
 </p>
 
@@ -32,10 +32,11 @@ automatically fill the fields and add odometer reading from the photo you captur
 </p>
 
 <ul>
-  <li>Topup State</li>
-  <li>Fuel rate</li>
-  <li>Fuel quantity</li>
-  <li>Date</li>
+  <li>Brand</li>
+  <li>State of Topup</li>
+  <li>Rate per Litre</li>
+  <li>Total Price</li>
+  <li>Date of Topup</li>
 </ul>
 
 <p>

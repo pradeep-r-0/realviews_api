@@ -13,10 +13,10 @@ class Car < ApplicationRecord
   private
 
   def send_welcome_mail
-    user = self.user
-    car_string = "#{car.car_make&.name}: #{self.model} L #{self.variant}"
+    user = self.ownerships.find_by(user_id: current_user.id).user
+    car_string = "#{sel.car_make&.name} #{sel.model}  #{self.variant}"
     Rails.logger.info "#{car_string} newly added by user: #{user&.email}"
-    next unless user
+    return unless user
 
     CarMailer
       .fuel_topup_reminder(user, car_string)
