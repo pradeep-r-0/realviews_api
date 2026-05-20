@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_11_142843) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_20_115955) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -43,6 +43,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_11_142843) do
     t.string "variant"
     t.string "fuel_type", default: "Petrol", null: false
     t.bigint "car_make_id"
+    t.boolean "fuel_reminder_sent"
     t.index ["car_make_id"], name: "index_cars_on_car_make_id"
   end
 
