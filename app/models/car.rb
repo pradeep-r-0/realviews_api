@@ -21,5 +21,7 @@ class Car < ApplicationRecord
     CarMailer
       .fuel_topup_reminder(user, car_string)
       .deliver_now
+    
+    self.update_column(:fuel_reminder_sent, true)
   end
 end
