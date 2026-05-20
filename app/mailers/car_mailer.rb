@@ -7,6 +7,7 @@ class CarMailer < ApplicationMailer
 
     mail(
       to: @user.email,
+      car: "#{@car.make} #{@car.model} #{@car.variant}"
       subject: "Track Mileage for Your Car on REalVIEWS"
     )
   end
