@@ -8,6 +8,8 @@ class User < ApplicationRecord
   # Validations
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
+  after_create :send_welcome_email
+
   OTP_EXPIRY = 10.minutes
 
   def generate_otp!
@@ -27,7 +29,13 @@ class User < ApplicationRecord
     update!(otp_code: nil, otp_sent_at: nil)
   end
 
+  private
+
   def otp_expired?
     otp_sent_at < OTP_EXPIRY.ago
+  end
+
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver_now
   end
 end
