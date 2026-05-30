@@ -34,7 +34,7 @@
               <tr>
                 <% 
                   non_e20_mileage = calculate_avg_mileage(@non_e20_topups, @e20_topups.last)
-                  e20_mileage = calculate_avg_mileage(@e20_topups, @e20_topups.last)
+                  e20_mileage = calculate_avg_mileage(@e20_topups, nil)
                   Rails.logger.info "Non E20: #{non_e20_mileage}"
                   Rails.logger.info "E20: #{e20_mileage}"
                 %>
