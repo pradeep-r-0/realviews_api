@@ -32,8 +32,8 @@
             </thead>
             <tbody>
               <tr>
-                <td><%= calculate_avg_mileage(@non_e20_topups) %></td>
-                <td><%= calculate_avg_mileage(@e20_topups) %></td>
+                <td><%= calculate_avg_mileage(@non_e20_topups, @fuel_topups) %></td>
+                <td><%= calculate_avg_mileage(@e20_topups, @fuel_topups) %></td>
               </tr>
             </tbody>
           </table>
@@ -50,7 +50,7 @@
             <tbody>
               <tr>
                 <td>
-                  <%= calculate_avg_mileage(@fuel_topups) %>
+                  <%= calculate_avg_mileage(@fuel_topups, @fuel_topups) %>
                 </td>
               </tr>
             </tbody>
