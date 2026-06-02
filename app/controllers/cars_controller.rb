@@ -1,9 +1,13 @@
 class CarsController < ApplicationController
   before_action :require_login, only: %i[new create]
+  before_action :authorize_owner!, only: [:edit, :update]
 
   def new
     @car = Car.new
     @car.fuel_type = nil
+  end
+
+  def edit
   end
 
   def create
@@ -28,6 +32,13 @@ class CarsController < ApplicationController
     @cars = Car.joins(:car_make).all.order("car_makes.name")
   end
 
+  def update
+    if car.update(car_params)
+      redirect_to @car, notice: "Car updated successfully."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
   private
 
   def car
@@ -35,6 +46,21 @@ class CarsController < ApplicationController
   end
 
   def car_params
-    params.require(:car).permit(:model, :variant, :fuel_type, :date_of_purchase, :car_make_id)
+    params.require(:car).permit(
+      :model,:variant, :fuel_type,
+      :date_of_purchase, :car_make_id
+    )
   end
+
+  def authorize_owner!
+    unless owned_by?(current_user.id)
+      redirect_to cars_path,
+                  alert: "You can edit only your own cars."
+    end
+  end
+
+  def owned_by?(user_id)
+    car.users.exists?(user_id)
+  end
+  
 end

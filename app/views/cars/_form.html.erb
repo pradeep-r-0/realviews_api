@@ -1,0 +1,67 @@
+<div align='center'>
+
+  <%= form_with(model: @car, local: true, html: { autocomplete: "off" }) do |form| %>
+
+    <% if @car.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@car.errors.count, "error") %> prohibited this car from being saved:</h2>
+
+        <ul>
+          <% @car.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-grid">
+
+      <div class="form-row">
+        <%= form.label :car_make_id, "Make" %>
+        <%= form.collection_select :car_make_id,
+            CarMake.all.order(:name),
+            :id,
+            :name,
+            { prompt: "Select Make" },
+            { required: true } %>
+      </div>
+
+      <div class="form-row">
+        <%= form.label :model %>
+        <%= form.text_field :model, required: true %>
+      </div>
+
+      <div class="form-row">
+        <%= form.label :variant %>
+        <%= form.text_field :variant, required: true %>
+      </div>
+
+      <div class="form-row">
+        <%= form.label :fuel_type %>
+        <%= form.select :fuel_type,
+            ["Petrol","Diesel","CNG"],
+            { prompt: "Select Fuel Type" },
+            { required: true } %>
+      </div>
+
+      <div class="form-row">
+        <%= form.label :date_of_purchase, "Purchase Month" %>
+
+        <div class="inline-month-select">
+          <%= form.date_select :date_of_purchase,
+              discard_day: true,
+              start_year: 2000,
+              end_year: Date.today.year,
+              order: [:month, :year] %>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="actions">
+      <%= form.submit class: "btn btn-primary" %>
+    </div>
+
+  <% end %>
+
+</div>

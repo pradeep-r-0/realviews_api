@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :cars, only: [ :index, :show, :create, :new ]
+  resources :cars, only: [ :index, :show, :create, :new, :edit, :update ]
 
   resources :ownerships do
     resources :fuel_topups

@@ -23,6 +23,15 @@
             </h2>
           </td>
         <% end %>
+          <td>
+            <% if current_user && car.users.exists?(current_user.id) %>
+              <%= link_to edit_car_path(car),
+                  class: "btn btn-sm btn-outline-secondary" do %>
+
+                <i class="fas fa-pencil-alt"></i>
+              <% end %>
+            <% end %>
+          </td>
       </tr>
     <% end %>
   </table>
