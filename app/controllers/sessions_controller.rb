@@ -50,4 +50,20 @@ class SessionsController < ApplicationController
     session.delete(:user_id)
     redirect_to root_path, notice: "Signed out"
   end
+
+  def omniauth
+    auth = request.env['omniauth.auth']
+
+    user = User.find_or_initialize_by(email: auth.info.email)
+
+    user.update(
+      name: auth.info.name,
+      provider: auth.provider,
+      uid: auth.uid
+    )
+
+    session[:user_id] = user.id
+
+    redirect_to root_path
+  end
 end

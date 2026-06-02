@@ -2,6 +2,10 @@ source "https://rubygems.org"
 
 gem "dotenv-rails"
 
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
+
 
 gem "sib-api-v3-sdk"
 
@@ -27,12 +31,12 @@ gem "puma", ">= 5.0"
 
 gem "redis", "~> 5.0"
 
-gem 'rtesseract'
+gem "rtesseract"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
-gem 'sitemap_generator'
+gem "sitemap_generator"
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
 gem "solid_cache"
