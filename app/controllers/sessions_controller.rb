@@ -57,7 +57,7 @@ class SessionsController < ApplicationController
     user = User.find_or_initialize_by(email: auth.info.email)
 
     user.update(
-      name: auth.info.name,
+      name: user.name || auth.info.name,
       provider: auth.provider,
       uid: auth.uid
     )
