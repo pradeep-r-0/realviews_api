@@ -2,6 +2,9 @@ require "sidekiq/web"
 require "sidekiq/cron/web"
 
 Rails.application.routes.draw do
+  # devise_for :users, controllers: {
+  #   omniauth_callbacks: "users/omniauth_callbacks"
+  # }
   # Mount Sidekiq dashboard at /sidekiq
   mount Sidekiq::Web => "/sidekiq"
 
@@ -53,6 +56,7 @@ Rails.application.routes.draw do
   get  "login/otp/verify",   to: "sessions#verify", as: :verify_otp   # form to enter otp
   post "login/otp/confirm",  to: "sessions#confirm",  as: :validate_otp# checks otp and signs in
   delete "logout",           to: "sessions#destroy", as: :logout
+  get '/auth/:provider/callback', to: 'sessions#omniauth'
 
   get  "/signup",  to: "registrations#new", as: :signup
   post "/signup",  to: "registrations#create"
