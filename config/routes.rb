@@ -48,12 +48,12 @@ Rails.application.routes.draw do
   root "home#index"
 
   # OTP login
-  get  "login/otp",          to: "sessions#new"      # form to enter email
-  post "login/otp/send",     to: "sessions#send_otp" # triggers email
+  post "login/otp", to: "sessions#send_otp", as: :login_otp
   get  "login/otp/verify",   to: "sessions#verify", as: :verify_otp   # form to enter otp
   post "login/otp/confirm",  to: "sessions#confirm",  as: :validate_otp# checks otp and signs in
   delete "logout",           to: "sessions#destroy", as: :logout
   get '/auth/:provider/callback', to: 'sessions#omniauth'
+  get "login", to: "sessions#login_options", as: :login
 
   get  "/signup",  to: "registrations#new", as: :signup
   post "/signup",  to: "registrations#create"
