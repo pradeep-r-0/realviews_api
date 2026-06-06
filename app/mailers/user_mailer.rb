@@ -11,4 +11,14 @@ class UserMailer < ApplicationMailer
     @user = user
     mail(to: @user.email, subject: "Welcome to REalVIEWS!")
   end
+
+
+  def feature_announcement(user)
+    @user = user
+
+    mail(
+      to: @user.email,
+      subject: "New on REalVIEWS: Google Sign-In & Receipt-Based Fuel Topups"
+    )
+  end
 end
