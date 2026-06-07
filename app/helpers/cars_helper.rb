@@ -17,7 +17,7 @@ module CarsHelper
                                   previous.price &&
                                   previous.rate_per_litre
 
-    total_price = fuel_topups.pluck(:price).sum
+    total_price = fuel_topups.sum(:price).to_f
 
     # 🔥 subtract only if this is the "latest dataset"
     if now.id == @latest_topup_id
@@ -26,7 +26,7 @@ module CarsHelper
 
     distance = now.odometer_reading.to_i - previous.odometer_reading.to_i
 
-    ((distance / total_price.to_f) * previous.rate_per_litre.to_f).round(2)
+    ((distance / total_price) * previous.rate_per_litre.to_f).round(2)
   end
 
 

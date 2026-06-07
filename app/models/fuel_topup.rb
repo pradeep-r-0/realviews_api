@@ -4,6 +4,8 @@ class FuelTopup < ApplicationRecord
   belongs_to :user
   belongs_to :car
 
+  default_scope { order(topup_date: :desc) }
+
   validates :price, :topup_date, presence: true
 
   def mileage_from(next_topup)
