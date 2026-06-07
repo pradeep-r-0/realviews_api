@@ -3,30 +3,34 @@ module CarsHelper
     if fuel_topups.size == 1
       return "NA" unless ref_topup || fuel_topups.first.id != ref_topup.id
       now = ref_topup
-    previous = fuel_topups.first
+      previous = fuel_topups.first
     elsif ref_topup == "index" # sent explicitly for index
       now = fuel_topups.first
       previous = fuel_topups.last
     else
       now = fuel_topups.first
-      previous = fuel_topups.where("topup_date < '#{now.topup_date}'").first
+      previous = fuel_topups.where("topup_date < ?", now.topup_date).first
     end
 
-    return "Not available" unless now.odometer_reading &&
-                                  previous.odometer_reading &&
+    return "Not available" unless now&.odometer_reading &&
+                                  previous&.odometer_reading &&
                                   previous.price &&
                                   previous.rate_per_litre
 
-    total_price = fuel_topups.sum(:price).to_f
-
-    # 🔥 subtract only if this is the "latest dataset"
-    if now.id == @latest_topup_id
-      total_price -= now.price
+    total_litres = fuel_topups.sum do |topup|
+      topup.price.to_f / topup.rate_per_litre.to_f
     end
+
+    if now.id == @latest_topup_id && fuel_topups.any? { |topup| topup.id == now.id }
+      current_litres = now.price.to_f / now.rate_per_litre.to_f
+      total_litres -= current_litres
+    end
+
+    return "Not available" if total_litres <= 0
 
     distance = now.odometer_reading.to_i - previous.odometer_reading.to_i
 
-    ((distance / total_price) * previous.rate_per_litre.to_f).round(2)
+    (distance / total_litres).round(2)
   end
 
 

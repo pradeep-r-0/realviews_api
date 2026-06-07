@@ -21,9 +21,9 @@ class CarsController < ApplicationController
   end
 
   def show
-    @fuel_topups = car.fuel_topups.where.not(odometer_reading: nil).order(odometer_reading: :desc).limit(5)
-    @e20_topups = car.fuel_topups.where.not(odometer_reading: nil).where("topup_date >= '2026-04-01'").order(id: :desc).select(:id, :odometer_reading, :price, :rate_per_litre, :topup_date)
-    @non_e20_topups = car.fuel_topups.where.not(odometer_reading: nil).where("topup_date < '2026-04-01'").order(id: :desc).select(:id, :odometer_reading, :price, :rate_per_litre, :topup_date)
+    @fuel_topups = car.fuel_topups.where.not(odometer_reading: nil).order(topup_date: :desc).limit(5)
+    @e20_topups = car.fuel_topups.where.not(odometer_reading: nil).where("topup_date >= ?", Date.new(2026, 4, 1)).order(topup_date: :desc).select(:id, :odometer_reading, :price, :rate_per_litre, :topup_date)
+    @non_e20_topups = car.fuel_topups.where.not(odometer_reading: nil).where("topup_date < ?", Date.new(2026, 4, 1)).order(topup_date: :desc).select(:id, :odometer_reading, :price, :rate_per_litre, :topup_date)
     @latest_topup_id = @fuel_topups.first&.id
     @ownership = car.ownerships.find_by_user_id(current_user.id) if current_user
   end
