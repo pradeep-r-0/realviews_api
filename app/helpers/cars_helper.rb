@@ -1,10 +1,10 @@
 module CarsHelper
-  def calculate_avg_mileage(fuel_topups, ref_topup)
+  def calculate_avg_mileage(fuel_topups, ref_topup, avg_section=false)
     if fuel_topups.size == 1
       return "NA" unless ref_topup || fuel_topups.first.id != ref_topup.id
       now = ref_topup
       previous = fuel_topups.first
-    elsif ref_topup == "index" # sent explicitly for index
+    elsif ref_topup == "index" || avg_section # sent explicitly for index
       now = fuel_topups.first
       previous = fuel_topups.last
     else

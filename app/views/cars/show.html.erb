@@ -32,9 +32,9 @@
             </thead>
             <tbody>
               <tr>
-                <% 
-                  non_e20_mileage = calculate_avg_mileage(@non_e20_topups, @e20_topups.last)
-                  e20_mileage = calculate_avg_mileage(@e20_topups, nil)
+                <%
+                  non_e20_mileage = calculate_avg_mileage(@non_e20_topups, @e20_topups.last, true)
+                  e20_mileage = calculate_avg_mileage(@e20_topups, nil, true)
                   Rails.logger.info "Non E20: #{non_e20_mileage}"
                   Rails.logger.info "E20: #{e20_mileage}"
                 %>
@@ -56,7 +56,7 @@
             <tbody>
               <tr>
                 <td>
-                  <%= calculate_avg_mileage(@fuel_topups, @e20_topups.last) %>
+                  <%= calculate_avg_mileage(@fuel_topups, @e20_topups.last, false) %>
                 </td>
               </tr>
             </tbody>
