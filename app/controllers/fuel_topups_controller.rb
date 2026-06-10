@@ -61,7 +61,11 @@ class FuelTopupsController < ApplicationController
       return
     end
 
-    unless image.content_type.to_s.start_with?("image/")
+    # Accept when the uploaded part reports an image MIME type or when
+    # the original filename has a common image extension (jpg/jpeg/png/gif).
+    valid_mime = image.respond_to?(:content_type) && image.content_type.to_s.start_with?("image/")
+    valid_ext = image.respond_to?(:original_filename) && image.original_filename.to_s.downcase.match?(/\.(jpe?g|png|gif)$/)
+    unless valid_mime || valid_ext
       render json: { error: "Only image files are allowed" }, status: :unprocessable_entity
       return
     end

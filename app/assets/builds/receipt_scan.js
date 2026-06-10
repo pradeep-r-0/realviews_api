@@ -1,6 +1,6 @@
 (() => {
   // app/javascript/receipt_scan.js
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("turbo:load", () => {
     const upload = document.getElementById("receipt_image_upload");
     console.log("scan receipt loaded: ", upload);
     if (!upload) return;
