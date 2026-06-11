@@ -18,7 +18,7 @@ class FuelPriceFetcher
         all_success = false
       end
 
-      sleep(60)
+      sleep(5)
     end
 
     delete_older_prices if all_success
