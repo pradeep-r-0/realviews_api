@@ -15,6 +15,9 @@ class BalanceSheet < ApplicationRecord
 
   before_validation :set_default_carry_forward, on: :create
 
+  # Recalculate totals after the sheet is saved or touched.
+  # `after_save` covers creates and updates; keep `after_touch` for explicit touches.
+  after_save :recalculate_totals
   after_touch :recalculate_totals
 
   # === Class Methods ===
