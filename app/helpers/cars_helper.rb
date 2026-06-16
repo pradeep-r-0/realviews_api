@@ -9,7 +9,7 @@ module CarsHelper
       previous = fuel_topups.last
     else
       now = fuel_topups.first
-      previous = fuel_topups.where("topup_date < ?", now.topup_date).first
+      previous = fuel_topups.where("topup_date < ?", now&.topup_date).first
     end
 
     return "Not available" unless now&.odometer_reading &&

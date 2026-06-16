@@ -13,7 +13,7 @@
 
     <div class="center-block">
       <div class="field text-secondary field-bold">
-        Model: <%= @car.date_of_purchase.strftime("%B %Y") %>
+        Model: <%= @car.date_of_purchase&.strftime("%B %Y") %>
       </div>
 
       <div class="mileage-summary-wrapper">
@@ -65,7 +65,14 @@
         <% end %>
       </div>
 
+
       <% if current_user && @ownership&.user_id == current_user.id %>
+          <%# 1 year driven kms %>
+          <% one_year_kms = @one_yr_driven_kms %>
+          <div class="field">
+            <strong>Yearly distance:&nbsp;</strong>
+            <span class="text-muted"> <%= one_year_kms == "-" ? "-" : "#{one_year_kms} kms" %> </span>
+          </div>
         <div class="field">
           <%= link_to "View Full Refill History",
               ownership_fuel_topups_path(@ownership),
