@@ -1,7 +1,7 @@
 class Dish < ApplicationRecord
   belongs_to :restaurant
   belongs_to :user, optional: true
-  before_create :titleize_name
+  before_validation :normalize_name
 
   attr_accessor :restaurant_name
 
@@ -11,7 +11,7 @@ class Dish < ApplicationRecord
 
   private
 
-  def titleize_name
-    self.name = name.to_s.titleize
+  def normalize_name
+    self.name = name.to_s.squish.titleize
   end
 end
