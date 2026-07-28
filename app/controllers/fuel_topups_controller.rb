@@ -61,10 +61,12 @@ class FuelTopupsController < ApplicationController
       return
     end
 
-    # Accept when the uploaded part reports an image MIME type or when
-    # the original filename has a common image extension (jpg/jpeg/png/gif).
-    valid_mime = image.respond_to?(:content_type) && image.content_type.to_s.start_with?("image/")
-    valid_ext = image.respond_to?(:original_filename) && image.original_filename.to_s.downcase.match?(/\.(jpe?g|png|gif)$/)
+    # Mobile cameras often send HEIC/HEIF files or generic MIME types. Accept
+    # any image/* content type and common image extensions so the OCR flow works
+    # reliably across desktop and phone uploads.
+    content_type = image.respond_to?(:content_type) ? image.content_type.to_s.downcase : ""
+    valid_mime = content_type.start_with?("image/")
+    valid_ext = image.respond_to?(:original_filename) && image.original_filename.to_s.downcase.match?(/\.(jpe?g|png|gif|webp|heic|heif|tiff|bmp)$/)
     unless valid_mime || valid_ext
       render json: { error: "Only image files are allowed" }, status: :unprocessable_entity
       return
