@@ -12,6 +12,10 @@
         <label class="fuel-label">Upload Fuel Receipt</label>
 
         <div class="fuel-input">
+          <div id="receipt_scan_status" style="display:none; margin-bottom:8px; color:#0d6efd; font-size:0.95rem;">
+            <span class="me-2" aria-hidden="true">⏳</span>
+            Scanning receipt...
+          </div>
           <%= file_field_tag :receipt_image,
                 accept: "image/*",
                 id: "receipt_image_upload",
