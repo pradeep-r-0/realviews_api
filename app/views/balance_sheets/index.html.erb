@@ -2,37 +2,64 @@
 <div class="balance-sheets-page">
   <h1>Your Balance Sheets</h1>
 
-  <%= link_to "New Balance Sheet", new_balance_sheet_path, class: "button" %>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
+    <%= link_to "New Balance Sheet", new_balance_sheet_path, class: "button" %>
 
-  <%= button_to "Generate Current Month",
-        generate_balance_sheets_path,
-        method: :post,
-        params: { year: Date.current.year, month: Date.current.month },
-        class: "button" %>
+    <%= button_to "Generate Current Month",
+          generate_balance_sheets_path,
+          method: :post,
+          params: { year: Date.current.year, month: Date.current.month },
+          class: "button" %>
+  </div>
+
+  <%= form_with url: balance_sheets_path, method: :get, local: true, html: { class: "search-form", style: "margin: 0 auto 20px; max-width: 640px;" } do |f| %>
+    <%= f.label :q, "Search expenses across all balance sheets", style: "display: block; margin-bottom: 8px; font-weight: 600; text-align: center;" %>
+    <div style="display: flex; gap: 8px; justify-content: center; align-items: center; max-width: 500px; margin: 0 auto;">
+      <%= f.text_field :q, value: params[:q], placeholder: "Search by expense name, amount, date, month, or year", style: "flex: 1; min-width: 0;" %>
+      <%= f.submit "Search", class: "button" %>
+      <% if params[:q].present? %>
+        <%= link_to "Clear", balance_sheets_path, class: "button secondary" %>
+      <% end %>
+    </div>
+  <% end %>
 
   <% if @balance_sheets.present? %>
-  <table>
-    <thead>
-      <tr>
-        <th>Details</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @balance_sheets.each do |b| %>
+    <table>
+      <thead>
         <tr>
-          <td><%= link_to "#{Date::MONTHNAMES[b.month]} #{b.year}", balance_sheet_path(b) %></td>
-          <td>
-            <%= link_to 'View', balance_sheet_path(b) %> |
-            <%= link_to 'Delete', balance_sheet_path(b), method: :delete, data: { confirm: 'Are you sure?' } %>
-          </td>
+          <th>Balance Sheet</th>
+          <th>Expense Match</th>
+          <th>Actions</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @balance_sheets.each do |b| %>
+          <% matches = params[:q].present? ? (@matching_expenses_by_sheet[b.id] || []) : [] %>
+
+          <tr>
+            <td><%= link_to "#{Date::MONTHNAMES[b.month]} #{b.year}", balance_sheet_path(b) %></td>
+            <td>
+              <% if matches.any? %>
+                <ul style="margin: 0; padding-left: 18px;">
+                  <% matches.each do |expense| %>
+                    <li><%= expense.description %> — <%= number_to_currency(expense.amount) %> on <%= expense.date %></li>
+                  <% end %>
+                </ul>
+              <% else %>
+                <span>—</span>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to 'View', balance_sheet_path(b) %> |
+              <%= link_to 'Delete', balance_sheet_path(b), method: :delete, data: { confirm: 'Are you sure?' } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
     <div class="empty-state">
-      <p>No balance sheets yet.</p>
+      <p><%= params[:q].present? ? "No expenses match your search across all balance sheets." : "No balance sheets yet." %></p>
     </div>
   <% end %>
 </div>

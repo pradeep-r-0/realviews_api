@@ -5,6 +5,22 @@ class BalanceSheetsController < ApplicationController
   # GET /balance_sheets
   def index
     @balance_sheets = current_user.balance_sheets.order(year: :desc, month: :desc)
+    @matching_expenses = []
+    @matching_expenses_by_sheet = {}
+
+    if params[:q].present?
+      query = params[:q].to_s.strip.downcase
+      @matching_expenses = Expense.joins(:balance_sheet)
+        .where(balance_sheets: { user_id: current_user.id })
+        .where(deleted: false)
+        .order(date: :desc)
+        .select do |expense|
+          matches_expense_search?(expense, query)
+        end
+
+      @balance_sheets = @matching_expenses.map(&:balance_sheet).uniq.sort_by { |sheet| [sheet.year, sheet.month] }.reverse
+      @matching_expenses_by_sheet = @matching_expenses.group_by(&:balance_sheet_id)
+    end
   end
 
   # GET /balance_sheets/:id
@@ -103,5 +119,19 @@ class BalanceSheetsController < ApplicationController
       :year, :month, :total_income, :carry_forward, :notes,
       expenses_attributes: [ :id, :description, :amount, :date, :_destroy ]
     )
+  end
+
+  def matches_expense_search?(expense, query)
+    return false if query.blank?
+
+    searchable_values = [
+      expense.description.to_s,
+      expense.date&.to_s,
+      expense.amount.to_s,
+      expense.balance_sheet&.year.to_s,
+      Date::MONTHNAMES[expense.balance_sheet&.month].to_s
+    ]
+
+    searchable_values.any? { |value| value.to_s.downcase.include?(query) }
   end
 end
