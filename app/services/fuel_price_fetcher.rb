@@ -24,26 +24,6 @@ class FuelPriceFetcher
     delete_older_prices if all_success
   end
 
-  def self.fetch_fuel_data(fuel_type)
-    # Check if prices already exist for today
-    return  if check_if_already_fetched(fuel_type)
-
-    # response = request_primary(fuel_type)
-
-    # return parse_response(response.body, fuel_type) if response.is_a?(Net::HTTPSuccess)
-
-    # if response.code == "429"
-    #   Rails.logger.error "Primary fuel API rate limit exceeded for #{fuel_type}."
-    #   Rails.cache.write(block_cache_key(Date.today), true, expires_in: 24.hours)
-    # else
-    #   Rails.logger.error "Primary fuel API error: #{response.code} #{response.body}"
-    # end
-
-    attempt_fallback(fuel_type)
-  rescue StandardError => e
-    Rails.logger.error "FuelPriceFetcher failed for #{fuel_type}: #{e.class} #{e.message}"
-    nil
-  end
 
   def self.attempt_fallback(fuel_type)
     if Rails.cache.read(fallback_block_cache_key(Date.today))
@@ -86,24 +66,22 @@ class FuelPriceFetcher
     Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request) }
   end
 
-  def self.request_fallback(fuel_type)
-    url = "https://nixinfo.in/api/fuel/petrol-price-state-capital-v7?email=#{ENV['NIXINFO_EMAIL']}&key=#{ENV['NIXINFO_API_KEY']}&days=today&ob=ASC"
-    raise "Missing fallback fuel API URL" unless url.present?
+  def self.fetch_fuel_data(fuel_type)
+    data = FuelPriceScraper.fetch_state_prices(fuel_type)
+    return data unless data.nil? || data.empty?
 
-    uri = URI(url)
-    uri.query = URI.encode_www_form(location_type: "state", fuel_type: fuel_type)
-
-    request = Net::HTTP::Get.new(uri)
-    if ENV["FUEL_PRICE_ALTERNATE_KEY"].present?
-      request["Authorization"] = "Bearer #{ENV["FUEL_PRICE_ALTERNATE_KEY"]}"
-    end
-
-    Rails.logger.info "Calling fallback fuel price API for #{fuel_type} at #{Time.now}"
-    Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == "https") { |http| http.request(request) }
+    Rails.logger.warn "Cardekho scraper returned no data for #{fuel_type}; using existing cached values if available."
+    nil
   end
 
   def self.parse_response(body, fuel_type)
     payload = JSON.parse(body)
+
+    if payload.is_a?(Hash) && payload["error"].present?
+      Rails.logger.warn "FuelPriceFetcher provider returned an error: #{payload["error"]}"
+      return []
+    end
+
     data = if payload.is_a?(Hash)
       payload["data"] || payload["records"] || payload["prices"] || payload
     else
@@ -146,7 +124,7 @@ class FuelPriceFetcher
     normalized_fuel_type = fuel_type.titleize
 
     data.each do |entry|
-      FuelPrice.find_or_create_by!(state: entry["city"], fuel_type: normalized_fuel_type, date: today) do |fp|
+      FuelPrice.find_or_create_by!(state: entry["state"], fuel_type: normalized_fuel_type, date: today) do |fp|
         fp.price = entry["price"].to_f
       end
     end
