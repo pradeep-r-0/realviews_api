@@ -42,7 +42,7 @@
               <% if matches.any? %>
                 <ul style="margin: 0; padding-left: 18px;">
                   <% matches.each do |expense| %>
-                    <li><%= expense.description %> — <%= number_to_currency(expense.amount) %> on <%= expense.date %></li>
+                    <li><%= expense.description %> — <%= number_to_currency(expense.amount, unit: "₹") %> on <%= expense.date %></li>
                   <% end %>
                 </ul>
               <% else %>
