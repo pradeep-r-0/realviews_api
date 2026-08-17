@@ -3,11 +3,11 @@ require "json"
 
 class FuelPriceFetcher
   PRIMARY_BASE_URL = "https://fuel.indianapi.in/live_fuel_price"
-  FUEL_TYPES = %w[petrol diesel]
+  FUEL_TYPES = %w[petrol premium diesel].freeze
 
   def self.fetch_and_store
     all_success = true
-    FUEL_TYPES.each do |fuel_type|
+    fuel_types_to_fetch.each do |fuel_type|
       data = fetch_fuel_data(fuel_type)
 
       if data.present?
@@ -24,6 +24,10 @@ class FuelPriceFetcher
     delete_older_prices if all_success
   end
 
+
+  def self.fuel_types_to_fetch
+    FUEL_TYPES.dup
+  end
 
   def self.attempt_fallback(fuel_type)
     if Rails.cache.read(fallback_block_cache_key(Date.today))
