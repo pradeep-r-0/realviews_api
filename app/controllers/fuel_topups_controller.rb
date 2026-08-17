@@ -1,5 +1,9 @@
 require 'rtesseract'
 require 'mini_magick'
+require 'open3'
+require 'tempfile'
+require 'fileutils'
+require 'timeout'
 
 class FuelTopupsController < ApplicationController
   before_action :require_login, only: %i[index new create edit update destroy]
@@ -74,32 +78,92 @@ class FuelTopupsController < ApplicationController
 
     timestamp = Time.now.to_i
     tmp_orig = image.tempfile.path
+    # Copy the uploaded tempfile to a stable input path so external CLI calls
+    # can safely open it even if the original tempfile is reaped by Rack.
+    input_path = "/tmp/receipt_input_#{timestamp}#{File.extname(tmp_orig)}"
+    begin
+      FileUtils.cp(tmp_orig, input_path)
+    rescue => cp_err
+      Rails.logger.warn("Failed to copy uploaded tempfile to #{input_path}: #{cp_err.message}")
+      input_path = tmp_orig
+    end
     processed_path = "/tmp/receipt_processed_#{timestamp}.png"
     header_path = "/tmp/receipt_header_#{timestamp}.png"
 
     begin
-      img = MiniMagick::Image.open(tmp_orig)
-      img.auto_orient
-      img.combine_options do |c|
-        c.resize "300%"
-        c.colorspace "Gray"
-        c.normalize
-        c.unsharp "0x1"
-        c.threshold "60%"
-        c.strip
-      end
-      img.write(processed_path)
+      MiniMagick.timeout = 8
+      args = [
+        input_path,
+        "-auto-orient",
+        "-resize", "150%",
+        "-colorspace", "Gray",
+        "-sharpen", "0x1",
+        "-threshold", "65%",
+        "-strip",
+        processed_path
+      ]
+      Rails.logger.debug("convert args: #{args.inspect}")
 
-      # crop top header region for better brand/GST detection
-      MiniMagick::Tool::Convert.new do |convert|
-        convert << processed_path
-        convert << "-crop"
-        convert << "100%x25%+0+0"
-        convert << header_path
+      begin
+        MiniMagick.convert do |convert|
+          args.each { |arg| convert << arg }
+        end
+      rescue => conv_err
+        Rails.logger.warn("Image processing with convert failed: #{conv_err.class}: #{conv_err.message}\n#{conv_err.backtrace.join("\n")}")
+        full_cmd = ["convert"] + args
+        Rails.logger.debug("Attempting convert CLI: #{full_cmd.join(' ')}")
+        begin
+          Timeout.timeout(8) do
+            stderr_file = Tempfile.new(['convert', 'stderr'])
+            begin
+              success = system(*full_cmd, out: File::NULL, err: stderr_file.path)
+              stderr_file.rewind
+              stderr = stderr_file.read
+              unless success
+                Rails.logger.error("convert CLI failed: #{stderr.to_s.strip.empty? ? '<no stderr>' : stderr}")
+                processed_path = tmp_orig
+              end
+            ensure
+              stderr_file.close!
+            end
+          end
+        rescue Timeout::Error => terr
+          Rails.logger.error("convert CLI timed out: #{terr.message}")
+          processed_path = tmp_orig
+        rescue => oerr
+          Rails.logger.error("convert CLI fallback failed: #{oerr.class}: #{oerr.message}\n#{oerr.backtrace.join("\n")}")
+          processed_path = tmp_orig
+        end
+      end
+
+      # crop top header region for better brand/GST detection — only if processed exists
+      if File.exist?(processed_path) && processed_path != input_path
+        begin
+          crop_cmd = ["convert", processed_path, "-crop", "100%x25%+0+0", header_path]
+          stderr_file = Tempfile.new(['convert-crop', 'stderr'])
+          begin
+            success = system(*crop_cmd, out: File::NULL, err: stderr_file.path)
+            stderr_file.rewind
+            stderr = stderr_file.read
+            unless success
+              Rails.logger.warn("Header crop failed: #{stderr.to_s.strip.empty? ? '<no stderr>' : stderr}")
+            end
+          ensure
+            stderr_file.close!
+          end
+        rescue => crop_err
+          Rails.logger.warn("Header crop failed: #{crop_err.class}: #{crop_err.message}")
+        end
       end
     rescue => e
       Rails.logger.error("Preprocessing failed: #{e.message}")
       processed_path = tmp_orig
+    ensure
+      # Clean up the copied input file if we created one
+      if defined?(input_path) && input_path != tmp_orig && File.exist?(input_path)
+        FileUtils.rm_f(input_path) rescue nil
+      end
+      MiniMagick.timeout = nil
     end
 
     header_text = ""
@@ -130,7 +194,6 @@ class FuelTopupsController < ApplicationController
         Rails.logger.error("OCR psm=#{psm_val} failed: #{e.message}")
       end
     end
-
     Rails.logger.info "Chosen OCR psm=#{best_psm} score=#{best_score}"
 
     normalized_text = "#{header_text} #{best_text}".gsub(/\s+/, ' ')
@@ -151,30 +214,36 @@ class FuelTopupsController < ApplicationController
         "Indian Oil"
       end
 
-    date_match = normalized_text.match(/DATE.*?(\d{1,2})[\s\/\-]+(\d{1,2})[\s\/\-]+(\d{2,4})/im)
+    date_match = normalized_text.match(/\b(\d{1,2})[\s\/\-]+(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[\s\/\-]+(\d{2,4})\b/i) ||
+                 normalized_text.match(/\b(\d{1,2})[\s\/\-]+(\d{1,2})[\s\/\-]+(\d{2,4})\b/)
     if date_match
-      if date_match.length == 4
-        day   = date_match[1].to_i > 31 ? date_match[1].sub(date_match[1][0], "").to_i : date_match[1].to_i
+      if date_match[3]
+        day = date_match[1].to_i
         month = date_match[2].to_i
-        year  = date_match[3].to_i
-      else
-        dates = date_match[1].split("/")
-        day = dates[0].to_i
-        month = dates[1].to_i
-        year = dates[2].to_i
+        year = date_match[3].to_i
+      elsif date_match[2]
+        day = date_match[1].to_i
+        month = Date.parse(date_match[2].to_s).month rescue nil
+        year = Date.today.year
       end
-      year += 2000 if year < 100
-      topup_date = Date.new(year, month, day).strftime("%d/%m/%Y")
+
+      if month && day.between?(1, 31)
+        year = year.to_i
+        year += 2000 if year < 100
+        topup_date = Date.new(year, month, day).strftime("%d/%m/%Y")
+      end
     end
 
     rate = nil
     amount = nil
     begin
-      rate_match = normalized_text.match(/RATE\s*[:\-]?\s*RS?\.?\s*([\d\s,._]+\d)/i) || normalized_text.match(/RATE\s*[:\-]?\s*([\d\.,]+)/i)
+      rate_match = normalized_text.match(/(?:RATE|PRICE)\s*[:\-]?\s*(?:RS?\.?\s*)?(\d{2,5}(?:[\.,]\d{1,2})?)\s*(?:INR\s*\/\s*LTR|RS\s*\/\s*LTR|LITRE|LTR)/i) ||
+                   normalized_text.match(/(\d{2,5}(?:[\.,]\d{1,2})?)\s*INR\s*\/\s*LTR/i)
       rate_str = rate_match && rate_match[1]
       rate = rate_str.to_s.gsub(/[^\d\.]/, '').to_f if rate_str
 
-      amount_match = normalized_text.match(/SALE\s*[:\-]?\s*RS?\.?\s*([\d\s,._]+\d)/i) || normalized_text.match(/AMOUNT\s*[:\-]?\s*RS?\.?\s*([\d\.,]+)/i)
+      amount_match = normalized_text.match(/AMOUNT\s*[:\-]?\s*(?:RS?\.?\s*)?(\d{2,8}(?:[\.,]\d{1,2})?)/i) ||
+                    normalized_text.match(/TOTAL\s*[:\-]?\s*(?:RS?\.?\s*)?(\d{2,8}(?:[\.,]\d{1,2})?)/i)
       amount_str = amount_match && amount_match[1]
       amount = amount_str.to_s.gsub(/[^\d\.]/, '').to_f if amount_str
     rescue => e
