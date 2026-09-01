@@ -374,11 +374,12 @@ header, .site-title {
 }
 
 .footer p {
-  display: inline-block;    /* Shrinks background to text width */
-  background: #f2f2f2;      /* Background only behind text */
+  display: block;    /* Ensure each paragraph sits on its own line */
+  background: #f2f2f2;
   padding: 6px 12px;
-  border-radius: 6px;       /* Optional rounded edges */
+  border-radius: 6px;
   color: #333;
+  margin: 6px 0;
 }
 
 /* Stack login buttons */
