@@ -28,6 +28,7 @@
       <thead>
         <tr>
           <th>Balance Sheet</th>
+          <th>Total Expenses</th>
           <th>Expense Match</th>
           <th>Actions</th>
         </tr>
@@ -38,6 +39,7 @@
 
           <tr>
             <td><%= link_to "#{Date::MONTHNAMES[b.month]} #{b.year}", balance_sheet_path(b) %></td>
+            <td><%= number_to_currency(b.expenses.sum(:amount), unit: "₹") %></td>
             <td>
               <% if matches.any? %>
                 <ul style="margin: 0; padding-left: 18px;">
