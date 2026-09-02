@@ -67,6 +67,9 @@ document.addEventListener("turbo:load", () => {
       setFieldValue("fuel_topup_rate_per_litre", data.rate_per_litre || "");
       setFieldValue("fuel_topup_price", data.amount || "");
       setFieldValue("fuel_topup_state", data.state || "");
+      // Do not overwrite fuel type — it's taken from the car and the form is disabled
+
+      // Server returns ISO date (YYYY-MM-DD); set directly
       setFieldValue("fuel_topup_topup_date", data.topup_date || "");
 
       const dateField = document.getElementById("fuel_topup_topup_date");

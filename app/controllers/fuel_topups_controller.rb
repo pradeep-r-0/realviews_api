@@ -65,9 +65,6 @@ class FuelTopupsController < ApplicationController
       return
     end
 
-    # Mobile cameras often send HEIC/HEIF files or generic MIME types. Accept
-    # any image/* content type and common image extensions so the OCR flow works
-    # reliably across desktop and phone uploads.
     content_type = image.respond_to?(:content_type) ? image.content_type.to_s.downcase : ""
     valid_mime = content_type.start_with?("image/")
     valid_ext = image.respond_to?(:original_filename) && image.original_filename.to_s.downcase.match?(/\.(jpe?g|png|gif|webp|heic|heif|tiff|bmp)$/)
@@ -78,8 +75,6 @@ class FuelTopupsController < ApplicationController
 
     timestamp = Time.now.to_i
     tmp_orig = image.tempfile.path
-    # Copy the uploaded tempfile to a stable input path so external CLI calls
-    # can safely open it even if the original tempfile is reaped by Rack.
     input_path = "/tmp/receipt_input_#{timestamp}#{File.extname(tmp_orig)}"
     begin
       FileUtils.cp(tmp_orig, input_path)
@@ -136,7 +131,6 @@ class FuelTopupsController < ApplicationController
         end
       end
 
-      # crop top header region for better brand/GST detection — only if processed exists
       if File.exist?(processed_path) && processed_path != input_path
         begin
           crop_cmd = ["convert", processed_path, "-crop", "100%x25%+0+0", header_path]
@@ -159,7 +153,6 @@ class FuelTopupsController < ApplicationController
       Rails.logger.error("Preprocessing failed: #{e.message}")
       processed_path = tmp_orig
     ensure
-      # Clean up the copied input file if we created one
       if defined?(input_path) && input_path != tmp_orig && File.exist?(input_path)
         FileUtils.rm_f(input_path) rescue nil
       end
@@ -174,7 +167,7 @@ class FuelTopupsController < ApplicationController
         Rails.logger.error("Header OCR failed: #{e.message}")
       end
     end
-    # Try multiple PSMs and pick the best result heuristically
+
     best_text = ""
     best_score = -1
     best_psm = nil
@@ -230,28 +223,84 @@ class FuelTopupsController < ApplicationController
       if month && day.between?(1, 31)
         year = year.to_i
         year += 2000 if year < 100
-        topup_date = Date.new(year, month, day).strftime("%d/%m/%Y")
+        topup_date = Date.new(year, month, day).strftime("%Y-%m-%d")
+      end
+    end
+
+    if topup_date.nil?
+      begin
+        month_year_text = normalized_text.match(/\b(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[\s\-\/\,]*?(\d{2,4})\b/i)
+        if month_year_text
+          month_name = month_year_text[0].match(/(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)/i)[0]
+          month = Date.parse(month_name).month rescue nil
+          year = month_year_text[1].to_i
+          year += 2000 if year < 100
+          if month
+            topup_date = Date.new(year, month, 1).strftime("%Y-%m-%d")
+          end
+        else
+          numeric_my = normalized_text.match(/\b(0?[1-9]|1[0-2])[\s\-\/](\d{2,4})\b/)
+          if numeric_my
+            month = numeric_my[1].to_i
+            year = numeric_my[2].to_i
+            year += 2000 if year < 100
+            topup_date = Date.new(year, month, 1).strftime("%Y-%m-%d")
+          end
+        end
+      rescue => e
+        Rails.logger.error("Date fallback parse failed: #{e.message}")
       end
     end
 
     rate = nil
     amount = nil
     begin
-      rate_match = normalized_text.match(/(?:RATE|PRICE)\s*[:\-]?\s*(?:RS?\.?\s*)?(\d{2,5}(?:[\.,]\d{1,2})?)\s*(?:INR\s*\/\s*LTR|RS\s*\/\s*LTR|LITRE|LTR)/i) ||
-                   normalized_text.match(/(\d{2,5}(?:[\.,]\d{1,2})?)\s*INR\s*\/\s*LTR/i)
+      # Try to find rate near the word RATE or PRICE (handles noisy OCR like RATE(RS/L) : 115.62)
+      rate_match = normalized_text.match(/RATE[^\d]{0,20}([\d]{1,6}(?:[\.,]\d{1,2})?)/i) ||
+           normalized_text.match(/PRICE[^\d]{0,20}([\d]{1,6}(?:[\.,]\d{1,2})?)/i) ||
+           normalized_text.match(/([\d]{1,6}(?:[\.,]\d{1,2})?)\s*(?:RS|INR)\s*\/?\s*(?:L|LTR|LITRE)/i)
       rate_str = rate_match && rate_match[1]
-      rate = rate_str.to_s.gsub(/[^\d\.]/, '').to_f if rate_str
+      rate = rate_str.to_s.gsub(/[, ]/, '.').gsub(/[^\d\.]/, '').to_f if rate_str
 
-      amount_match = normalized_text.match(/AMOUNT\s*[:\-]?\s*(?:RS?\.?\s*)?(\d{2,8}(?:[\.,]\d{1,2})?)/i) ||
-                    normalized_text.match(/TOTAL\s*[:\-]?\s*(?:RS?\.?\s*)?(\d{2,8}(?:[\.,]\d{1,2})?)/i)
+      # Amount: prefer explicit AMOUNT/TOTAL near the number, fallback to litres*rate or large numbers
+      amount_match = normalized_text.match(/(?:AMOUNT|TOTAL|ATOT|T\(RS\)|T\s*RS)\s*[:\-]?\s*(?:RS?\.?\s*)?([\d]{1,9}(?:[\.,]\d{1,2})?)/i)
       amount_str = amount_match && amount_match[1]
-      amount = amount_str.to_s.gsub(/[^\d\.]/, '').to_f if amount_str
+      amount = amount_str.to_s.gsub(/[, ]/, '.').gsub(/[^\d\.]/, '').to_f if amount_str
+
+      # If explicit amount not found, try litres * rate
+      if (amount.nil? || amount == 0) && rate
+        litre_matches = normalized_text.scan(/(\d{1,4}(?:[\.,]\d{1,3})?)\s*(?:L(?:TR|ITRE|ITRES)?\b|L\.)/i)
+        if litre_matches && !litre_matches.empty?
+          litres_vals = litre_matches.map { |m| m[0].to_s.gsub(/,/, '.').to_f }
+          litres = litres_vals.max
+          if litres && litres > 0
+            amount = (litres * rate).round(2)
+          end
+        end
+      end
+
+      # If still no amount, look for currency-labeled numbers anywhere
+      if amount.nil? || amount == 0
+        currency_nums = normalized_text.scan(/(?:RS|INR)[^\d]{0,8}([\d]{1,9}(?:[\.,]\d{1,2})?)/i).map { |m| m[0].to_s.gsub(/,/, '.').to_f }
+        if currency_nums.any?
+          amount = currency_nums.max.round(2)
+        end
+      end
+
+      # Last resort: pick large numeric candidate but exclude 6-digit PIN codes (likely postal codes)
+      if (amount.nil? || amount == 0)
+        numeric_candidates = normalized_text.scan(/\b([\d]{2,9}(?:[\.,]\d{1,2})?)\b/).map { |s| s[0].to_s.gsub(/,/, '.').to_f }
+        large_vals = numeric_candidates.select { |v| v > 1000 && !(v >= 100000 && v <= 999999) }
+        if large_vals.any?
+          amount = large_vals.max.round(2)
+        end
+      end
     rescue => e
       Rails.logger.error("Numeric parse failed: #{e.message}")
     end
 
     gstin = header_text[/GSTNO\.?\s*([0-9]{2}[A-Z0-9]+)/, 1]
-    fuel_match = normalized_text.match(/FUEL\s*[:;.!]?\s*([A-Z]+)/i) || normalized_text.match(/PRODUCT\s*[:;.]?\s*([A-Z]+)/i)
+    fuel_match = normalized_text.match(/FUEL\s*[:;.!]?\s*([A-Z]+)/i) || normalized_text.match(/PRODUCT\s*[:;. ]?\s*([A-Z]+)/i)
     fuel_type = fuel_match && fuel_match[1].to_s.titleize
 
     gst_states = {
@@ -262,6 +311,76 @@ class FuelTopupsController < ApplicationController
     }
 
     state = gstin && gst_states[gstin[0..1]]
+
+    # If brand not detected from header, try scanning the whole OCR text for known brands
+    if fuel_brand.nil?
+      brand_map = {
+        /H\.?P\.?C\.?L/i => "HP",
+        /HINDUSTAN\s+PETROLEUM/i => "HP",
+        /BPCL|BHARAT/i => "Bharat Petrol",
+        /IOCL|INDIAN\s+OIL/i => "Indian Oil",
+        /SHELL/i => "Shell",
+        /NAYARA|RELIANCE/i => "Nayara",
+        /JIO\-?BP/i => "Jio-bp"
+      }
+      brand_map.each do |re, name|
+        if normalized_text.match?(re)
+          fuel_brand = name
+          break
+        end
+      end
+
+      # Heuristic: if header_text contains a plausible vendor line (avoid very short or punctuation-only lines)
+      if fuel_brand.nil? && header_text.present?
+        header_line = header_text.lines.map(&:strip).reject(&:blank?).first
+        if header_line
+          cleaned = header_line.gsub(/[^A-Za-z\s\-&]/, '').squeeze(' ').strip
+          alpha_count = cleaned.gsub(/[^A-Za-z]/, '').length
+          word_count = cleaned.split.size
+          if alpha_count >= 4 && word_count >= 1 && cleaned !~ /(RECEIPT|TAX|GST|MOBILE|VEHICLE|DIST|NO\.|ADDRESS|LINE|SATE)/i
+            fuel_brand = cleaned.titleize
+          end
+        end
+      end
+    end
+
+    # If state still not detected via GSTIN, try matching any Indian state name in the OCR text
+    if state.nil?
+      states = [
+        "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+        "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
+        "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
+        "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab",
+        "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+        "Uttar Pradesh", "Uttarakhand", "West Bengal"
+      ]
+      states.each do |s|
+        if normalized_text.upcase.include?(s.upcase)
+          state = s
+          break
+        end
+      end
+    end
+
+    # Additional heuristics: map city abbreviations or HYD/HYDERABAD to Telangana
+    if state.nil? && normalized_text.match?(/\bHYD\b|HYDERABAD/i)
+      state = "Telangana"
+    end
+
+    # If parsed topup_date differs significantly from the uploaded file mtime, prefer mtime
+    if topup_date && image.respond_to?(:tempfile) && image.tempfile && File.exist?(image.tempfile.path)
+      begin
+        parsed_date = Date.parse(topup_date) rescue nil
+        mtime = File.mtime(image.tempfile.path) rescue nil
+        if parsed_date && mtime
+          if (mtime.to_date - parsed_date).abs > 10
+            topup_date = mtime.to_date.strftime("%Y-%m-%d")
+          end
+        end
+      rescue => e
+        Rails.logger.debug("Date sanity check failed: #{e.message}")
+      end
+    end
 
     json = {
       fuel_brand: fuel_brand,

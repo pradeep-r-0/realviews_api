@@ -34,11 +34,18 @@ document.addEventListener("turbo:load", () => {
 
     brandSelect.innerHTML = "";
 
+    // Add a blank option so the select doesn't auto-select the first brand
+    const blankOption = document.createElement("option");
+    blankOption.value = "";
+    blankOption.textContent = "";
+    if (!savedBrand) blankOption.selected = true;
+    brandSelect.appendChild(blankOption);
+
     brands.forEach(brand => {
       const option = document.createElement("option");
       option.value = brand;
       option.textContent = brand;
-      // 👇 restore selection
+      // restore selection when a saved brand exists
       if (savedBrand && brand === savedBrand) {
         option.selected = true;
       }
@@ -48,7 +55,8 @@ document.addEventListener("turbo:load", () => {
 
   if (fuelType) {
     fuelType.addEventListener("change", () => {
-      brandSelect.dataset.selected = null; // 👈 reset when user changes
+      // remove saved selection when user changes fuel type
+      delete brandSelect.dataset.selected;
       updateBrands();
     });
   }

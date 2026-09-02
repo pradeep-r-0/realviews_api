@@ -6249,6 +6249,11 @@
       const brands = fuelType.value === "Petrol" ? petrolBrands : otherBrands;
       const savedBrand = brandSelect.dataset.selected;
       brandSelect.innerHTML = "";
+      const blankOption = document.createElement("option");
+      blankOption.value = "";
+      blankOption.textContent = "";
+      if (!savedBrand) blankOption.selected = true;
+      brandSelect.appendChild(blankOption);
       brands.forEach((brand) => {
         const option = document.createElement("option");
         option.value = brand;
@@ -6261,7 +6266,7 @@
     };
     if (fuelType) {
       fuelType.addEventListener("change", () => {
-        brandSelect.dataset.selected = null;
+        delete brandSelect.dataset.selected;
         updateBrands();
       });
     }
