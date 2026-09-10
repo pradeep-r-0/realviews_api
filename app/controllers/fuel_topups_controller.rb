@@ -6,9 +6,9 @@ require 'fileutils'
 require 'timeout'
 
 class FuelTopupsController < ApplicationController
-  before_action :require_login, only: %i[index new create edit update destroy]
+  before_action :require_login, except: %i[scan_receipt]
   before_action :set_ownership, except: %i[scan_receipt]
-  before_action :authorize_owner!, only: %i[new create edit update destroy]
+  before_action :authorize_owner!, except: %i[scan_receipt]
   before_action :set_car, except: %i[scan_receipt]
   before_action :set_fuel_topup, only: %i[edit update destroy]
 

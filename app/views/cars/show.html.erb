@@ -81,65 +81,67 @@
       <% end %>
     </div>
     
-    <% e20_start_date = Date.new(2026, 4, 1) %>
-    
-    <table class="topups-table">
-      <tr>
-        <th>Date</th>
-        <th>Fuel Brand</th>
-        <th>Price</th>
-        <th>Rate/Litre</th>
-        <th>Odometer (kms)</th>
-        <th>Mileage (kmpl)</th>
-      </tr>
-
-      <% prev_topup = nil %>
-
-      <% @fuel_topups.each do |topup| %>
+    <% if @ownership.present? %>
+      <% e20_start_date = Date.new(2026, 4, 1) %>
+      
+      <table class="topups-table">
         <tr>
-          <td><%= topup.topup_date.strftime("%d-%m-%Y") %></td>
-          <td><%= topup.brand %></td>
-          <td>₹<%= topup.price %></td>
-          <td>₹<%= topup.rate_per_litre %></td>
-          <td><%= topup.odometer_reading %></td>
-
-          <% is_latest = (topup.id == @latest_topup_id) %>
-          <% is_e20 = topup.topup_date >= e20_start_date %>
-          <% mileage = topup.mileage_from(prev_topup) unless is_latest %>
-
-
-          <td>
-            <% if is_latest %>
-                <span><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</span>
-            <% else %>
-              <% if mileage.nil? %>
-                -
-              <% else %>
-                  <%= formatted_mileage(
-                    mileage: mileage,
-                    is_latest: is_latest,
-                    is_e20: is_e20
-                  ) %>
-              <% end %>
-            <% end %>
-          </td>
-
-
-          <% prev_topup = topup %>
+          <th>Date</th>
+          <th>Fuel Brand</th>
+          <th>Price</th>
+          <th>Rate/Litre</th>
+          <th>Odometer (kms)</th>
+          <th>Mileage (kmpl)</th>
         </tr>
-      <% end %>
-    </table>
 
-    <div class="fuel-cards">  
-      <% @fuel_topups.each_with_index do |current_topup, index| %>
-        <% next_topup = @fuel_topups[index - 1] if index > 0 %>
+        <% prev_topup = nil %>
 
-        <%= render partial: "fuel_topups/fuel_topup",
-                  locals: { current_topup: current_topup, next_topup: next_topup,
-                             index: index, latest_topup_id: @latest_topup_id,
-                             e20_start_date: e20_start_date } %>
-      <% end %>
-    </div>
+        <% @fuel_topups.each do |topup| %>
+          <tr>
+            <td><%= topup.topup_date.strftime("%d-%m-%Y") %></td>
+            <td><%= topup.brand %></td>
+            <td>₹<%= topup.price %></td>
+            <td>₹<%= topup.rate_per_litre %></td>
+            <td><%= topup.odometer_reading %></td>
+
+            <% is_latest = (topup.id == @latest_topup_id) %>
+            <% is_e20 = topup.topup_date >= e20_start_date %>
+            <% mileage = topup.mileage_from(prev_topup) unless is_latest %>
+
+
+            <td>
+              <% if is_latest %>
+                  <span><i class='fas fa-fire-alt' style='color:orange'></i> Burning now</span>
+              <% else %>
+                <% if mileage.nil? %>
+                  -
+                <% else %>
+                    <%= formatted_mileage(
+                      mileage: mileage,
+                      is_latest: is_latest,
+                      is_e20: is_e20
+                    ) %>
+                <% end %>
+              <% end %>
+            </td>
+
+
+            <% prev_topup = topup %>
+          </tr>
+        <% end %>
+      </table>
+
+      <div class="fuel-cards">  
+        <% @fuel_topups.each_with_index do |current_topup, index| %>
+          <% next_topup = @fuel_topups[index - 1] if index > 0 %>
+
+          <%= render partial: "fuel_topups/fuel_topup",
+                    locals: { current_topup: current_topup, next_topup: next_topup,
+                               index: index, latest_topup_id: @latest_topup_id,
+                               e20_start_date: e20_start_date } %>
+        <% end %>
+      </div>
+    <% end %>
 
 
     <% if @fuel_topups.size < 2 %>
