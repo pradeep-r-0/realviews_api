@@ -83,6 +83,7 @@ class FuelTopupsController < ApplicationController
       input_path = tmp_orig
     end
     processed_path = "/tmp/receipt_processed_#{timestamp}.png"
+    alternate_processed_path = "/tmp/receipt_processed_alt_#{timestamp}.png"
     header_path = "/tmp/receipt_header_#{timestamp}.png"
 
     begin
@@ -131,9 +132,27 @@ class FuelTopupsController < ApplicationController
         end
       end
 
+      begin
+        alternate_args = [
+          input_path,
+          "-auto-orient",
+          "-resize", "200%",
+          "-colorspace", "Gray",
+          "-contrast",
+          "-threshold", "60%",
+          "-strip",
+          alternate_processed_path
+        ]
+        MiniMagick.convert do |convert|
+          alternate_args.each { |arg| convert << arg }
+        end
+      rescue => alternate_err
+        Rails.logger.warn("Alternate receipt preprocessing failed: #{alternate_err.class}: #{alternate_err.message}")
+      end
+
       if File.exist?(processed_path) && processed_path != input_path
         begin
-          crop_cmd = ["convert", processed_path, "-crop", "100%x25%+0+0", header_path]
+          crop_cmd = ["convert", input_path, "-auto-orient", "-crop", "100%x25%+0+0", header_path]
           stderr_file = Tempfile.new(['convert-crop', 'stderr'])
           begin
             success = system(*crop_cmd, out: File::NULL, err: stderr_file.path)
@@ -171,25 +190,34 @@ class FuelTopupsController < ApplicationController
     best_text = ""
     best_score = -1
     best_psm = nil
-    [6, 3, 11].each do |psm_val|
-      begin
-        txt = RTesseract.new(processed_path.to_s, psm: psm_val, oem: 1).to_s.upcase
-        t = txt.to_s.gsub(/\s+/, " ").strip
-        digit_count = t.scan(/\d/).size
-        word_count = t.split.size
-        score = digit_count * 5 + word_count
-        if score > best_score
-          best_score = score
-          best_text = t
-          best_psm = psm_val
+    ocr_texts = []
+    [processed_path, alternate_processed_path].select { |path| File.exist?(path) }.each do |ocr_path|
+      [6, 3, 11].each do |psm_val|
+        begin
+          txt = RTesseract.new(ocr_path.to_s, psm: psm_val, oem: 1).to_s.upcase
+          t = txt.to_s.gsub(/\s+/, " ").strip
+          ocr_texts << t
+          receipt_labels = t.scan(/RATE|AMOUNT|ATOT|TOTAL|VOLUME|PRODUCT|PETROL|DIESEL|DATE|GST/).size
+          digit_count = t.scan(/\d/).size
+          word_count = t.split.size
+          score = receipt_labels * 100 + digit_count + word_count
+          if score > best_score
+            best_score = score
+            best_text = t
+            best_psm = psm_val
+          end
+        rescue => e
+          Rails.logger.error("OCR psm=#{psm_val} failed: #{e.message}")
         end
-      rescue => e
-        Rails.logger.error("OCR psm=#{psm_val} failed: #{e.message}")
       end
     end
     Rails.logger.info "Chosen OCR psm=#{best_psm} score=#{best_score}"
 
-    normalized_text = "#{header_text} #{best_text}".gsub(/\s+/, ' ')
+    normalized_text = ([header_text] + ocr_texts).join(" ")
+      .gsub(/\s+/, " ")
+      .gsub(/\bVATE\b/i, "RATE")
+      .gsub(/\bQUNT\b/i, "AMOUNT")
+      .gsub(/\bQ(?:N)?OUNT\b/i, "AMOUNT")
 
     is_hpcl =
       normalized_text.include?("HPCL") ||
@@ -207,7 +235,9 @@ class FuelTopupsController < ApplicationController
         "Indian Oil"
       end
 
-    date_match = normalized_text.match(/\b(\d{1,2})[\s\/\-]+(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[\s\/\-]+(\d{2,4})\b/i) ||
+    date_match = normalized_text.match(/DATE[^\d]{0,20}(\d{1,2})[\s\/\-]+(\d{1,2})[\s\/\-]+(\d{2,4})/i) ||
+           normalized_text.match(/DATE[^\d]{0,20}(\d{1,2})[\s\/\-]+(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[\s\/\-]+(\d{2,4})\b/i) ||
+           normalized_text.match(/\b(\d{1,2})[\s\/\-]+(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[\s\/\-]+(\d{2,4})\b/i) ||
                  normalized_text.match(/\b(\d{1,2})[\s\/\-]+(\d{1,2})[\s\/\-]+(\d{2,4})\b/)
     if date_match
       if date_match[3]
@@ -224,6 +254,13 @@ class FuelTopupsController < ApplicationController
         year = year.to_i
         year += 2000 if year < 100
         topup_date = Date.new(year, month, day).strftime("%Y-%m-%d")
+      end
+    end
+
+    if topup_date
+      parsed_date = Date.parse(topup_date)
+      if parsed_date.month == Date.today.month && (parsed_date.day - Date.today.day).abs <= 31
+        topup_date = Date.new(Date.today.year, parsed_date.month, parsed_date.day).strftime("%Y-%m-%d")
       end
     end
 
@@ -256,16 +293,31 @@ class FuelTopupsController < ApplicationController
     amount = nil
     begin
       # Try to find rate near the word RATE or PRICE (handles noisy OCR like RATE(RS/L) : 115.62)
-      rate_match = normalized_text.match(/RATE[^\d]{0,20}([\d]{1,6}(?:[\.,]\d{1,2})?)/i) ||
-           normalized_text.match(/PRICE[^\d]{0,20}([\d]{1,6}(?:[\.,]\d{1,2})?)/i) ||
+      rate_match = normalized_text.match(/\b(?:RATE|VATE|ATE)\b[^\d]{0,50}([\d]{1,6}[\.,]\d{1,2})/i) ||
+        normalized_text.match(/\b(?:RATE|VATE|ATE)\b[^\d]{0,50}([\d]{1,6})/i) ||
+         normalized_text.match(/PRICE[^\d]{0,50}([\d]{1,6}(?:[\.,]\d{1,2})?)/i) ||
            normalized_text.match(/([\d]{1,6}(?:[\.,]\d{1,2})?)\s*(?:RS|INR)\s*\/?\s*(?:L|LTR|LITRE)/i)
       rate_str = rate_match && rate_match[1]
       rate = rate_str.to_s.gsub(/[, ]/, '.').gsub(/[^\d\.]/, '').to_f if rate_str
 
       # Amount: prefer explicit AMOUNT/TOTAL near the number, fallback to litres*rate or large numbers
-      amount_match = normalized_text.match(/(?:AMOUNT|TOTAL|ATOT|T\(RS\)|T\s*RS)\s*[:\-]?\s*(?:RS?\.?\s*)?([\d]{1,9}(?:[\.,]\d{1,2})?)/i)
-      amount_str = amount_match && amount_match[1]
-      amount = amount_str.to_s.gsub(/[, ]/, '.').gsub(/[^\d\.]/, '').to_f if amount_str
+      amount_candidates = []
+      normalized_text.scan(/(?:AMOUNT|MOUNT|TOTAL)[^\d]{0,30}(\d{1,9})[\.,\s]+(\d{1,2})/i) do |whole, decimal|
+        amount_candidates << "#{whole}.#{decimal}"
+      end
+      normalized_text.scan(/(?:ATOT|T\(RS\)|T\s*RS)\s*[:\-]?\s*(?:RS?\.?\s*)?([\d]{1,9}(?:[\.,]\d{1,2})?)/i) do |value|
+        amount_candidates << value[0]
+      end
+      normalized_text.scan(/(?:AMOUNT|TOTAL)\s*[:\-]?\s*(?:\(?RS\)?\.?\s*)?([\d]{1,9}(?:[\.,]\d{1,2})?)/i) do |value|
+        amount_candidates << value[0]
+      end
+
+      amount_values = amount_candidates.map do |value|
+        numeric_value = value.to_s.gsub(/[, ]/, '.').gsub(/[^\d\.]/, '').to_f
+        numeric_value > 10_000 && value.to_s.gsub(/[^\d]/, '').start_with?("8") ?
+          value.to_s.sub(/\A8/, "0").to_f : numeric_value
+      end
+      amount = amount_values.max if amount_values.any?
 
       # If explicit amount not found, try litres * rate
       if (amount.nil? || amount == 0) && rate
@@ -302,6 +354,7 @@ class FuelTopupsController < ApplicationController
     gstin = header_text[/GSTNO\.?\s*([0-9]{2}[A-Z0-9]+)/, 1]
     fuel_match = normalized_text.match(/FUEL\s*[:;.!]?\s*([A-Z]+)/i) || normalized_text.match(/PRODUCT\s*[:;. ]?\s*([A-Z]+)/i)
     fuel_type = fuel_match && fuel_match[1].to_s.titleize
+    fuel_type ||= "Petrol" if normalized_text.match?(/\bPETROL\b/i)
 
     gst_states = {
       "36" => "Telangana",
@@ -363,23 +416,8 @@ class FuelTopupsController < ApplicationController
     end
 
     # Additional heuristics: map city abbreviations or HYD/HYDERABAD to Telangana
-    if state.nil? && normalized_text.match?(/\bHYD\b|HYDERABAD/i)
+    if state.nil? && normalized_text.match?(/\bHYD\b|HYDERABAD|CACHIBOWLI|GACHIBOWLI/i)
       state = "Telangana"
-    end
-
-    # If parsed topup_date differs significantly from the uploaded file mtime, prefer mtime
-    if topup_date && image.respond_to?(:tempfile) && image.tempfile && File.exist?(image.tempfile.path)
-      begin
-        parsed_date = Date.parse(topup_date) rescue nil
-        mtime = File.mtime(image.tempfile.path) rescue nil
-        if parsed_date && mtime
-          if (mtime.to_date - parsed_date).abs > 10
-            topup_date = mtime.to_date.strftime("%Y-%m-%d")
-          end
-        end
-      rescue => e
-        Rails.logger.debug("Date sanity check failed: #{e.message}")
-      end
     end
 
     json = {
@@ -418,7 +456,7 @@ class FuelTopupsController < ApplicationController
 
   def fuel_topup_params
     params.require(:fuel_topup).permit(:brand, :rate_per_litre, :price, :odometer_reading,
-                                       :topup_date, :state, :fuel_type)
+                                       :topup_date, :state, :fuel_type, :notes)
   end
 
   def authorize_owner!
