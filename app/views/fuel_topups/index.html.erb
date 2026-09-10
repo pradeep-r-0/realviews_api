@@ -17,6 +17,7 @@
         <th>Odometer (kms)</th>
         <th>Mileage (kmpl)</th>
         <th>Last Trip (kms)</th>
+        <th>Notes</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -50,6 +51,7 @@
           <td>
             <%= (is_latest or mileage.nil?) ? "-" : (next_topup.odometer_reading - current_topup.odometer_reading).to_f %>
           </td>
+          <td data-label="Notes"><%= current_topup.notes if current_topup.notes.present? %></td>
 
           <td>
             <% if @ownership && current_topup.user_id == current_user.id %>

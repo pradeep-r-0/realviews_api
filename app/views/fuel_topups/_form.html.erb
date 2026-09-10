@@ -61,6 +61,13 @@
         </div>
       <% end %>
 
+      <div class="fuel-row">
+        <label class="fuel-label" for="fuel_topup_notes">Notes</label>
+        <div class="fuel-input">
+          <%= form.text_area :notes, class: "form-control", rows: 3 %>
+        </div>
+      </div>
+
       <div class="fuel-submit">
         <%= form.submit(@fuel_topup.persisted? ? "Update" : "Create", class: "btn btn-primary") %>
       </div>

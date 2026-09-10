@@ -31,6 +31,10 @@
     <span class="fuel-value">
       <%= (is_latest or mileage.nil?) ? "-" : (next_topup.odometer_reading - current_topup.odometer_reading).to_f %>
     </span>
+    <% if current_topup.notes.present? %>
+      <span class="fuel-label">Notes</span>
+      <span class="fuel-value"><%= current_topup.notes %></span>
+    <% end %>
     <span class="fuel-label"></span>
     <span class="fuel-value">
       <%  if controller_name == "fuel_topups" && action_name == "index" 

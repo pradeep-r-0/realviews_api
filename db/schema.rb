@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_20_115955) do
+ActiveRecord::Schema[8.0].define(version: 2026_09_10_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -102,6 +102,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_20_115955) do
     t.string "state"
     t.bigint "user_id"
     t.integer "ownership_id"
+    t.text "notes"
     t.index ["car_id"], name: "index_fuel_topups_on_car_id"
     t.index ["ownership_id"], name: "index_fuel_topups_on_ownership_id"
     t.index ["user_id"], name: "index_fuel_topups_on_user_id"
