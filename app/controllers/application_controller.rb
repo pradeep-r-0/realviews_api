@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def load_dishes(scope)
+  def load_dishes(scope, paginate: true)
     if params[:sort_column] == "rating"
       sort_column = "rating"
       sort_direction = params[:sort_direction] == "asc" ? "asc" : "desc"
@@ -28,8 +28,7 @@ class ApplicationController < ActionController::Base
     end
 
     @dishes = scope.includes(restaurant: :city).order("#{sort_column} #{sort_direction}")
-                  .page(params[:page])
-                  .per(40)
+    @dishes = @dishes.page(params[:page]).per(40) if paginate
   end
 
 

@@ -6,7 +6,7 @@ class DishesController < ApplicationController
 
   # GET /dishes
   def index
-    load_dishes(Dish.all)
+    load_dishes(Dish.all, paginate: false)
     @cities = City.approved.order(:name)
 
     if params[:city_id].present?
