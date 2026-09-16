@@ -13,8 +13,8 @@ class Car < ApplicationRecord
   private
 
   def send_welcome_mail
-    user = self.ownerships.find_by(user_id: current_user.id).user
-    car_string = "#{sel.car_make&.name} #{sel.model}  #{self.variant}"
+    user = ownerships.first&.user
+    car_string = "#{self.car_make&.name} #{self.model}  #{self.variant}"
     Rails.logger.info "#{car_string} newly added by user: #{user&.email}"
     return unless user
 
