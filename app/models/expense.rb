@@ -10,7 +10,7 @@ class Expense < ApplicationRecord
     "Entertainment" => /\b(entertainment|movie|cinema|netflix|spotify|concert|gaming|video game|sports ticket|hobby)\b/i,
     "Personal Care" => /\b(salon|haircut|barber|cosmetics|skincare|toiletries|grooming|beauty)\b/i,
     "Household" => /\b(furniture|appliances?|cleaning supplies|kitchenware|household items|soap|oil|sofa|maintenance)\b/i,
-    "Financial" => /\b(insurance|bank fee|tax|loan|emi|credit card|investment|atm charge|mutual fund|FD|RD|SIP)\b/i
+    "Financial" => /\b(insurance|bank fee|tax|loan|emi|credit card|investment|atm charge|mutual fund|FD|RD|SIP|Gold)\b/i
   }.freeze
 
   belongs_to :balance_sheet
