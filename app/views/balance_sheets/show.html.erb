@@ -7,6 +7,59 @@
   <p><strong>Total Expenses (₹):</strong> <%= @balance_sheet.total_expense %></p>
   <p><strong>Net balance (₹): </strong> <%= @balance_sheet.net_balance %></p>
 
+  <section aria-labelledby="expense-breakdown-title" style="margin: 24px 0;">
+    <h2 id="expense-breakdown-title">Expense breakdown by category</h2>
+    <p>Categories are estimated from expense descriptions; unmatched expenses are grouped as Other.</p>
+    <% chart_colors = ["#2563eb", "#16a34a", "#f59e0b", "#dc2626", "#7c3aed", "#0891b2", "#db2777", "#64748b", "#ea580c", "#0f766e", "#92400e", "#65a30d"] %>
+    <% chart_total = @expense_categories.sum { |_, amount| amount } %>
+    <% if chart_total.positive? %>
+      <% chart_categories = @expense_categories.select { |_, amount| amount.positive? } %>
+      <% chart_start = 0.0 %>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+        <svg
+          viewBox="0 0 200 200"
+          role="img"
+          aria-label="Pie chart showing expense totals grouped by category"
+          style="width: 220px; height: 220px; max-width: 100%;">
+          <% if chart_categories.length == 1 %>
+            <% category, amount = chart_categories.first %>
+            <% chart_color_index = @expense_categories.index { |category_name, _| category_name == category } %>
+            <path
+              d="M 100 100 L 100 5 A 95 95 0 1 1 100 195 A 95 95 0 1 1 100 5 Z"
+              fill="<%= chart_colors[chart_color_index % chart_colors.length] %>"
+              stroke="#fff"
+              stroke-width="1"
+              style="cursor: pointer;">
+              <title><%= category %> — <%= number_to_currency(amount, unit: "₹") %> (100.0%)</title>
+            </path>
+          <% else %>
+            <% chart_categories.each_with_index do |(category, amount), index| %>
+              <% chart_color_index = @expense_categories.index { |category_name, _| category_name == category } %>
+              <% sweep = amount.to_f / chart_total.to_f * 360 %>
+              <% chart_end = index == chart_categories.length - 1 ? 360.0 : chart_start + sweep %>
+              <% start_radians = chart_start * Math::PI / 180 %>
+              <% end_radians = chart_end * Math::PI / 180 %>
+              <% start_point = [100 + 95 * Math.cos(start_radians), 100 + 95 * Math.sin(start_radians)].map { |coordinate| format("%.3f", coordinate) }.join(" ") %>
+              <% end_point = [100 + 95 * Math.cos(end_radians), 100 + 95 * Math.sin(end_radians)].map { |coordinate| format("%.3f", coordinate) }.join(" ") %>
+              <% large_arc = sweep > 180 ? 1 : 0 %>
+              <path
+                d="M 100 100 L <%= start_point %> A 95 95 0 <%= large_arc %> 1 <%= end_point %> Z"
+                fill="<%= chart_colors[chart_color_index % chart_colors.length] %>"
+                stroke="#fff"
+                stroke-width="1"
+                style="cursor: pointer;">
+                <title><%= category %> — <%= number_to_currency(amount, unit: "₹") %> (<%= number_to_percentage(amount.to_f / chart_total.to_f * 100, precision: 1) %>)</title>
+              </path>
+              <% chart_start = chart_end %>
+            <% end %>
+          <% end %>
+        </svg>
+      </div>
+    <% else %>
+      <p>No expenses to chart yet.</p>
+    <% end %>
+  </section>
+
   <h3>Expenses</h3>
   <% expenses = @balance_sheet.expenses.undeleted
     if expenses.any? %>
@@ -14,6 +67,7 @@
       <thead>
         <tr>
           <th>Description</th>
+          <th>Category</th>
           <th>Amount (₹)</th>
           <th>Date</th>
         </tr>
@@ -24,6 +78,12 @@
         <% expenses.each do |expense| %>
           <tr>
             <td><%= expense.description %></td>
+            <% category = expense.category %>
+            <% category_index = @expense_categories.index { |category_name, _| category_name == category } %>
+            <td>
+              <span aria-hidden="true" style="display: inline-block; width: 12px; height: 12px; margin-right: 8px; border-radius: 2px; background: <%= chart_colors[category_index % chart_colors.length] %>;"></span>
+              <%= category %>
+            </td>
             <td><%= expense.amount %></td>
             <td><%= expense.date.strftime("%d-%m-%Y") %></td>
           </tr>

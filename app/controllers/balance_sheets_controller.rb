@@ -25,6 +25,15 @@ class BalanceSheetsController < ApplicationController
 
   # GET /balance_sheets/:id
   def show
+    @expense_categories = @balance_sheet.expenses.undeleted
+      .reorder(nil)
+      .group(:description)
+      .sum(:amount)
+      .each_with_object(Hash.new(0)) do |(description, amount), totals|
+        category = Expense.category_for_description(description)
+        totals[category] += amount.to_d
+      end
+      .sort_by { |_, amount| -amount }
   end
 
   # GET /balance_sheets/new
