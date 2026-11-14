@@ -15,16 +15,23 @@
     <% if chart_total.positive? %>
       <% chart_categories = @expense_categories.select { |_, amount| amount.positive? } %>
       <% chart_start = 0.0 %>
-      <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+      <div data-expense-chart style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
         <svg
           viewBox="0 0 200 200"
-          role="img"
+          role="group"
           aria-label="Pie chart showing expense totals grouped by category"
           style="width: 220px; height: 220px; max-width: 100%;">
           <% if chart_categories.length == 1 %>
             <% category, amount = chart_categories.first %>
             <% chart_color_index = @expense_categories.index { |category_name, _| category_name == category } %>
             <path
+              data-expense-chart-segment
+              data-expense-category="<%= category %>"
+              data-expense-amount="<%= number_to_currency(amount, unit: "₹") %>"
+              data-expense-percentage="100.0%"
+              role="button"
+              tabindex="0"
+              aria-label="<%= category %>, <%= number_to_currency(amount, unit: "₹") %>, 100.0%"
               d="M 100 100 L 100 5 A 95 95 0 1 1 100 195 A 95 95 0 1 1 100 5 Z"
               fill="<%= chart_colors[chart_color_index % chart_colors.length] %>"
               stroke="#fff"
@@ -42,18 +49,29 @@
               <% start_point = [100 + 95 * Math.cos(start_radians), 100 + 95 * Math.sin(start_radians)].map { |coordinate| format("%.3f", coordinate) }.join(" ") %>
               <% end_point = [100 + 95 * Math.cos(end_radians), 100 + 95 * Math.sin(end_radians)].map { |coordinate| format("%.3f", coordinate) }.join(" ") %>
               <% large_arc = sweep > 180 ? 1 : 0 %>
+              <% percentage = number_to_percentage(amount.to_f / chart_total.to_f * 100, precision: 1) %>
               <path
+                data-expense-chart-segment
+                data-expense-category="<%= category %>"
+                data-expense-amount="<%= number_to_currency(amount, unit: "₹") %>"
+                data-expense-percentage="<%= percentage %>"
+                role="button"
+                tabindex="0"
+                aria-label="<%= category %>, <%= number_to_currency(amount, unit: "₹") %>, <%= percentage %>"
                 d="M 100 100 L <%= start_point %> A 95 95 0 <%= large_arc %> 1 <%= end_point %> Z"
                 fill="<%= chart_colors[chart_color_index % chart_colors.length] %>"
                 stroke="#fff"
                 stroke-width="1"
                 style="cursor: pointer;">
-                <title><%= category %> — <%= number_to_currency(amount, unit: "₹") %> (<%= number_to_percentage(amount.to_f / chart_total.to_f * 100, precision: 1) %>)</title>
+                <title><%= category %> — <%= number_to_currency(amount, unit: "₹") %> (<%= percentage %>)</title>
               </path>
               <% chart_start = chart_end %>
             <% end %>
           <% end %>
         </svg>
+        <p data-expense-chart-tooltip role="status" aria-live="polite" style="min-height: 1.5em; margin: 0;">
+          Tap or hover a slice to see its category, amount, and share.
+        </p>
       </div>
     <% else %>
       <p>No expenses to chart yet.</p>
