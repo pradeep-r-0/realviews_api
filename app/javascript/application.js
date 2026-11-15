@@ -1,4 +1,5 @@
 import "@hotwired/turbo-rails";
+import "./expense_chart";
 import "./expenses";
 import "./google_places";
 import "./share";

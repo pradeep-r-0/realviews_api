@@ -16,6 +16,13 @@ document.addEventListener("pointerover", (event) => {
   if (segment) showExpenseDetails(segment);
 });
 
+document.addEventListener("pointerup", (event) => {
+  if (event.pointerType !== "touch" || !(event.target instanceof Element)) return;
+
+  const segment = event.target.closest(segmentSelector);
+  if (segment) showExpenseDetails(segment);
+});
+
 document.addEventListener("click", (event) => {
   if (!(event.target instanceof Element)) return;
 
