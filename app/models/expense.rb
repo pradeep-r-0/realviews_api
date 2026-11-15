@@ -5,12 +5,12 @@ class Expense < ApplicationRecord
     "Housing" => /\b(rent|mortgage|housing|apartment|home repair|home maintenance|plumbing|property tax|sofa)\b/i,
     "Transportation" => /\b(transport|fuel|petrol|diesel|cab|taxi|uber|ola|auto rickshaw|bus|train|metro|parking|toll|airfare|flight|vehicle|car|scooty|bike|fastag|rogerab|rapido)\b/i,
     "Utilities" => /\b(electricity|electric bill|power bill|water bill|gas bill|cooking gas|lpg|internet|broadband|wi-?fi|phone bill|mobile recharge|phone recharge|utility|cable bill)\b/i,
-    "Healthcare" => /\b(healthcare|medical|medicine|medication|pharmacy|doctor|hospital|clinic|dental|dentist|prescription|therapy)\b/i,
+    "Healthcare" => /\b(healthcare|medical|medicine|medication|pharmacy|doctor|hospital|clinic|dental|dentist|prescription|therapy|tabs)\b/i,
     "Education" => /\b(education|school|college|tuition|university|course fee|class fee|exam fee|textbooks?)\b/i,
     "Entertainment" => /\b(entertainment|movie|cinema|netflix|spotify|concert|gaming|video game|sports ticket|hobby)\b/i,
     "Personal Care" => /\b(salon|haircut|barber|cosmetics|skincare|toiletries|grooming|beauty)\b/i,
-    "Household" => /\b(furniture|appliances?|cleaning supplies|kitchenware|household items|soap|oil|sofa|maintenance)\b/i,
-    "Financial" => /\b(insurance|bank fee|tax|loan|emi|credit card|investment|atm charge|mutual fund|FD|RD|SIP|Gold)\b/i
+    "Household" => /\b(furniture|appliances?|cleaning|kitchenware|household items|soaps|oil|sofa|maintenance|bill|vegs|tomato|onion)\b/i,
+    "Financial" => /\b(insurance|bank fee|tax|loan|emi|credit card|investment|atm charge|mutual fund|FD|RD|SIP|Gold|Scheme)\b/i
   }.freeze
 
   belongs_to :balance_sheet
